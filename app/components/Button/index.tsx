@@ -7,25 +7,25 @@ interface IButtonProps {
   title: string
   onPress?: () => void
   color?: string
+  style?: object
   textStyle?: object
-  buttonStyle?: object
 }
 
 const Button: FC<IButtonProps> = ({
   title,
   onPress,
   color = "black",
-  textStyle,
-  buttonStyle,
+  style,
+  // textStyle,
   children,
   ...props
 }) => (
   <SC.ButtonContainer
-    style={[{ backgroundColor: colors[color] }, buttonStyle]}
+    style={[style, { backgroundColor: colors[color] }]}
     onPress={onPress}
     {...props}
   >
-    <SC.ButtonText style={textStyle}>{title}</SC.ButtonText>
+    <SC.ButtonText>{title}</SC.ButtonText>
     {children}
   </SC.ButtonContainer>
 )
