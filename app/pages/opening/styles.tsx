@@ -4,7 +4,6 @@ import Container from "../../components/Container"
 
 export const PageContainer = styled(Container)`
   flex: 1;
-  justify-content: center;
   padding: 0;
 `
 
@@ -15,4 +14,15 @@ export const SearchContainer = styled(Container)`
 
 export const SearchButton = styled(Button)`
   width: 270px;
+  margin: 32px 0;
+  z-index: -1;
+`
+
+export const Spacer = styled.View`
+  height: 30vh;
+`
+
+export const InputContainer = styled.View`
+  display: flex;
+  flex-direction: row;
 `
