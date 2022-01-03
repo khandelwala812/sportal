@@ -1,9 +1,9 @@
 import React, { FC } from "react"
 
-import IndexPage from "./app/pages/opening"
+import AppNavigator from "./app/navigation/AppNavigator"
 
 const App: FC = () => {
-  return <IndexPage />
+  return <AppNavigator />
 }
 
 export default App

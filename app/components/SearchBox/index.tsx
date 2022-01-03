@@ -1,6 +1,7 @@
 import React, {
   FC,
   useState,
+  useRef,
   ChangeEvent,
   Dispatch,
   SetStateAction
@@ -8,6 +9,7 @@ import React, {
 import { TouchableOpacity } from "react-native"
 import axios from "axios"
 
+import useOutsideClicked from "../../hooks/useOutsideClicked"
 import * as SC from "./styles"
 import colors from "../../config/colors"
 import {
@@ -38,7 +40,9 @@ interface ISearchBoxProps {
 }
 
 const SearchBox: FC<ISearchBoxProps> = ({ input, setInput }) => {
+  const searchBoxRef = useRef(null)
   const [results, setResults] = useState<IPlace[] | null>(null)
+  const outsideClicked = useOutsideClicked(searchBoxRef)
 
   const fetchResults = async (e: ChangeEvent<HTMLInputElement>) => {
     const newInput = e.target.value
@@ -49,7 +53,6 @@ const SearchBox: FC<ISearchBoxProps> = ({ input, setInput }) => {
       return
     }
 
-    // https://api.westsideeats.com:8080/https://maps.googleapis.com/maps/api
     const response = await axios.get(
       `${CORS_SERVER_URL}/${GOOGLE_PlACE_SEARCH_URL}&query=${newInput}&location=40.788460,-73.981060&radius=50000`
     )
@@ -84,7 +87,7 @@ const SearchBox: FC<ISearchBoxProps> = ({ input, setInput }) => {
   }
 
   return (
-    <SC.SearchBoxWrapper>
+    <SC.SearchBoxWrapper ref={searchBoxRef}>
       <TextInput
         title="Location"
         value={input}
@@ -93,7 +96,7 @@ const SearchBox: FC<ISearchBoxProps> = ({ input, setInput }) => {
         left={<Icon name="magnifying-glass" />}
         onChange={fetchResults}
       />
-      {Boolean(results?.length) && (
+      {Boolean(results?.length) && !outsideClicked && (
         <SC.AutocompleteList
           data={results}
           keyExtractor={(_, i) => `k-${i}`}

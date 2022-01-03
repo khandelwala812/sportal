@@ -1,26 +1,39 @@
 import React, { FC, useState } from "react"
 
+import routes from "../../config/routes"
 import * as SC from "./styles"
+import Dropdown from "../../components/Dropdown"
 import Header from "../../components/Header"
 import SearchBox from "../../components/SearchBox"
-import Dropdown from "../../components/Dropdown"
+import { useNavigation } from "@react-navigation/native"
 
-const sportsOptions = [
+const sportOptions = [
   {
-    name: "Baseball"
+    name: "Any",
+    icon: "flask-empty-outline"
   },
   {
-    name: "Basketball"
+    name: "Baseball",
+    icon: "baseball-bat"
   },
   {
-    name: "Football"
+    name: "Basketball",
+    icon: "basketball"
   },
   {
-    name: "Soccer"
+    name: "Football",
+    icon: "football"
+  },
+  {
+    name: "Soccer",
+    icon: "soccer"
   }
 ]
 
 const ageOptions = [
+  {
+    name: "Any"
+  },
   {
     name: "12-14"
   },
@@ -34,6 +47,9 @@ const ageOptions = [
 
 const levelOptions = [
   {
+    name: "Any"
+  },
+  {
     name: "Beginner"
   },
   {
@@ -44,7 +60,13 @@ const levelOptions = [
   }
 ]
 
-const IndexPage: FC = () => {
+interface IIndexPageProps {
+  navigation: {
+    navigate: (route: string) => void
+  }
+}
+
+const IndexPage: FC<IIndexPageProps> = ({ navigation }) => {
   const [location, setLocation] = useState<string>("")
   const [sport, setSport] = useState<string>("Any")
   const [age, setAge] = useState<string>("Any")
@@ -54,14 +76,20 @@ const IndexPage: FC = () => {
     <SC.PageContainer>
       <Header />
       <SC.Spacer />
-      <SC.SearchContainer color="light">
+      <SC.BackgroundVideo
+        source={require("../../assets/soccer.mp4")}
+        shouldPlay
+        isLooping
+        resizeMode="cover"
+      />
+      <SC.SearchContainer color="translucent">
         <SC.InputContainer>
           <SearchBox input={location} setInput={setLocation} />
           <Dropdown
             title="Sport"
             value={sport}
             setValue={setSport}
-            options={sportsOptions}
+            options={sportOptions}
           />
           <Dropdown
             title="Age"
@@ -76,7 +104,11 @@ const IndexPage: FC = () => {
             options={levelOptions}
           />
         </SC.InputContainer>
-        <SC.SearchButton title="Search" color="medium" />
+        <SC.SearchButton
+          title="Search"
+          color="medium"
+          onPress={() => navigation.navigate(routes.HOME)}
+        />
       </SC.SearchContainer>
     </SC.PageContainer>
   )

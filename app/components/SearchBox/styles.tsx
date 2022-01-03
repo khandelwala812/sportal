@@ -11,7 +11,8 @@ export const SearchBoxWrapper = styled.View`
 export const AutocompleteList = styled.FlatList`
   background-color: ${colors.white};
   width: 500px;
-  margin-top: 4px;
+  position: absolute;
+  top: 65px;
   padding: 4px;
   border-radius: 5px;
 `

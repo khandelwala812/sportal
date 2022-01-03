@@ -1,4 +1,5 @@
 import styled from "styled-components/native"
+import { Video } from "expo-av"
 import Button from "../../components/Button"
 import Container from "../../components/Container"
 
@@ -25,4 +26,12 @@ export const Spacer = styled.View`
 export const InputContainer = styled.View`
   display: flex;
   flex-direction: row;
+`
+
+export const BackgroundVideo = styled(Video)`
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
 `

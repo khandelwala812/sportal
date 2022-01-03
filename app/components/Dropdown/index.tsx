@@ -20,33 +20,40 @@ const Dropdown: FC<IDropdownProps> = ({ title, value, setValue, options }) => {
   const dropdownRef = useRef(null)
   const [focused, setFocused] = useState<boolean>(false)
   const outsideClicked = useOutsideClicked(dropdownRef)
-  const dropdownOptions = [{ name: "Any" }, ...options]
 
   const toggleFocus = () => setFocused(focused => !focused)
 
   const handleSelect = (newValue: string) => () => {
+    console.log("selected")
     setValue(newValue)
     toggleFocus()
   }
 
   return (
-    <SC.Wrapper>
+    <SC.Wrapper ref={dropdownRef}>
       {title && <SC.Title>{title}</SC.Title>}
-      <SC.DropdownWrapper ref={dropdownRef} onPress={toggleFocus}>
+      <SC.DropdownWrapper onPress={toggleFocus}>
         <SC.DropdownText>{value}</SC.DropdownText>
-        <SC.EntypoIcon name="chevron-thin-down" size={24} color="black" />
+        <SC.Chevron name="chevron-thin-down" size={24} color="black" />
       </SC.DropdownWrapper>
       {focused && !outsideClicked && (
         <SC.DropdownList
-          data={dropdownOptions}
+          data={options}
           keyExtractor={(_, i) => `k-${i}`}
           renderItem={({ item }) => {
             const option = item as IOption
             return (
               <SC.OptionWrapper onPress={handleSelect(option.name)}>
+                {option.icon && (
+                  <SC.OptionIcon
+                    name={option.icon}
+                    size={24}
+                    color={option.name === "Any" ? "white" : "black"}
+                  />
+                )}
                 <Text>{option.name}</Text>
                 {option.name === value && (
-                  <SC.MaterialIcon name="check" size={24} color="black" />
+                  <SC.Checkmark name="check" size={24} color="black" />
                 )}
               </SC.OptionWrapper>
             )

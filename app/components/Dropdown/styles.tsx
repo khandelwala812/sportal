@@ -32,7 +32,7 @@ export const DropdownText = styled(Text)`
   margin-left: 8px;
 `
 
-export const EntypoIcon = styled(Entypo)`
+export const Chevron = styled(Entypo)`
   margin-right: 8px;
 `
 
@@ -48,10 +48,13 @@ export const DropdownList = styled.FlatList`
 export const OptionWrapper = styled.TouchableOpacity`
   display: flex;
   flex-direction: row;
-  justify-content: center;
   align-items: center;
 `
 
-export const MaterialIcon = styled(MaterialCommunityIcons)`
+export const Checkmark = styled(MaterialCommunityIcons)`
   margin-left: 4px;
+`
+
+export const OptionIcon = styled(MaterialCommunityIcons)`
+  margin: 0 4px;
 `
