@@ -29,6 +29,7 @@ export const Logo = styled.Image`
 `
 
 export const HeaderText = styled(Text)`
+  color: ${colors.white};
   margin: 0 8px;
 `
 
