@@ -23,7 +23,7 @@ const Header: FC<IHeaderProps> = ({ opening }) => {
           <Fragment>
             <HeaderLink title="My Clubs" />
             <HeaderLink title="Messages" />
-            <SC.ProfileIcon name="account-circle" size={40} color="black" />
+            <SC.ProfileIcon name="account-circle" size={40} color="white" />
           </Fragment>
         )}
       </SC.ProfileWrapper>

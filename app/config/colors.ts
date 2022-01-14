@@ -1,5 +1,5 @@
 interface IColors {
-  [key: string]: string
+  [key: string]: string | string[]
 }
 
 export default {
@@ -9,5 +9,7 @@ export default {
   light: "#c4c4c4",
   translucent: "rgba(196, 196, 196, 0.5)",
   medium: "#635d5d",
-  transperant: "transperant"
+  transperant: "transperant",
+  gradient: ["#517746", "#c1844e"]
+  // gradient: ["#9fe689", "#eda260"]
 } as IColors

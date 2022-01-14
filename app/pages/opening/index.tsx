@@ -10,7 +10,7 @@ const IndexPage: FC = () => {
       <Header opening />
       <SC.Spacer />
       <SC.BackgroundVideo
-        source={require("../../assets/soccer.mp4")}
+        source={require("../../assets/video.mp4")}
         isMuted
         shouldPlay
         isLooping

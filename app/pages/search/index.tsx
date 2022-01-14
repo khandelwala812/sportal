@@ -1,9 +1,10 @@
-import React, { FC, useState } from "react"
+import React, { FC, useEffect, useState } from "react"
 import { useNavigation } from "@react-navigation/native"
 
 import * as SC from "./styles"
 import modals from "../../config/modals"
 import routes from "../../config/routes"
+import useModal from "../../hooks/useModal"
 import Dropdown from "../../components/Dropdown"
 import ModalLayout from "../../layouts/ModalLayout"
 import SearchBox from "../../components/SearchBox"
@@ -75,12 +76,18 @@ const genderOptions = [
 
 const SearchPage: FC = () => {
   const navigation = useNavigation()
+  const { toggleModal } = useModal()
 
   const [location, setLocation] = useState<string>("")
   const [sport, setSport] = useState<string>("Any")
   const [age, setAge] = useState<string>("Any")
   const [level, setLevel] = useState<string>("Any")
   const [gender, setGender] = useState<string>("Any")
+
+  const handleSearch = () => {
+    navigation.navigate(routes.HOME)
+    toggleModal(modals.SEARCH)
+  }
 
   return (
     <ModalLayout name={modals.SEARCH}>
@@ -92,6 +99,7 @@ const SearchPage: FC = () => {
             value={sport}
             setValue={setSport}
             options={sportOptions}
+            isContext
           />
           <Dropdown
             title="Age"
@@ -112,11 +120,7 @@ const SearchPage: FC = () => {
             options={genderOptions}
           />
         </SC.InputContainer>
-        <SC.SearchButton
-          title="Search"
-          color="medium"
-          onPress={() => navigation.navigate(routes.HOME)}
-        />
+        <SC.SearchButton title="Search" color="medium" onPress={handleSearch} />
       </SC.SearchContainer>
     </ModalLayout>
   )

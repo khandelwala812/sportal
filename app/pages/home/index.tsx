@@ -1,64 +1,51 @@
-import React from "react"
-import Text from "../../components/Text"
+import React, { useEffect, useState } from "react"
 
+import { IClub } from "../../types"
+import useFilters from "../../hooks/useFilters"
 import * as SC from "./styles"
-
-const clubs = [
-  {
-    name: "Los Angeles Dodgers",
-    sport: "Baseball",
-    image: "dodgers.jpg",
-    reviews: {
-      number: 110
-    },
-    distanceFrom: 0.7,
-    location: "Los Angeles, CA"
-  }
-]
-
-interface IClub {
-  name: string
-  sport: string
-  image: string
-  reviews: {
-    number: number
-    stars?: number
-  }
-  distanceFrom: number
-  location: string
-}
+import { BASE_API_URL } from "../../config/constants"
+import colors from "../../config/colors"
+import ClubCard from "../../components/ClubCard"
 
 const HomePage = () => {
+  const { filters } = useFilters()
+  const [clubs, setClubs] = useState(null)
+
+  const loadClubs = async () => {
+    try {
+      const response = await fetch(`${BASE_API_URL}/clubs`, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ filters })
+      })
+      const loadedClubs = await response.json()
+      setClubs(loadedClubs)
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
+  useEffect(() => {
+    loadClubs()
+  }, [])
+
   return (
-    <SC.Wrapper>
+    <SC.Wrapper
+      colors={colors.gradient as string[]}
+      start={{ x: 0.1, y: 0.5 }}
+      end={{ x: 1, y: 0.5 }}
+    >
       <SC.CardList
-        data={clubs}
+        data={clubs ?? []}
         keyExtractor={(_, i) => `k-${i}`}
         renderItem={({ item }) => {
           const club = item as IClub
-          return (
-            <SC.Card>
-              <SC.ClubImage source={require(`../../assets/${club.image}`)} />
-              <SC.DetailsWrapper>
-                <SC.TitleWrapper>
-                  <SC.Title>{club.name}</SC.Title>
-                  <SC.Subtitle>{club.sport}</SC.Subtitle>
-                </SC.TitleWrapper>
-                <SC.RatingsWrapper>
-                  <SC.Stars source={require("../../assets/stars.png")} />
-                  <SC.RatingsText>{club.reviews.number} Reviews</SC.RatingsText>
-                </SC.RatingsWrapper>
-                <SC.LocationWrapper>
-                  <SC.LocationText>{club.distanceFrom} mi</SC.LocationText>
-                  <SC.Location>
-                    <SC.Pin name="location-pin" size={24} color="black" />
-                    <SC.LocationText>{club.location}</SC.LocationText>
-                  </SC.Location>
-                </SC.LocationWrapper>
-              </SC.DetailsWrapper>
-            </SC.Card>
-          )
+          return <ClubCard {...club} />
         }}
+        showsVerticalScrollIndicator={false}
       />
     </SC.Wrapper>
   )

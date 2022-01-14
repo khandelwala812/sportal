@@ -1,5 +1,6 @@
 import React, { FC, Dispatch, SetStateAction, useState, useRef } from "react"
 
+import useFilters from "../../hooks/useFilters"
 import useOutsideClicked from "../../hooks/useOutsideClicked"
 import * as SC from "./styles"
 import Text from "../Text"
@@ -10,13 +11,21 @@ interface IOption {
 }
 
 interface IDropdownProps {
-  title?: string
+  title: string
   value: string
   setValue: Dispatch<SetStateAction<string>>
   options: IOption[]
+  isContext?: boolean
 }
 
-const Dropdown: FC<IDropdownProps> = ({ title, value, setValue, options }) => {
+const Dropdown: FC<IDropdownProps> = ({
+  title,
+  value,
+  setValue,
+  options,
+  isContext
+}) => {
+  const { setFilters } = useFilters()
   const dropdownRef = useRef(null)
   const [focused, setFocused] = useState<boolean>(false)
   const outsideClicked = useOutsideClicked(dropdownRef)
@@ -24,9 +33,15 @@ const Dropdown: FC<IDropdownProps> = ({ title, value, setValue, options }) => {
   const toggleFocus = () => setFocused(focused => !focused)
 
   const handleSelect = (newValue: string) => () => {
-    console.log("selected")
     setValue(newValue)
     toggleFocus()
+
+    if (isContext) {
+      setFilters((filters: object) => ({
+        ...filters,
+        [title.toLowerCase()]: newValue
+      }))
+    }
   }
 
   return (
