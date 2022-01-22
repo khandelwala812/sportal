@@ -1,9 +1,12 @@
 import React, { FC } from "react"
+import { useNavigation } from "@react-navigation/native"
 
 import * as SC from "./styles"
 import { IClub } from "../../types"
+import routes from "../../config/routes"
 
 const ClubCard: FC<IClub> = ({
+  _id,
   name,
   sport,
   image,
@@ -11,8 +14,14 @@ const ClubCard: FC<IClub> = ({
   distanceFrom,
   location
 }) => {
+  const navigation = useNavigation()
+
+  const handleSelect = () => {
+    navigation.navigate(routes.CLUB, { clubId: _id })
+  }
+
   return (
-    <SC.CardWrapper>
+    <SC.CardWrapper onPress={handleSelect}>
       <SC.ClubImage source={require(`../../assets/${image}`)} />
       <SC.DetailsWrapper>
         <SC.TitleWrapper>

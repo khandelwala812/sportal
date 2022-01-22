@@ -4,5 +4,6 @@ interface IRoutes {
 
 export default Object.freeze({
   OPENING: "opening",
-  HOME: "home"
+  HOME: "home",
+  CLUB: "club"
 }) as IRoutes

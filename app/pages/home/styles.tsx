@@ -4,7 +4,6 @@ import { LinearGradient } from "expo-linear-gradient"
 import colors from "../../config/colors"
 
 export const Wrapper = styled(LinearGradient)`
-  background-color: ${colors.white};
   flex: 1;
   display: flex;
   flex-direction: row;

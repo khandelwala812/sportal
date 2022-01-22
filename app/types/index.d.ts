@@ -1,4 +1,8 @@
-export interface IClub {
+interface MongoDocument {
+  _id: string
+}
+
+export interface IClub extends MongoDocument {
   name: string
   sport: string
   image: string

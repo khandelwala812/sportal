@@ -4,7 +4,7 @@ import Text from "../../components/Text"
 
 import colors from "../../config/colors"
 
-export const CardWrapper = styled.View`
+export const CardWrapper = styled.TouchableOpacity`
   background-color: ${colors.white};
   width: 800px;
   height: 250px;
