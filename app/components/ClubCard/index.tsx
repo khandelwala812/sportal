@@ -4,6 +4,7 @@ import { useNavigation } from "@react-navigation/native"
 import * as SC from "./styles"
 import { IClub } from "../../types"
 import routes from "../../config/routes"
+import Stars from "../Stars"
 
 const ClubCard: FC<IClub> = ({
   _id,
@@ -29,13 +30,13 @@ const ClubCard: FC<IClub> = ({
           <SC.Subtitle>{sport}</SC.Subtitle>
         </SC.TitleWrapper>
         <SC.RatingsWrapper>
-          <SC.Stars source={require("../../assets/stars.png")} />
+          <Stars number={5} />
           <SC.RatingsText>{reviews.number} Reviews</SC.RatingsText>
         </SC.RatingsWrapper>
         <SC.LocationWrapper>
           <SC.LocationText>{distanceFrom} mi</SC.LocationText>
           <SC.Location>
-            <SC.Pin name="location-pin" size={24} color="black" />
+            <SC.Pin name="location-pin" size={24} color="white" />
             <SC.LocationText>{location}</SC.LocationText>
           </SC.Location>
         </SC.LocationWrapper>

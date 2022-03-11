@@ -1,7 +1,8 @@
-import React, { FC, useEffect, useState } from "react"
+import React, { FC, useState } from "react"
 import { useNavigation } from "@react-navigation/native"
 
 import * as SC from "./styles"
+import { ALL_ITEMS_LABEL } from "../../config/constants"
 import modals from "../../config/modals"
 import routes from "../../config/routes"
 import useModal from "../../hooks/useModal"
@@ -11,7 +12,7 @@ import SearchBox from "../../components/SearchBox"
 
 const sportOptions = [
   {
-    name: "Any",
+    name: ALL_ITEMS_LABEL,
     icon: "flask-empty-outline"
   },
   {
@@ -34,7 +35,7 @@ const sportOptions = [
 
 const ageOptions = [
   {
-    name: "Any"
+    name: ALL_ITEMS_LABEL
   },
   {
     name: "12-14"
@@ -49,7 +50,7 @@ const ageOptions = [
 
 const levelOptions = [
   {
-    name: "Any"
+    name: ALL_ITEMS_LABEL
   },
   {
     name: "Beginner"
@@ -64,7 +65,7 @@ const levelOptions = [
 
 const genderOptions = [
   {
-    name: "Any"
+    name: ALL_ITEMS_LABEL
   },
   {
     name: "Male"
@@ -79,10 +80,10 @@ const SearchPage: FC = () => {
   const { toggleModal } = useModal()
 
   const [location, setLocation] = useState<string>("")
-  const [sport, setSport] = useState<string>("Any")
-  const [age, setAge] = useState<string>("Any")
-  const [level, setLevel] = useState<string>("Any")
-  const [gender, setGender] = useState<string>("Any")
+  const [sport, setSport] = useState<string>(ALL_ITEMS_LABEL)
+  const [age, setAge] = useState<string>(ALL_ITEMS_LABEL)
+  const [level, setLevel] = useState<string>(ALL_ITEMS_LABEL)
+  const [gender, setGender] = useState<string>(ALL_ITEMS_LABEL)
 
   const handleSearch = () => {
     navigation.navigate(routes.HOME)

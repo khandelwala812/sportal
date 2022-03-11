@@ -1,16 +1,19 @@
 import React, { FC } from "react"
 
 import AppNavigator from "./app/navigation/AppNavigator"
-import { FiltersProvider } from "./app/FiltersProvider"
+import { AuthProvider } from "./app/AuthProvider"
 import { ModalProvider } from "./app/ModalProvider"
+import { FiltersProvider } from "./app/FiltersProvider"
 
 const App: FC = () => {
   return (
-    <FiltersProvider>
+    <AuthProvider>
       <ModalProvider>
-        <AppNavigator />
+        <FiltersProvider>
+          <AppNavigator />
+        </FiltersProvider>
       </ModalProvider>
-    </FiltersProvider>
+    </AuthProvider>
   )
 }
 

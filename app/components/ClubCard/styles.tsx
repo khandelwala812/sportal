@@ -5,13 +5,12 @@ import Text from "../../components/Text"
 import colors from "../../config/colors"
 
 export const CardWrapper = styled.TouchableOpacity`
-  background-color: ${colors.white};
+  background-color: ${colors.foreground};
   width: 800px;
   height: 250px;
   display: flex;
   flex-direction: row;
   margin: 32px;
-  border: 1px solid #cec8c8;
   border-radius: 20px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   align-self: center;
@@ -36,6 +35,7 @@ export const DetailsWrapper = styled.View`
 export const TitleWrapper = styled.View``
 
 export const Title = styled(Text)`
+  color: ${colors.white};
   width: 320px;
   font-size: 26px;
   line-height: 30px;
@@ -43,6 +43,7 @@ export const Title = styled(Text)`
 `
 
 export const Subtitle = styled(Text)`
+  color: ${colors.white};
   line-height: 21px;
 `
 
@@ -56,6 +57,7 @@ export const Stars = styled.Image`
 `
 
 export const RatingsText = styled(Text)`
+  color: ${colors.white};
   font-size: 12px;
 `
 
@@ -63,11 +65,12 @@ export const LocationWrapper = styled.View`
   display: flex;
   align-items: flex-end;
   position: absolute;
-  bottom: 8;
-  right: 8;
+  bottom: 8px;
+  right: 8px;
 `
 
 export const LocationText = styled(Text)`
+  color: ${colors.white};
   font-size: 16px;
 `
 

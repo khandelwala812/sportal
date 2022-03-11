@@ -3,8 +3,10 @@ import { MaterialCommunityIcons } from "@expo/vector-icons"
 import Text from "../Text"
 
 import colors from "../../config/colors"
+import { LinearGradient } from "expo-linear-gradient"
 
 export const HeaderWrapper = styled.View`
+  background-color: ${props => !props.opening && colors.background};
   width: 100%;
   height: 50px;
   position: fixed;
@@ -26,6 +28,7 @@ export const Logo = styled.Image`
   width: 50px;
   height: 50px;
   margin: 4px;
+  border-radius: 50%;
 `
 
 export const HeaderText = styled(Text)`
@@ -35,4 +38,11 @@ export const HeaderText = styled(Text)`
 
 export const ProfileIcon = styled(MaterialCommunityIcons)`
   margin: 4px;
+`
+
+export const Gradient = styled(LinearGradient)`
+  width: 100%;
+  height: 2px;
+  position: absolute;
+  bottom: 0;
 `

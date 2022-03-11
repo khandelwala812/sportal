@@ -13,7 +13,7 @@ interface IPageLayoutProps {
 const PageLayout: FC<IPageLayoutProps> = ({
   title,
   style,
-  header = true,
+  header = false,
   children,
   ...props
 }) => {

@@ -2,9 +2,13 @@ import styled from "styled-components/native"
 import { Entypo } from "@expo/vector-icons"
 import Container from "../../components/Container"
 import PageLayout from "../../layouts/PageLayout"
+import Section from "../../components/Section"
 import Text from "../../components/Text"
 
+import colors from "../../config/colors"
+
 export const ClubPageLayout = styled(PageLayout)`
+  background-color: ${colors.background};
   height: 100vh;
   display: flex;
   align-items: center;
@@ -12,6 +16,7 @@ export const ClubPageLayout = styled(PageLayout)`
 `
 
 export const ContentWrapper = styled(Container)`
+  background-color: ${colors.foreground};
   width: 70%;
   height: 100%;
   border-radius: 5px;
@@ -26,6 +31,7 @@ export const Banner = styled.Image`
 `
 
 export const DetailsWrapper = styled(Container)`
+  flex: 1;
   flex-direction: row;
   justify-content: space-between;
   position: absolute;
@@ -35,6 +41,7 @@ export const DetailsWrapper = styled(Container)`
 `
 
 export const Logo = styled.Image`
+  background-color: ${colors.white};
   width: 75px;
   height: 75px;
   position: absolute;
@@ -44,25 +51,33 @@ export const Logo = styled.Image`
 `
 
 export const InfoWrapper = styled(Container)`
-  width: 500px;
+  width: 75%;
   margin-top: 40px;
   margin-left: 80px;
 `
 
 export const Title = styled(Text)`
+  color: ${colors.white};
   font-size: 30px;
   line-height: 35px;
 `
 
 export const Subtitle = styled(Text)`
+  color: ${colors.white};
   font-size: 20px;
   line-height: 23px;
 `
 
+export const AboutSection = styled(Section)`
+  margin-top: 32px;
+`
+
+export const ContactWrapper = styled.View``
+
 export const LocationWrapper = styled.View`
   flex-direction: row;
   margin-top: 48px;
-  padding-right: 8px;
+  padding-right: 16px;
 `
 
 export const Pin = styled(Entypo)`
@@ -81,6 +96,7 @@ export const Stars = styled.Image`
 `
 
 export const RatingsText = styled(Text)`
+  color: ${colors.white};
   margin: 0 8px;
   font-size: 16px;
   line-height: 19px;

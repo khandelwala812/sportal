@@ -3,6 +3,7 @@ import React, { FC, Dispatch, SetStateAction, useState, useRef } from "react"
 import useFilters from "../../hooks/useFilters"
 import useOutsideClicked from "../../hooks/useOutsideClicked"
 import * as SC from "./styles"
+import { ALL_ITEMS_LABEL } from "../../config/constants"
 import Text from "../Text"
 
 interface IOption {
@@ -39,7 +40,8 @@ const Dropdown: FC<IDropdownProps> = ({
     if (isContext) {
       setFilters((filters: object) => ({
         ...filters,
-        [title.toLowerCase()]: newValue
+        [title.toLowerCase()]:
+          newValue === ALL_ITEMS_LABEL ? undefined : newValue
       }))
     }
   }
@@ -63,7 +65,7 @@ const Dropdown: FC<IDropdownProps> = ({
                   <SC.OptionIcon
                     name={option.icon}
                     size={24}
-                    color={option.name === "Any" ? "white" : "black"}
+                    color={option.name === ALL_ITEMS_LABEL ? "white" : "black"}
                   />
                 )}
                 <Text>{option.name}</Text>

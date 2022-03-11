@@ -1,15 +1,18 @@
 interface IColors {
-  [key: string]: string | string[]
+  [key: string]: string
 }
 
 export default {
+  background: "#222",
+  foreground: "#333437",
   white: "#fff",
   black: "#000",
   dark: "#0c0c0c",
   light: "#c4c4c4",
   translucent: "rgba(196, 196, 196, 0.5)",
+  error: "#c44933",
   medium: "#635d5d",
   transperant: "transperant",
-  gradient: ["#517746", "#c1844e"]
-  // gradient: ["#9fe689", "#eda260"]
+  link: "#0277cc",
+  star: "#ffd700"
 } as IColors

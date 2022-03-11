@@ -2,7 +2,6 @@ import React, { FC } from "react"
 
 import * as SC from "./styles"
 import colors from "../../config/colors"
-import { LinearGradient } from "expo-linear-gradient"
 
 interface IContainerProps {
   color?: string
@@ -11,7 +10,7 @@ interface IContainerProps {
 }
 
 const Container: FC<IContainerProps> = ({
-  color = "white",
+  color,
   style,
   isGradient,
   children,
@@ -26,7 +25,7 @@ const Container: FC<IContainerProps> = ({
 
   return (
     <SC.AppContainer
-      style={[style, { backgroundColor: colors[color] }]}
+      style={[style, { backgroundColor: color ? colors[color] : undefined }]}
       {...props}
     >
       {children}
