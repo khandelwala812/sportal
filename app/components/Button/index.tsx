@@ -4,7 +4,7 @@ import * as SC from "./styles"
 import colors from "../../config/colors"
 
 interface IButtonProps {
-  title: string
+  title?: string
   onPress?: () => void
   color?: string
   style?: object
@@ -25,7 +25,7 @@ const Button: FC<IButtonProps> = ({
     onPress={onPress}
     {...props}
   >
-    <SC.ButtonText>{title}</SC.ButtonText>
+    {title && <SC.ButtonText>{title}</SC.ButtonText>}
     {children}
   </SC.ButtonContainer>
 )

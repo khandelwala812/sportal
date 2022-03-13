@@ -2,6 +2,7 @@ import React from "react"
 import { NavigationContainer } from "@react-navigation/native"
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
 
+import useAuth from "../hooks/useAuth"
 import routes from "../config/routes"
 import ClubPage from "../pages/club"
 import ForgotPasswordPage from "../pages/forgot-password"
@@ -23,9 +24,14 @@ const noHeaderOptions = { headerShown: false }
 const Stack = createNativeStackNavigator()
 
 const AppNavigator = () => {
+  const { user } = useAuth()
+  const landingPage = user?.isPlatformAdmin
+    ? routes.PLATFORM_ADMIN
+    : routes.OPENING
+
   return (
     <NavigationContainer linking={{ prefixes: [], enabled: true }}>
-      <Stack.Navigator initialRouteName={routes.OPENING}>
+      <Stack.Navigator initialRouteName={landingPage}>
         <Stack.Screen
           name={routes.OPENING}
           component={IndexPage}

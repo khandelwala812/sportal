@@ -16,6 +16,7 @@ export const InputWrapper = styled.View`
 
 export const AppTextInput = styled.TextInput`
   flex: 1;
+  width: 100%;
   height: 100%;
   padding: 4px;
   color: ${colors.dark};

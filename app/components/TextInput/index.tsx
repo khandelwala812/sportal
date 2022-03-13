@@ -5,16 +5,23 @@ import * as SC from "./styles"
 interface ITextInputProps {
   title?: string
   style?: object
+  inputStyle?: object
   left?: React.ReactNode
 }
 
-const TextInput: FC<ITextInputProps> = ({ title, style, left, ...props }) => {
+const TextInput: FC<ITextInputProps> = ({
+  title,
+  style,
+  inputStyle,
+  left,
+  ...props
+}) => {
   return (
     <SC.Wrapper>
       {title && <SC.Title>{title}</SC.Title>}
       <SC.InputWrapper style={style}>
         {typeof left !== "undefined" && left}
-        <SC.AppTextInput {...props} />
+        <SC.AppTextInput style={[style, inputStyle]} {...props} />
       </SC.InputWrapper>
     </SC.Wrapper>
   )

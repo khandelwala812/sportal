@@ -38,8 +38,23 @@ interface IUser {
   isPlatformAdmin: boolean
 }
 
-interface IEvent {}
+interface IDay {
+  date: number
+  filler?: boolean
+  events?: IEvent[]
+}
+
+interface IDayOfWeek {
+  name: string
+}
+
+interface IEvent {
+  name: string
+  // ...
+}
 
 export type TFormikHelpers = FormikHelpers<{
   [key: string]: string
 }>
+
+export type TMeridiem = "" | "am" | "pm"
