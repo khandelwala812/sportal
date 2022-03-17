@@ -15,10 +15,11 @@ export const MonthWrapper = styled.View`
 
 export const Month = styled(Text)`
   font-size: 24px;
-  margin: 0 4px;
 `
 
-export const Chevron = styled(MaterialCommunityIcons)``
+export const Chevron = styled(MaterialCommunityIcons)`
+  margin: 0 4px;
+`
 
 export const DayOfWeekWrapper = styled.View`
   width: 50px;

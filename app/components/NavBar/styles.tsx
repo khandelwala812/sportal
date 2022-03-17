@@ -6,7 +6,6 @@ import colors from "../../config/colors"
 export const Float = styled.View`
   background-color: ${colors.light};
   width: 100px;
-  height: 50px;
   position: absolute;
   top: 55px;
   right: 5px;

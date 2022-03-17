@@ -1,5 +1,5 @@
 import React, { FC, useState } from "react"
-import { FlatList, View } from "react-native"
+import { View } from "react-native"
 import * as Yup from "yup"
 
 import * as SC from "./styles"
@@ -17,6 +17,10 @@ const initialValues = {
   // endTime: ""
 }
 
+interface IEventFormValues {
+  eventName: string
+}
+
 const PlatformAdminPage: FC = () => {
   const [eventDays, setEventDays] = useState<(IDay | IDayOfWeek)[]>(days)
   const [selectedDay, setSelectedDay] = useState<IDay | IDayOfWeek | null>(null)
@@ -31,13 +35,16 @@ const PlatformAdminPage: FC = () => {
     setAddingEvent(true)
   }
 
-  const handleSubmit = (newEvent: IEvent) => {
+  const handleSubmit = (values: IEventFormValues) => {
+    const { eventName, ...rest } = values
+    const newEvent = { ...rest, name: eventName }
+
     const daysCopy = [...eventDays]
     const index = daysCopy.findIndex(
-      (day: IDay) => day.date === selectedDay.date
+      (day: IDay) => day.date === selectedDay?.date
     )
 
-    if (daysCopy?.events) {
+    if ("events" in daysCopy[index]) {
       daysCopy[index].events.push(newEvent)
     } else {
       daysCopy[index].events = [newEvent]
@@ -50,7 +57,7 @@ const PlatformAdminPage: FC = () => {
   }
 
   return (
-    <SC.PageLayout title="Platform Admin">
+    <SC.PageLayout title="Platform Admin" color="white">
       <SC.Column></SC.Column>
       <Calendar
         days={eventDays}
@@ -61,14 +68,14 @@ const PlatformAdminPage: FC = () => {
         {selectedDay && !addingEvent && (
           <SC.EventsWrapper>
             <SC.EventsList
-              data={selectedDay.events ?? []}
+              data={selectedDay.events ?? [{ name: "No events on this day" }]}
               keyExtractor={(_, i) => `#${i}`}
               renderItem={({ item }) => {
                 const event = item as IEvent
                 return <Text>{event.name}</Text>
               }}
             />
-            <SC.PlusButton onPress={handleAdd}>
+            <SC.PlusButton color="medium" onPress={handleAdd}>
               <SC.Plus name="plus" size={24} color={colors.white} />
             </SC.PlusButton>
           </SC.EventsWrapper>
@@ -85,7 +92,7 @@ const PlatformAdminPage: FC = () => {
                 <TimeField name="Start Time" placeholder="00:00" />
                 <TimeField name="End Time" placeholder="00:00" />
               </View>
-              <SC.AddEventButton title="Add Event" />
+              <SC.AddEventButton title="Add Event" color="medium" />
             </SC.FieldsWrapper>
           </Form>
         )}

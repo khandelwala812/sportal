@@ -44,7 +44,7 @@ interface IDay {
   events?: IEvent[]
 }
 
-interface IDayOfWeek {
+interface IDayOfWeek extends IDay {
   name: string
 }
 

@@ -9,7 +9,7 @@ import { ProfileIcon } from "../Header/styles"
 import useOutsideClicked from "../../hooks/useOutsideClicked"
 
 const NavBar: FC = () => {
-  const { user } = useAuth()
+  const { user, setUser } = useAuth()
   const navigation = useNavigation()
   const floatRef = useRef(null)
   const clickedOutside = useOutsideClicked(floatRef)
@@ -23,12 +23,19 @@ const NavBar: FC = () => {
     setFloatVisible(visible => !visible)
   }
 
+  const signOut = () => {
+    setUser(null)
+    setFloatVisible(false)
+  }
+
   return (
     <TouchableOpacity ref={floatRef} onPress={handleSelect}>
       <ProfileIcon name="account-circle" size={40} color="white" />
       {floatVisible && !clickedOutside && (
         <SC.Float>
-          <SC.FloatText>You are already logged in</SC.FloatText>
+          <TouchableOpacity onPress={signOut}>
+            <SC.FloatText>Sign out</SC.FloatText>
+          </TouchableOpacity>
         </SC.Float>
       )}
     </TouchableOpacity>
