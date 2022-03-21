@@ -1,4 +1,5 @@
 import styled from "styled-components/native"
+import Button from "../Button"
 import Text from "../Text"
 
 import colors from "../../config/colors"
@@ -15,9 +16,12 @@ export const Subtitle = styled(Text)`
   font-weight: 400;
 `
 
-export const EditButton = styled(MaterialCommunityIcons)`
+export const EditButton = styled(Button)`
   position: absolute;
   top: 0;
   right: 0;
   margin: 2px;
+  padding: 0;
 `
+
+export const Pencil = styled(MaterialCommunityIcons)``
