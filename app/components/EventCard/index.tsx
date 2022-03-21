@@ -9,7 +9,7 @@ const EventCard: FC<IEvent> = ({ name, startTime, endTime }) => {
       return `${startTime}-${endTime + startTime.meridiem}`
     }
     
-    return `${startTime + startTime.meridiem}-${endTime + endTime.meridiem}`
+    return `${startTime + startTime.meridiem} - ${endTime + endTime.meridiem}`
   }
   
   return (
