@@ -16,6 +16,7 @@ const EventCard: FC<IEvent> = ({ name, startTime, endTime }) => {
     <SC.CardWrapper>
       <SC.Title>{name}</SC.Title>
       <SC.Subtitle>{formatTime()}</SC.Subtitle>
+      <SC.EditButton name="pencil" size={24} color="black" />
     </SC.CardWrapper>
   )
 }
