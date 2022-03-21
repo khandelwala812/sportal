@@ -14,3 +14,10 @@ export const Subtitle = styled(Text)`
   color: ${colors.medium};
   font-weight: 400;
 `
+
+export const EditButton = styled(MaterialCommunityIcons)`
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 2px;
+`
