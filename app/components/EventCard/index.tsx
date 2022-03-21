@@ -24,7 +24,7 @@ const EventCard: FC<IEventCardProps> = ({ name, startTime, endTime, setEditing }
     <SC.CardWrapper>
       <SC.Title>{name}</SC.Title>
       <SC.Subtitle>{formatTime()}</SC.Subtitle>
-      <SC.EditButton onPress={handlePress}>
+      <SC.EditButton color="white" onPress={handlePress}>
         <SC.Pencil name="pencil" size={24} color="black" />
       </SC.EditButton>
     </SC.CardWrapper>
