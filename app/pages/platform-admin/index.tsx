@@ -1,15 +1,21 @@
-import React, { FC, useState } from "react"
+import React, { FC, useEffect, useState } from "react"
 import { View } from "react-native"
 import * as Yup from "yup"
 
 import * as SC from "./styles"
-import { IDay, IDayOfWeek, IEvent } from "../../types"
+import { ICalendar, IDay, IDayOfWeek, IEvent } from "../../types"
+import eventsApi from "../../api/events"
 import colors from "../../config/colors"
-import days from "../../config/days"
 import Calendar from "../../components/Calendar"
+import EventCard from "../../components/EventCard"
 import Form from "../../components/Form"
-import Text from "../../components/Text"
 import TimeField from "../../components/TimeField"
+
+const initialCalendar = {
+  year: 0,
+  month: "",
+  days: []
+}
 
 const initialValues = {
   eventName: ""
@@ -17,12 +23,14 @@ const initialValues = {
   // endTime: ""
 }
 
+const noEvents = [{ name: "No events on this day" }]
+
 interface IEventFormValues {
   eventName: string
 }
 
 const PlatformAdminPage: FC = () => {
-  const [eventDays, setEventDays] = useState<(IDay | IDayOfWeek)[]>(days)
+  const [calendar, setCalendar] = useState<ICalendar>(initialCalendar)
   const [selectedDay, setSelectedDay] = useState<IDay | IDayOfWeek | null>(null)
   const [addingEvent, setAddingEvent] = useState(false)
   const validationSchema = Yup.object().shape({
@@ -35,32 +43,42 @@ const PlatformAdminPage: FC = () => {
     setAddingEvent(true)
   }
 
-  const handleSubmit = (values: IEventFormValues) => {
-    const { eventName, ...rest } = values
+  const handleSubmit = ({ eventName, ...rest }: IEventFormValues) => {
     const newEvent = { ...rest, name: eventName }
 
-    const daysCopy = [...eventDays]
-    const index = daysCopy.findIndex(
+    const newDays = [...calendar.days]
+    const index = newDays.findIndex(
       (day: IDay) => day.date === selectedDay?.date
     )
+    newDays[index].events.push(newEvent)
 
-    if ("events" in daysCopy[index]) {
-      daysCopy[index].events.push(newEvent)
-    } else {
-      daysCopy[index].events = [newEvent]
-    }
-
-    console.log(daysCopy)
-
-    setEventDays(daysCopy)
+    setCalendar((c: ICalendar) => ({ ...c, days: newDays }))
     setAddingEvent(false)
+
+    eventsApi.addEvent(newEvent)
+  }
+
+  const fetchCalendar = async () => {
+    const response = await eventsApi.getCalendar()
+
+    if (response.ok && response?.data) {
+      setCalendar(response.data)
+    }
+  }
+
+  useEffect(() => {
+    fetchCalendar()
+  }, [])
+
+  if (!calendar.days.length) {
+    return null
   }
 
   return (
     <SC.PageLayout title="Platform Admin" color="white">
       <SC.Column></SC.Column>
       <Calendar
-        days={eventDays}
+        {...calendar}
         selectedDay={selectedDay}
         setSelectedDay={setSelectedDay}
       />
@@ -68,11 +86,11 @@ const PlatformAdminPage: FC = () => {
         {selectedDay && !addingEvent && (
           <SC.EventsWrapper>
             <SC.EventsList
-              data={selectedDay.events ?? [{ name: "No events on this day" }]}
+              data={selectedDay.events.length ? selectedDay.events : noEvents}
               keyExtractor={(_, i) => `#${i}`}
               renderItem={({ item }) => {
                 const event = item as IEvent
-                return <Text>{event.name}</Text>
+                return <EventCard {...event} />
               }}
             />
             <SC.PlusButton color="medium" onPress={handleAdd}>

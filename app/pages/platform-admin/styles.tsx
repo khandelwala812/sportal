@@ -17,8 +17,9 @@ export const Column = styled.View`
 `
 
 export const EventsWrapper = styled.View`
-  width: 40%;
-  align-items: center;
+  width: 50%;
+  align-items: flex-start;
+  padding-left: 16px;
   /* justify-content: center; */
 `
 
@@ -29,6 +30,7 @@ export const EventsList = styled.FlatList`
 export const PlusButton = styled(Button)`
   width: 30px;
   height: 30px;
+  align-self: center;
   border-radius: 50%;
 `
 

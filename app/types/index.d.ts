@@ -38,10 +38,16 @@ interface IUser {
   isPlatformAdmin: boolean
 }
 
+interface ICalendar {
+  year: number
+  month: string
+  days: IDay[]
+}
+
 interface IDay {
   date: number
   filler?: boolean
-  events?: IEvent[]
+  events: IEvent[]
 }
 
 interface IDayOfWeek extends IDay {

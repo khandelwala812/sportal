@@ -5,6 +5,13 @@ import { MaterialCommunityIcons } from "@expo/vector-icons"
 import Text from "../Text"
 
 import { IDay, IDayOfWeek } from "../../types"
+import colors from "../../config/colors"
+
+export const CalendarWrapper = styled.View`
+  border-right-width: 1px;
+  border-right-color: ${({ selectedDay }) =>
+    selectedDay ? colors.black : colors.white};
+`
 
 export const MonthWrapper = styled.View`
   flex-direction: row;
