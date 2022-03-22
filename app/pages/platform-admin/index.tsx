@@ -46,15 +46,30 @@ const PlatformAdminPage: FC = () => {
 
   const handleSubmit = (newEvent: IEventFormValues) => {
     const newDays = [...calendar.days]
-    const index = newDays.findIndex(
-      (day: IDay) => day.date === selectedDay?.date
-    )
-    newDays[index].events.push(newEvent)
+
+    if (editedEvent) {
+      for (const day of newDays) {
+        const index = day.events.findIndex(
+          (event: IEvent) => event._id === editedEvent._id
+        )
+
+        if (index >= 0) {
+          day.events[index] = newEvent
+        }
+      }
+
+      eventsApi.editEvent(newEvent)
+      setEditedEvent(null)
+    } else {
+      const index = newDays.findIndex(
+        (day: IDay) => day.date === selectedDay?.date
+      )
+      newDays[index].events.push(newEvent)
+      eventsApi.addEvent(newEvent)
+    }
 
     setCalendar((c: ICalendar) => ({ ...c, days: newDays }))
     setAddingEvent(false)
-
-    eventsApi.addEvent(newEvent)
   }
 
   const fetchCalendar = async () => {
@@ -123,7 +138,7 @@ const PlatformAdminPage: FC = () => {
         )}
         {editedEvent && (
           <Form
-            initialValues={eventToValues(editedEvent)}
+            initialValues={initialValues}
             validationSchema={validationSchema}
             onSubmit={handleSubmit}
           >
@@ -133,7 +148,7 @@ const PlatformAdminPage: FC = () => {
                 <TimeField name="Start Time" placeholder="00:00" />
                 <TimeField name="End Time" placeholder="00:00" />
               </View>
-              <SC.AddEventButton title="Add Event" color="medium" />
+              <SC.SaveButton title="Save" color="medium" />
             </SC.FieldsWrapper>
           </Form>
         )}
