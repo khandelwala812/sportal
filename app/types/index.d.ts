@@ -1,22 +1,22 @@
 import { FormikHelpers } from "formik"
 
 interface MongoDocument {
-  _id: string
+  _id?: string
 }
 
-export interface ITeam {
+interface ITeam {
   sport: string
   levels: string[]
   genders: string[]
 }
 
-export interface ICoach {
+interface ICoach {
   name: string
   description: string
   image?: string
 }
 
-export interface IClub extends MongoDocument {
+interface IClub extends MongoDocument {
   name: string
   sport: string
   location: string
@@ -54,13 +54,19 @@ interface IDayOfWeek extends IDay {
   name: string
 }
 
-interface IEvent {
+interface IEvent extends MongoDocument {
   name: string
-  // ...
+  startTime?: ITime
+  endTime?: ITime
 }
 
-export type TFormikHelpers = FormikHelpers<{
+interface ITime {
+  hour: string
+  meridiem: TMeridiem
+}
+
+type TFormikHelpers = FormikHelpers<{
   [key: string]: string
 }>
 
-export type TMeridiem = "" | "am" | "pm"
+type TMeridiem = "" | "am" | "pm"

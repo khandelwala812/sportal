@@ -18,7 +18,7 @@ const initialCalendar = {
 }
 
 const initialValues = {
-  eventName: ""
+  name: ""
   // startTime: "",
   // endTime: ""
 }
@@ -26,15 +26,16 @@ const initialValues = {
 const noEvents = [{ name: "No events on this day" }]
 
 interface IEventFormValues {
-  eventName: string
+  name: string
 }
 
 const PlatformAdminPage: FC = () => {
   const [calendar, setCalendar] = useState<ICalendar>(initialCalendar)
   const [selectedDay, setSelectedDay] = useState<IDay | IDayOfWeek | null>(null)
   const [addingEvent, setAddingEvent] = useState(false)
+  const [editedEvent, setEditedEvent] = useState<IEvent | null>(null)
   const validationSchema = Yup.object().shape({
-    eventName: Yup.string().required().label("Event Name")
+    name: Yup.string().required().label("Event Name")
     // startTime: Yup.date().required().label("Start Time"),
     // endTime: Yup.date().required().label("End Time")
   })
@@ -43,9 +44,7 @@ const PlatformAdminPage: FC = () => {
     setAddingEvent(true)
   }
 
-  const handleSubmit = ({ eventName, ...rest }: IEventFormValues) => {
-    const newEvent = { ...rest, name: eventName }
-
+  const handleSubmit = (newEvent: IEventFormValues) => {
     const newDays = [...calendar.days]
     const index = newDays.findIndex(
       (day: IDay) => day.date === selectedDay?.date
@@ -65,6 +64,12 @@ const PlatformAdminPage: FC = () => {
       setCalendar(response.data)
     }
   }
+
+  const eventToValues = (event: IEvent) => ({
+    ...event,
+    startTime: event.startTime?.hour,
+    endTime: event.endTime?.hour
+  })
 
   useEffect(() => {
     fetchCalendar()
@@ -90,7 +95,9 @@ const PlatformAdminPage: FC = () => {
               keyExtractor={(_, i) => `#${i}`}
               renderItem={({ item }) => {
                 const event = item as IEvent
-                return <EventCard {...event} />
+                return (
+                  <EventCard event={event} setEditedEvent={setEditedEvent} />
+                )
               }}
             />
             <SC.PlusButton color="medium" onPress={handleAdd}>
@@ -101,6 +108,22 @@ const PlatformAdminPage: FC = () => {
         {addingEvent && (
           <Form
             initialValues={initialValues}
+            validationSchema={validationSchema}
+            onSubmit={handleSubmit}
+          >
+            <SC.FieldsWrapper>
+              <SC.NameField name="eventName" placeholder="Event Name" />
+              <View>
+                <TimeField name="Start Time" placeholder="00:00" />
+                <TimeField name="End Time" placeholder="00:00" />
+              </View>
+              <SC.AddEventButton title="Add Event" color="medium" />
+            </SC.FieldsWrapper>
+          </Form>
+        )}
+        {editedEvent && (
+          <Form
+            initialValues={eventToValues(editedEvent)}
             validationSchema={validationSchema}
             onSubmit={handleSubmit}
           >
