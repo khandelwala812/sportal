@@ -45,17 +45,29 @@ const PlatformAdminPage: FC = () => {
 
   const handleSubmit = ({ eventName, ...rest }: IEventFormValues) => {
     const newEvent = { ...rest, name: eventName }
-
     const newDays = [...calendar.days]
-    const index = newDays.findIndex(
-      (day: IDay) => day.date === selectedDay?.date
-    )
-    newDays[index].events.push(newEvent)
+    
+    if (editedEvent) {
+      for (const day of newDays) {
+        const index = day.events.findIndex((event: IEvent) => event._id === editedEvent._id)
+        
+        if (index >= 0) {
+          day.events[index] = newEvent
+        } 
+      }
+      
+      eventsApi.editEvent(newEvent)
+      setEditedEvent(null)
+    } else {
+      const index = newDays.findIndex(
+        (day: IDay) => day.date === selectedDay?.date
+      )
+      newDays[index].events.push(newEvent)
+      eventsApi.addEvent(newEvent)
+    }
 
     setCalendar((c: ICalendar) => ({ ...c, days: newDays }))
     setAddingEvent(false)
-
-    eventsApi.addEvent(newEvent)
   }
 
   const fetchCalendar = async () => {
