@@ -114,6 +114,22 @@ const PlatformAdminPage: FC = () => {
             </SC.FieldsWrapper>
           </Form>
         )}
+        {editedEvent && (
+          <Form
+            initialValues={initialValues}
+            validationSchema={validationSchema}
+            onSubmit={handleSubmit}
+          >
+            <SC.FieldsWrapper>
+              <SC.NameField name="eventName" placeholder="Event Name" />
+              <View>
+                <TimeField name="Start Time" placeholder="00:00" />
+                <TimeField name="End Time" placeholder="00:00" />
+              </View>
+              <SC.SaveButton title="Save" color="medium" />
+            </SC.FieldsWrapper>
+          </Form>
+        )}
       </SC.Column>
     </SC.PageLayout>
   )
