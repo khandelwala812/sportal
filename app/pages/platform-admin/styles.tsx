@@ -67,3 +67,5 @@ export const TimeFieldWrapper = styled.View`
   align-items: flex-end;
   gap: 8px;
 `
+
+export const SaveButton = styled(SubmitButton)``
