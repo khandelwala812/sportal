@@ -49,14 +49,17 @@ const EventsPage: FC = () => {
         renderItem={({ item }) => {
           const event = item as IUserEvent
           return (
-            <>
-              <Text>{event.name}</Text>
-              {/* <SC.RegisterButton
-                title={event.registered ? "Unregister" : "Register"}
-                color="medium"
-                onPress={handleSelect(event.name)}
-              /> */}
-            </>
+            <SC.EventWrapper>
+              <SC.Image source="../../assets/default.png" />
+              <SC.DetailsWrapper>
+                <Text>{event.name}</Text>
+                <SC.RegisterButton
+                  title={event.registered ? "Unregister" : "Register"}
+                  color="medium"
+                  onPress={handleSelect(event.name)}
+                />
+              </SC.DetailsWrapper>
+            </SC.EventWrapper>
           )
         }}
       />
