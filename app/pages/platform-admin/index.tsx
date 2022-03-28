@@ -9,6 +9,7 @@ import colors from "../../config/colors"
 import Calendar from "../../components/Calendar"
 import EventCard from "../../components/EventCard"
 import Form from "../../components/Form"
+import Text from "../../components/Text"
 import TimeField from "../../components/TimeField"
 
 const initialCalendar = {
@@ -18,12 +19,10 @@ const initialCalendar = {
 }
 
 const initialValues = {
-  name: ""
+  name: "Name"
   // startTime: "",
   // endTime: ""
 }
-
-const noEvents = [{ name: "No events on this day" }]
 
 interface IEventFormValues {
   name: string
@@ -48,17 +47,19 @@ const PlatformAdminPage: FC = () => {
     const newDays = [...calendar.days]
 
     if (editedEvent) {
+      const updatedEvent = { ...newEvent, _id: editedEvent._id }
+
       for (const day of newDays) {
         const index = day.events.findIndex(
           (event: IEvent) => event._id === editedEvent._id
         )
 
         if (index >= 0) {
-          day.events[index] = newEvent
+          day.events[index] = updatedEvent
         }
       }
 
-      eventsApi.editEvent(newEvent)
+      eventsApi.editEvent(updatedEvent)
       setEditedEvent(null)
     } else {
       const index = newDays.findIndex(
@@ -80,11 +81,23 @@ const PlatformAdminPage: FC = () => {
     }
   }
 
-  const eventToValues = (event: IEvent) => ({
-    ...event,
-    startTime: event.startTime?.hour,
-    endTime: event.endTime?.hour
-  })
+  const eventToValues = (event: IEvent) => {
+    const e = {
+      ...event,
+      startTime: "00:00",
+      endTime: "00:00"
+    }
+    console.log(e)
+    return e
+  }
+
+  const resetCalendar = (day: IDay) => {
+    const sameDay = selectedDay?.date === day.date
+
+    setSelectedDay(sameDay ? null : day)
+    setAddingEvent(false)
+    setEditedEvent(null)
+  }
 
   useEffect(() => {
     fetchCalendar()
@@ -100,34 +113,38 @@ const PlatformAdminPage: FC = () => {
       <Calendar
         {...calendar}
         selectedDay={selectedDay}
-        setSelectedDay={setSelectedDay}
+        onSelect={resetCalendar}
       />
       <SC.Column>
-        {selectedDay && !addingEvent && (
+        {selectedDay && !addingEvent && !editedEvent && (
           <SC.EventsWrapper>
-            <SC.EventsList
-              data={selectedDay.events.length ? selectedDay.events : noEvents}
-              keyExtractor={(_, i) => `#${i}`}
-              renderItem={({ item }) => {
-                const event = item as IEvent
-                return (
-                  <EventCard event={event} setEditedEvent={setEditedEvent} />
-                )
-              }}
-            />
+            {selectedDay.events.length ? (
+              <SC.EventsList
+                data={selectedDay.events}
+                keyExtractor={(_, i) => `#${i}`}
+                renderItem={({ item }) => {
+                  const event = item as IEvent
+                  return (
+                    <EventCard event={event} setEditedEvent={setEditedEvent} />
+                  )
+                }}
+              />
+            ) : (
+              <Text>No events on this day</Text>
+            )}
             <SC.PlusButton color="medium" onPress={handleAdd}>
               <SC.Plus name="plus" size={24} color={colors.white} />
             </SC.PlusButton>
           </SC.EventsWrapper>
         )}
-        {addingEvent && (
+        {addingEvent && selectedDay && (
           <Form
             initialValues={initialValues}
             validationSchema={validationSchema}
             onSubmit={handleSubmit}
           >
             <SC.FieldsWrapper>
-              <SC.NameField name="eventName" placeholder="Event Name" />
+              <SC.NameField name="name" placeholder="Event Name" />
               <View>
                 <TimeField name="Start Time" placeholder="00:00" />
                 <TimeField name="End Time" placeholder="00:00" />
@@ -138,12 +155,12 @@ const PlatformAdminPage: FC = () => {
         )}
         {editedEvent && (
           <Form
-            initialValues={initialValues}
+            initialValues={eventToValues(editedEvent)}
             validationSchema={validationSchema}
             onSubmit={handleSubmit}
           >
             <SC.FieldsWrapper>
-              <SC.NameField name="eventName" placeholder="Event Name" />
+              <SC.NameField name="name" placeholder="Event Name" />
               <View>
                 <TimeField name="Start Time" placeholder="00:00" />
                 <TimeField name="End Time" placeholder="00:00" />

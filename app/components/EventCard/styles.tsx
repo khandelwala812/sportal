@@ -1,4 +1,5 @@
 import styled from "styled-components/native"
+import { MaterialCommunityIcons } from "@expo/vector-icons"
 import Button from "../Button"
 import Text from "../Text"
 

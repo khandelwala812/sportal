@@ -2,6 +2,14 @@ import styled from "rn-css"
 import { css } from "styled-components/native"
 import Text from "../Text"
 
+import colors from "../../config/colors"
+
+export const LargeDayWrapper = styled.View`
+  width: 10rem;
+  height: 10rem;
+  border: 1px solid ${colors.light};
+`
+
 export const DayWrapper = styled.View`
   height: 50px;
   width: 50px;

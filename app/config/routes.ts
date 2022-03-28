@@ -9,6 +9,7 @@ export default Object.freeze({
   VALIDATE_CODE: "validate-code",
   HOME: "home",
   CLUB: "club",
+  EVENTS: "events",
   FORGOT_PASSWORD: "forgot-password",
   RESET_PASSWORD: "reset-password",
   PLATFORM_ADMIN_OR_USER: "platform-admin-or-user",

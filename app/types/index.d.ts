@@ -1,7 +1,7 @@
 import { FormikHelpers } from "formik"
 
 interface MongoDocument {
-  _id?: string
+  _id: string
 }
 
 interface ITeam {
@@ -33,7 +33,7 @@ interface IClub extends MongoDocument {
   }
 }
 
-interface IUser {
+interface IUser extends MongoDocument {
   email: string
   isPlatformAdmin: boolean
 }
@@ -58,6 +58,10 @@ interface IEvent extends MongoDocument {
   name: string
   startTime?: ITime
   endTime?: ITime
+}
+
+interface IUserEvent extends IEvent {
+  registered: boolean
 }
 
 interface ITime {

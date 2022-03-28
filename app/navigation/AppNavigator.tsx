@@ -15,6 +15,7 @@ import RegisterPage from "../pages/register"
 import ResetPasswordPage from "../pages/reset-password"
 import ValidateCodePage from "../pages/validate-code"
 import PlatformAdminPage from "../pages/platform-admin"
+import EventsPage from "../pages/events"
 
 const headerOptions = {
   header: (props: any) => <Header {...props} />
@@ -81,6 +82,11 @@ const AppNavigator = () => {
           name={routes.CLUB}
           component={ClubPage}
           options={headerOptions}
+        />
+        <Stack.Screen
+          name={routes.EVENTS}
+          component={EventsPage}
+          options={noHeaderOptions}
         />
       </Stack.Navigator>
     </NavigationContainer>

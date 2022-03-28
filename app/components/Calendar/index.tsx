@@ -2,28 +2,27 @@ import React, { FC } from "react"
 import { FlatList } from "react-native"
 
 import * as SC from "./styles"
-import { ICalendar, IDay, IDayOfWeek } from "../../types"
+import { ICalendar, IDay, IDayOfWeek, IEvent } from "../../types"
 import colors from "../../config/colors"
 import daysOfWeek from "../../config/daysOfWeek"
 import Day from "../Day"
 
 interface ICalendarProps extends ICalendar {
   selectedDay: IDay | null
-  setSelectedDay: (date: IDay | null) => void
+  onSelect: (newDay: IDay) => void
 }
+
+// generalize
+// dayComponent?: React.ReactNode (user)
+// sideBar?: React.ReactNode (admin)
 
 const Calendar: FC<ICalendarProps> = ({
   days,
   month,
   year,
   selectedDay,
-  setSelectedDay
+  onSelect
 }) => {
-  const handleSelect = (day: IDay) => () => {
-    const sameDay = selectedDay?.date === day.date
-    setSelectedDay(sameDay ? null : day)
-  }
-
   return (
     <SC.CalendarWrapper selectedDay={selectedDay}>
       <FlatList
@@ -57,7 +56,7 @@ const Calendar: FC<ICalendarProps> = ({
             <Day
               day={day}
               selected={day.date === selectedDay?.date}
-              onSelect={handleSelect(day)}
+              onSelect={() => onSelect(day)}
             />
           )
         }}

@@ -18,7 +18,7 @@ export const Column = styled.View`
 
 export const EventsWrapper = styled.View`
   width: 50%;
-  align-items: flex-start;
+  align-items: center;
   padding-left: 16px;
   /* justify-content: center; */
 `
@@ -31,6 +31,7 @@ export const PlusButton = styled(Button)`
   width: 30px;
   height: 30px;
   align-self: center;
+  margin: 4px;
   border-radius: 50%;
 `
 
@@ -38,6 +39,7 @@ export const Plus = styled(MaterialCommunityIcons)``
 
 export const FieldsWrapper = styled.View`
   align-items: flex-start;
+  padding-left: 16px;
   gap: 4px;
 `
 
