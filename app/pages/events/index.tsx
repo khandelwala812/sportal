@@ -23,10 +23,10 @@ const EventsPage: FC = () => {
     }
   }
 
-  const handleSelect = (eventName: string) => () => {
+  const handleSelect = async (selectedEvent: IUserEvent) => () => {
     setEvents(
       events.map((event: IUserEvent) => {
-        if (event.name === eventName)
+        if (event.name === selectedEvent.name)
           return {
             ...event,
             registered: !event.registered
@@ -35,6 +35,10 @@ const EventsPage: FC = () => {
         return event
       })
     )
+    
+    if (user?._id) {
+      await usersApi.registerForEvent(user._id, selectedEvent._id)
+    }
   }
 
   useEffect(() => {
@@ -56,7 +60,7 @@ const EventsPage: FC = () => {
                 <SC.RegisterButton
                   title={event.registered ? "Unregister" : "Register"}
                   color="medium"
-                  onPress={handleSelect(event.name)}
+                  onPress={handleSelect(event)}
                 />
               </SC.DetailsWrapper>
             </SC.EventWrapper>
