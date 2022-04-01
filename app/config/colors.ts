@@ -9,6 +9,7 @@ export default {
   black: "#000",
   dark: "#0c0c0c",
   light: "#c4c4c4",
+  red: "#941e1e",
   translucent: "rgba(196, 196, 196, 0.5)",
   error: "#c44933",
   medium: "#635d5d",

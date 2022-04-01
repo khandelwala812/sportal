@@ -3,5 +3,7 @@ interface IModals {
 }
 
 export default Object.freeze({
-  SEARCH: "search"
+  REGISTER_EVENT: "register-event",
+  SEARCH: "search",
+  UNREGISTER_EVENT: "unregister-event"
 }) as IModals

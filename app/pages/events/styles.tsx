@@ -1,19 +1,133 @@
-import styled from "styled-components"
+import styled from "styled-components/native"
+import { Entypo } from "@expo/vector-icons"
 import Button from "../../components/Button"
+import Container from "../../components/Container"
+import CloseButton from "../../components/CloseButton"
+import PageLayout from "../../layouts/PageLayout"
+import Text from "../../components/Text"
+import TextInput from "../../components/TextInput"
+
+import colors from "../../config/colors"
+
+export const Title = styled(Text)`
+  align-self: flex-start;
+  color: ${colors.white};
+  font-size: 30px;
+  font-weight: 400;
+`
+
+export const EventsPageLayout = styled(PageLayout)`
+  justify-content: center;
+  align-items: center;
+  padding-top: 100px;
+`
 
 export const EventWrapper = styled.View`
-  height: 50px;
+  background: ${colors.foreground};
+  width: 500px;
+  height: 220px;
   justify-content: center;
+  align-items: center;
+  margin: 4px;
+  border-radius: 10px;
+`
+
+export const ContentWrapper = styled.View`
+  flex: 1;
+  flex-direction: row;
+  padding: 8px;
 `
 
 export const Image = styled.Image`
-  width: 20%;
+  width: 225px;
+  height: 112px;
+  border-radius: 5px;
 `
 
 export const DetailsWrapper = styled.View`
-  flex: 1;
+  align-items: flex-start;
+`
+
+export const EventTitle = styled(Text)`
+  color: ${colors.white};
+  font-size: 24px;
+  margin-top: 4px;
+`
+
+export const Column = styled.View`
+  width: 50%;
+  height: 100%;
+  gap: 4px;
+`
+
+export const LocationWrapper = styled.View`
+  width: 120px;
+  flex-direction: row;
+  align-items: center;
+`
+
+export const Marker = styled(Entypo)`
+  margin: 0;
+`
+
+export const Location = styled(Text)`
+  color: ${colors.white};
+  font-size: 14px;
+`
+
+export const Subtitle = styled(Text)`
+  color: ${colors.white};
+  font-size: 14px;
+  line-height: 15px;
+`
+
+export const Time = styled(Subtitle)`
+  color: ${colors.light};
 `
 
 export const RegisterButton = styled(Button)`
-  width: 30%;
+  width: 100px;
+  height: 30px;
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  margin: 2px;
+`
+
+export const RegisterWrapper = styled(Container)`
+  width: 500px;
+  align-items: center;
+  align-self: center;
+  gap: 4px;
+  padding-top: 16px;
+  border-radius: 8px;
+`
+
+export const Cross = styled(CloseButton)`
+  position: absolute;
+  top: 2px;
+  right: 2px;
+`
+
+export const Comments = styled(TextInput)`
+  background: ${colors.light};
+  width: 470px;
+  height: 100px;
+  align-items: flex-start;
+  border-radius: 4px;
+`
+
+export const ConfirmButton = styled(Button)`
+  width: 100px;
+  height: 30px;
+  align-self: flex-end;
+  margin: 4px;
+`
+
+export const UnregisterWrapper = styled(RegisterWrapper)`
+  width: 300px;
+`
+
+export const UnregisterText = styled(Text)`
+  color: ${colors.white};
 `

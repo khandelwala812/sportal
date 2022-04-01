@@ -2,15 +2,16 @@ import React, { FC, useEffect, useState } from "react"
 import { FlatList } from "react-native"
 
 import * as SC from "./styles"
-import { IUserEvent } from "../../types"
+import { IEvent, IUserEvent } from "../../types"
 import useAuth from "../../hooks/useAuth"
+import useModal from "../../hooks/useModal"
 import usersApi from "../../api/users"
-import PageLayout from "../../layouts/PageLayout"
-import Text from "../../components/Text"
-import Button from "../../components/Button"
+import modals from "../../config/modals"
+import ModalLayout from "../../layouts/ModalLayout"
 
 const EventsPage: FC = () => {
   const { user } = useAuth()
+  const { toggleModal } = useModal()
   const [events, setEvents] = useState<IUserEvent[]>([])
 
   const fetchEvents = async () => {
@@ -23,10 +24,10 @@ const EventsPage: FC = () => {
     }
   }
 
-  const handleSelect = async (selectedEvent: IUserEvent) => () => {
+  const updateEvent = (selectedEvent: IUserEvent) => {
     setEvents(
       events.map((event: IUserEvent) => {
-        if (event.name === selectedEvent.name)
+        if (event._id === selectedEvent._id)
           return {
             ...event,
             registered: !event.registered
@@ -35,9 +36,32 @@ const EventsPage: FC = () => {
         return event
       })
     )
-    
+  }
+
+  const handleSelect = (selectedEvent: IUserEvent) => async () => {
+    if (!selectedEvent.registered) {
+      toggleModal(modals.REGISTER_EVENT)
+      return
+    }
+
+    toggleModal(modals.UNREGISTER_EVENT)
+  }
+
+  const handleRegister = (selectedEvent: IUserEvent) => async () => {
+    updateEvent(selectedEvent)
+    toggleModal(modals.REGISTER_EVENT)
+
     if (user?._id) {
-      await usersApi.registerForEvent(user._id, selectedEvent._id)
+      await usersApi.registerEvent(user._id, selectedEvent._id)
+    }
+  }
+
+  const handleUnregister = (selectedEvent: IUserEvent) => async () => {
+    updateEvent(selectedEvent)
+    toggleModal(modals.UNREGISTER_EVENT)
+
+    if (user?._id) {
+      await usersApi.unregisterEvent(user._id, selectedEvent._id)
     }
   }
 
@@ -46,28 +70,74 @@ const EventsPage: FC = () => {
   }, [user])
 
   return (
-    <PageLayout title="Events">
+    <SC.EventsPageLayout title="Events" color="background">
       <FlatList
         data={events}
         keyExtractor={(_, i) => `#${i}`}
+        ListHeaderComponent={<SC.Title>Events</SC.Title>}
         renderItem={({ item }) => {
           const event = item as IUserEvent
           return (
             <SC.EventWrapper>
-              <SC.Image source="../../assets/default.png" />
-              <SC.DetailsWrapper>
-                <Text>{event.name}</Text>
-                <SC.RegisterButton
-                  title={event.registered ? "Unregister" : "Register"}
-                  color="medium"
-                  onPress={handleSelect(event)}
-                />
-              </SC.DetailsWrapper>
+              <SC.EventTitle>{event.name}</SC.EventTitle>
+              <SC.ContentWrapper>
+                <SC.Column>
+                  <SC.Image source={require("../../assets/event.jpg")} />
+                  <SC.DetailsWrapper>
+                    <SC.LocationWrapper>
+                      <SC.Marker name="location-pin" size={20} color="white" />
+                      <SC.Location>Chavez Ravine</SC.Location>
+                    </SC.LocationWrapper>
+                    <SC.Time>April 26, 2022</SC.Time>
+                    <SC.Time>4 - 8 PM</SC.Time>
+                  </SC.DetailsWrapper>
+                </SC.Column>
+                <SC.Column>
+                  <SC.Subtitle>
+                    Join the Dodgers at Chavez Ravine for a chance to make the
+                    team while enjoying the fruits of America’s past time!
+                  </SC.Subtitle>
+                </SC.Column>
+              </SC.ContentWrapper>
+              <SC.RegisterButton
+                title={event.registered ? "Unregister" : "Register"}
+                color="translucent"
+                onPress={handleSelect(event)}
+              />
+              <ModalLayout name={modals.REGISTER_EVENT}>
+                <SC.RegisterWrapper color="foreground">
+                  <SC.EventTitle>One more thing</SC.EventTitle>
+                  <SC.Cross color="white" onPress={handleSelect(event)} />
+                  <SC.Comments
+                    multiline
+                    placeholder="Need accomodations? Let us know here!"
+                  />
+                  <SC.ConfirmButton
+                    title="Confirm"
+                    color="link"
+                    onPress={handleRegister(event)}
+                  />
+                </SC.RegisterWrapper>
+              </ModalLayout>
+              <ModalLayout name={modals.UNREGISTER_EVENT}>
+                <SC.UnregisterWrapper color="foreground">
+                  <SC.EventTitle>Are you sure?</SC.EventTitle>
+                  <SC.Cross color="white" onPress={handleSelect(event)} />
+                  <SC.UnregisterText>
+                    You will lose your spot on the guest list.
+                  </SC.UnregisterText>
+                  <SC.ConfirmButton
+                    title="Confirm"
+                    color="red"
+                    onPress={handleUnregister(event)}
+                  />
+                </SC.UnregisterWrapper>
+              </ModalLayout>
             </SC.EventWrapper>
           )
         }}
       />
-    </PageLayout>
+    </SC.EventsPageLayout>
   )
 }
 

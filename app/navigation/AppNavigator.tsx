@@ -86,7 +86,7 @@ const AppNavigator = () => {
         <Stack.Screen
           name={routes.EVENTS}
           component={EventsPage}
-          options={noHeaderOptions}
+          options={headerOptions}
         />
       </Stack.Navigator>
     </NavigationContainer>

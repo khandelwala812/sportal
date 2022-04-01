@@ -1,6 +1,7 @@
 import React, { FC, useEffect, useState } from "react"
 import { View } from "react-native"
 import * as Yup from "yup"
+import { v4 as uuid } from "uuid"
 
 import * as SC from "./styles"
 import { ICalendar, IDay, IDayOfWeek, IEvent } from "../../types"
@@ -65,7 +66,7 @@ const PlatformAdminPage: FC = () => {
       const index = newDays.findIndex(
         (day: IDay) => day.date === selectedDay?.date
       )
-      newDays[index].events.push(newEvent)
+      newDays[index].events.push({ _id: uuid(), ...newEvent })
       eventsApi.addEvent(newEvent)
     }
 
