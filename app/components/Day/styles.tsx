@@ -20,7 +20,7 @@ export const DayWrapper = styled.View`
 
 const hoverDateCSS = css`
   &:hover {
-    border: 1px solid black;
+    border: 1px solid white;
   }
 `
 
@@ -33,7 +33,7 @@ export const DateWrapper = styled.TouchableOpacity`
   border-radius: 50%;
   padding: 5px;
   box-shadow: ${props =>
-    props.selected && "0px 4px 4px 3px rgba(0, 0, 0, 0.5)"};
+    props.selected && "0px 4px 4px 3px rgba(255, 255, 255, 0.5)"};
 
   ${props => !props.filler && hoverDateCSS}
 `

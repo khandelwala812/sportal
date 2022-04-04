@@ -34,11 +34,11 @@ const Calendar: FC<ICalendarProps> = ({
         keyExtractor={(_, i) => `#${i}`}
         ListHeaderComponent={
           <SC.MonthWrapper>
-            <SC.Chevron name="chevron-left" size={30} color={colors.black} />
+            <SC.Chevron name="chevron-left" size={30} color={colors.white} />
             <SC.Month>
               {month} {year}
             </SC.Month>
-            <SC.Chevron name="chevron-right" size={30} color={colors.black} />
+            <SC.Chevron name="chevron-right" size={30} color={colors.white} />
           </SC.MonthWrapper>
         }
         renderItem={({ item }) => {

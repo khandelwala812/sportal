@@ -4,6 +4,9 @@ import BasePageLayout from "../../layouts/PageLayout"
 import Button from "../../components/Button"
 import FormField from "../../components/FormField"
 import SubmitButton from "../../components/SubmitButton"
+import Text from "../../components/Text"
+
+import colors from "../../config/colors"
 
 export const PageLayout = styled(BasePageLayout)`
   flex: 1;
@@ -49,6 +52,7 @@ export const AddEventButton = styled(SubmitButton)`
 
 export const NameField = styled(FormField)`
   background-color: none;
+  color: ${colors.white};
   width: 200px;
   height: 30px;
   justify-content: flex-end;
@@ -72,4 +76,8 @@ export const TimeFieldWrapper = styled.View`
 
 export const SaveButton = styled(SubmitButton)`
   margin: 0;
+`
+
+export const NoEventsText = styled(Text)`
+  color: ${colors.white};
 `

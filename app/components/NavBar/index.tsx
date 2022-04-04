@@ -26,6 +26,7 @@ const NavBar: FC = () => {
   const signOut = () => {
     setUser(null)
     setFloatVisible(false)
+    navigation.navigate(routes.OPENING)
   }
 
   return (

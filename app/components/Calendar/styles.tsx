@@ -10,7 +10,7 @@ import colors from "../../config/colors"
 export const CalendarWrapper = styled.View`
   border-right-width: 1px;
   border-right-color: ${({ selectedDay }) =>
-    selectedDay ? colors.black : colors.white};
+    selectedDay ? colors.white : colors.background};
 `
 
 export const MonthWrapper = styled.View`
@@ -21,6 +21,7 @@ export const MonthWrapper = styled.View`
 `
 
 export const Month = styled(Text)`
+  color: ${colors.white};
   font-size: 24px;
 `
 
@@ -35,6 +36,7 @@ export const DayOfWeekWrapper = styled.View`
 `
 
 export const DayOfWeek = styled(Text)`
+  color: ${colors.white};
   font-weight: 400;
   font-size: 16px;
   line-height: 19px;

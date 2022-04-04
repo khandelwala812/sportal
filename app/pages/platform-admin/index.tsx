@@ -1,7 +1,6 @@
 import React, { FC, useEffect, useState } from "react"
 import { View } from "react-native"
 import * as Yup from "yup"
-import { v4 as uuid } from "uuid"
 
 import * as SC from "./styles"
 import { ICalendar, IDay, IDayOfWeek, IEvent } from "../../types"
@@ -10,7 +9,6 @@ import colors from "../../config/colors"
 import Calendar from "../../components/Calendar"
 import EventCard from "../../components/EventCard"
 import Form from "../../components/Form"
-import Text from "../../components/Text"
 import TimeField from "../../components/TimeField"
 
 const initialCalendar = {
@@ -44,7 +42,7 @@ const PlatformAdminPage: FC = () => {
     setAddingEvent(true)
   }
 
-  const handleSubmit = (newEvent: IEventFormValues) => {
+  const handleSubmit = async (newEvent: IEventFormValues) => {
     const newDays = [...calendar.days]
 
     if (editedEvent) {
@@ -60,14 +58,22 @@ const PlatformAdminPage: FC = () => {
         }
       }
 
-      eventsApi.editEvent(updatedEvent)
+      await eventsApi.editEvent(updatedEvent)
       setEditedEvent(null)
     } else {
       const index = newDays.findIndex(
         (day: IDay) => day.date === selectedDay?.date
       )
-      newDays[index].events.push({ _id: uuid(), ...newEvent })
-      eventsApi.addEvent(newEvent)
+      const response = await eventsApi.addEvent({
+        ...newEvent,
+        day: selectedDay?.date,
+        month: calendar.month,
+        year: calendar.year
+      })
+
+      if (response.ok && response?.data) {
+        newDays[index].events.push(response.data)
+      }
     }
 
     setCalendar((c: ICalendar) => ({ ...c, days: newDays }))
@@ -109,7 +115,7 @@ const PlatformAdminPage: FC = () => {
   }
 
   return (
-    <SC.PageLayout title="Platform Admin" color="white">
+    <SC.PageLayout title="Platform Admin" color="background">
       <SC.Column></SC.Column>
       <Calendar
         {...calendar}
@@ -131,7 +137,7 @@ const PlatformAdminPage: FC = () => {
                 }}
               />
             ) : (
-              <Text>No events on this day</Text>
+              <SC.NoEventsText>No events on this day</SC.NoEventsText>
             )}
             <SC.PlusButton color="medium" onPress={handleAdd}>
               <SC.Plus name="plus" size={24} color={colors.white} />

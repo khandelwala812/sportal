@@ -16,6 +16,8 @@ const TextInput: FC<ITextInputProps> = ({
   left,
   ...props
 }) => {
+  console.log(style)
+
   return (
     <SC.Wrapper>
       {title && <SC.Title>{title}</SC.Title>}

@@ -8,6 +8,7 @@ import colors from "../../config/colors"
 export const CardWrapper = styled.View``
 
 export const Title = styled(Text)`
+  color: ${colors.white};
   font-size: 24px;
   font-weight: 400;
 `

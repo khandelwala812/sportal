@@ -8,7 +8,7 @@ const getCalendar = () => {
 }
 
 const addEvent = (event: any) => {
-  return client.post(`${route}/add-event`, {
+  return client.post<IEvent>(`${route}/add-event`, {
     data: event
   })
 }

@@ -1,8 +1,9 @@
 import React, { FC, useEffect, useState } from "react"
 import { FlatList } from "react-native"
+import Toast from "react-native-toast-message"
 
 import * as SC from "./styles"
-import { IEvent, IUserEvent } from "../../types"
+import { IUserEvent } from "../../types"
 import useAuth from "../../hooks/useAuth"
 import useModal from "../../hooks/useModal"
 import usersApi from "../../api/users"
@@ -50,6 +51,10 @@ const EventsPage: FC = () => {
   const handleRegister = (selectedEvent: IUserEvent) => async () => {
     updateEvent(selectedEvent)
     toggleModal(modals.REGISTER_EVENT)
+    Toast.show({
+      type: "success",
+      text1: "Registered!"
+    })
 
     if (user?._id) {
       await usersApi.registerEvent(user._id, selectedEvent._id)
@@ -59,6 +64,10 @@ const EventsPage: FC = () => {
   const handleUnregister = (selectedEvent: IUserEvent) => async () => {
     updateEvent(selectedEvent)
     toggleModal(modals.UNREGISTER_EVENT)
+    Toast.show({
+      type: "success",
+      text1: "Unregistered!"
+    })
 
     if (user?._id) {
       await usersApi.unregisterEvent(user._id, selectedEvent._id)
