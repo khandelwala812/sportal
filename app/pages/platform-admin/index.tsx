@@ -212,6 +212,7 @@ const PlatformAdminPage: FC = () => {
               <SC.SaveButton title="Save" color="medium" />
             </SC.FieldsWrapper>
           </Form>
+          // TODO: flatlists for registered and waitlisted users
         )}
       </SC.Column>
     </SC.PageLayout>
