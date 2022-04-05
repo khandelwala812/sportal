@@ -8,6 +8,7 @@ import useAuth from "../../hooks/useAuth"
 import useModal from "../../hooks/useModal"
 import usersApi from "../../api/users"
 import modals from "../../config/modals"
+import { formatDate } from "../../utils"
 import ModalLayout from "../../layouts/ModalLayout"
 
 const EventsPage: FC = () => {
@@ -97,7 +98,7 @@ const EventsPage: FC = () => {
                       <SC.Marker name="location-pin" size={20} color="white" />
                       <SC.Location>{event.online ? "Online" : event.location}</SC.Location>
                     </SC.LocationWrapper>
-                    <SC.Time>{event.date}</SC.Time>
+                    <SC.Time>{formatDate(event.date)}</SC.Time>
                     <SC.Time>{event.startTime}-{event.endTime} pm</SC.Time>
                   </SC.DetailsWrapper>
                 </SC.Column>
