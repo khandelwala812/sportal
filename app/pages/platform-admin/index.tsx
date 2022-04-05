@@ -18,24 +18,34 @@ const initialCalendar = {
 }
 
 const initialValues = {
-  name: "Name"
-  // startTime: "",
-  // endTime: ""
+  name: "",
+  location: "",
+  startTime: "",
+  endTime: "",
+  description: ""
 }
 
 interface IEventFormValues {
   name: string
+  location: string
+  startTime: string
+  endTime: string
+  description: string
 }
 
+// TODO: validate times
 const PlatformAdminPage: FC = () => {
   const [calendar, setCalendar] = useState<ICalendar>(initialCalendar)
   const [selectedDay, setSelectedDay] = useState<IDay | IDayOfWeek | null>(null)
   const [addingEvent, setAddingEvent] = useState(false)
   const [editedEvent, setEditedEvent] = useState<IEvent | null>(null)
   const validationSchema = Yup.object().shape({
-    name: Yup.string().required().label("Event Name")
-    // startTime: Yup.date().required().label("Start Time"),
-    // endTime: Yup.date().required().label("End Time")
+    name: Yup.string().required("Enter a name").label("Event Name"),
+    location: Yup.string().required("Enter a location").label("Location"),
+    online: Yup.boolean(),
+    startTime: Yup.string().required("Enter a time").label("Start Time"),
+    endTime: Yup.string().required("Enter a time").label("End Time"),
+    description: Yup.string().label("Description")
   })
 
   const handleAdd = () => {
@@ -152,11 +162,30 @@ const PlatformAdminPage: FC = () => {
           >
             <SC.FieldsWrapper>
               <SC.NameField name="name" placeholder="Event Name" />
+              <SC.LocationField
+                name="location"
+                placeholder="Location"
+                inputStyle={{ paddingBottom: 4 }}
+              />
               <View>
-                <TimeField name="Start Time" placeholder="00:00" />
-                <TimeField name="End Time" placeholder="00:00" />
+                <TimeField
+                  name="startTime"
+                  title="Start Time"
+                  placeholder="00:00"
+                />
+                <TimeField
+                  name="endTime"
+                  title="End Time"
+                  placeholder="00:00"
+                />
               </View>
-              <SC.AddEventButton title="Add Event" color="medium" />
+              <SC.Description
+                name="description"
+                title="Description"
+                titleStyle={{ color: colors.white }}
+                multiline
+              />
+              <SC.AddEventButton title="Add Event" color="link" />
             </SC.FieldsWrapper>
           </Form>
         )}
@@ -169,8 +198,16 @@ const PlatformAdminPage: FC = () => {
             <SC.FieldsWrapper>
               <SC.NameField name="name" placeholder="Event Name" />
               <View>
-                <TimeField name="Start Time" placeholder="00:00" />
-                <TimeField name="End Time" placeholder="00:00" />
+                <TimeField
+                  name="startTime"
+                  title="Start Time"
+                  placeholder="00:00"
+                />
+                <TimeField
+                  name="endTime"
+                  title="End Time"
+                  placeholder="00:00"
+                />
               </View>
               <SC.SaveButton title="Save" color="medium" />
             </SC.FieldsWrapper>

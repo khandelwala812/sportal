@@ -16,7 +16,7 @@ const Button: FC<IButtonProps> = ({
   onPress,
   color = "black",
   style,
-  // textStyle,
+  textStyle,
   children,
   ...props
 }) => (
@@ -25,7 +25,7 @@ const Button: FC<IButtonProps> = ({
     onPress={onPress}
     {...props}
   >
-    {title && <SC.ButtonText>{title}</SC.ButtonText>}
+    {title && <SC.ButtonText style={textStyle}>{title}</SC.ButtonText>}
     {children}
   </SC.ButtonContainer>
 )

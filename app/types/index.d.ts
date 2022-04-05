@@ -56,8 +56,12 @@ interface IDayOfWeek extends IDay {
 
 interface IEvent extends MongoDocument {
   name: string
-  startTime?: ITime
-  endTime?: ITime
+  location: string
+  // startTime?: ITime
+  // endTime?: ITime
+  startTime?: string
+  endTime?: string
+  description?: string
 }
 
 interface IUserEvent extends IEvent {
