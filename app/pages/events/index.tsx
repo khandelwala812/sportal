@@ -95,7 +95,7 @@ const EventsPage: FC = () => {
                   <SC.DetailsWrapper>
                     <SC.LocationWrapper>
                       <SC.Marker name="location-pin" size={20} color="white" />
-                      <SC.Location>{event.location}</SC.Location>
+                      <SC.Location>{event.online ? "Online" : event.location}</SC.Location>
                     </SC.LocationWrapper>
                     <SC.Time>{event.date}</SC.Time>
                     <SC.Time>{event.startTime}-{event.endTime} pm</SC.Time>
