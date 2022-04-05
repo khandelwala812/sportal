@@ -95,17 +95,14 @@ const EventsPage: FC = () => {
                   <SC.DetailsWrapper>
                     <SC.LocationWrapper>
                       <SC.Marker name="location-pin" size={20} color="white" />
-                      <SC.Location>Chavez Ravine</SC.Location>
+                      <SC.Location>{event.location}</SC.Location>
                     </SC.LocationWrapper>
-                    <SC.Time>April 26, 2022</SC.Time>
-                    <SC.Time>4 - 8 PM</SC.Time>
+                    <SC.Time>{event.date}</SC.Time>
+                    <SC.Time>{event.startTime}-{event.endTime} pm</SC.Time>
                   </SC.DetailsWrapper>
                 </SC.Column>
                 <SC.Column>
-                  <SC.Subtitle>
-                    Join the Dodgers at Chavez Ravine for a chance to make the
-                    team while enjoying the fruits of America’s past time!
-                  </SC.Subtitle>
+                  <SC.Subtitle>{event.description}</SC.Subtitle>
                 </SC.Column>
               </SC.ContentWrapper>
               <SC.RegisterButton
