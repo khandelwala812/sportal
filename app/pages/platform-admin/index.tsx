@@ -10,6 +10,7 @@ import Calendar from "../../components/Calendar"
 import EventCard from "../../components/EventCard"
 import Form from "../../components/Form"
 import TimeField from "../../components/TimeField"
+import CheckBox from "../../components/CheckBox"
 
 const initialCalendar = {
   year: 0,
@@ -37,6 +38,7 @@ interface IEventFormValues {
 const PlatformAdminPage: FC = () => {
   const [calendar, setCalendar] = useState<ICalendar>(initialCalendar)
   const [selectedDay, setSelectedDay] = useState<IDay | IDayOfWeek | null>(null)
+  const [isOnline, setIsOnline] = useState(false)
   const [addingEvent, setAddingEvent] = useState(false)
   const [editedEvent, setEditedEvent] = useState<IEvent | null>(null)
   const validationSchema = Yup.object().shape({
@@ -78,7 +80,8 @@ const PlatformAdminPage: FC = () => {
         ...newEvent,
         day: selectedDay?.date,
         month: calendar.month,
-        year: calendar.year
+        year: calendar.year,
+        online: isOnline
       })
 
       if (response.ok && response?.data) {
@@ -114,6 +117,10 @@ const PlatformAdminPage: FC = () => {
     setSelectedDay(sameDay ? null : day)
     setAddingEvent(false)
     setEditedEvent(null)
+  }
+
+  const handleChecked = () => {
+    setIsOnline(online => !online)
   }
 
   useEffect(() => {
@@ -167,6 +174,11 @@ const PlatformAdminPage: FC = () => {
                 placeholder="Location"
                 inputStyle={{ paddingBottom: 4 }}
               />
+              <CheckBox
+                title="Online?"
+                checked={isOnline}
+                onPress={handleChecked}
+              />
               <View>
                 <TimeField
                   name="startTime"
@@ -197,6 +209,16 @@ const PlatformAdminPage: FC = () => {
           >
             <SC.FieldsWrapper>
               <SC.NameField name="name" placeholder="Event Name" />
+              <SC.LocationField
+                name="location"
+                placeholder="Location"
+                inputStyle={{ paddingBottom: 4 }}
+              />
+              <CheckBox
+                title="Online?"
+                checked={isOnline}
+                onPress={handleChecked}
+              />
               <View>
                 <TimeField
                   name="startTime"
@@ -209,6 +231,12 @@ const PlatformAdminPage: FC = () => {
                   placeholder="00:00"
                 />
               </View>
+              <SC.Description
+                name="description"
+                title="Description"
+                titleStyle={{ color: colors.white }}
+                multiline
+              />
               <SC.SaveButton title="Save" color="medium" />
             </SC.FieldsWrapper>
           </Form>
