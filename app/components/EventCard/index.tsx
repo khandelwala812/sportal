@@ -16,7 +16,7 @@ const EventCard: FC<IEventCardProps> = ({ event, setEditedEvent }) => {
 
   //   return `${startTime + startTime.meridiem} - ${endTime + endTime.meridiem}`
   // }
-  const { name } = event
+  const { name, location, description, startTime, endTime } = event
 
   const handleEdit = () => {
     setEditedEvent(event)
@@ -26,6 +26,9 @@ const EventCard: FC<IEventCardProps> = ({ event, setEditedEvent }) => {
     <SC.CardWrapper>
       <SC.Title>{name}</SC.Title>
       {/* {startTime && endTime && <SC.Subtitle>{formatTime()}</SC.Subtitle>} */}
+      <SC.Subtitle>{location}</SC.Subtitle>
+      <SC.Subtitle>{startTime}-{endTime} pm</SC.Subtitle>
+      <SC.Description>{description}</SC.Description>
       <SC.EditButton color="white" onPress={handleEdit}>
         <SC.Pencil name="pencil" size={24} color="black" />
       </SC.EditButton>

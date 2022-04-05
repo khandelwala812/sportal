@@ -18,6 +18,12 @@ export const Subtitle = styled(Text)`
   font-weight: 400;
 `
 
+export const Description = styled(Text)`
+  width: 100px;
+  color: ${colors.white};
+  font-size: 18px;
+`
+
 export const EditButton = styled(Button)`
   position: absolute;
   top: 0;
