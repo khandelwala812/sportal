@@ -47,7 +47,7 @@ const PlatformAdminPage: FC = () => {
     online: Yup.boolean(),
     startTime: Yup.string().required("Enter a time").label("Start Time"),
     endTime: Yup.string().required("Enter a time").label("End Time"),
-    description: Yup.string().label("Description")
+    description: Yup.string().required().label("Description")
   })
 
   const handleAdd = () => {
@@ -202,45 +202,68 @@ const PlatformAdminPage: FC = () => {
           </Form>
         )}
         {editedEvent && (
-          <Form
-            initialValues={eventToValues(editedEvent)}
-            validationSchema={validationSchema}
-            onSubmit={handleSubmit}
-          >
-            <SC.FieldsWrapper>
-              <SC.NameField name="name" placeholder="Event Name" />
-              <SC.LocationField
-                name="location"
-                placeholder="Location"
-                inputStyle={{ paddingBottom: 4 }}
+          <SC.SideBarWrapper>
+            <SC.SideBarColumn>
+              <Form
+                initialValues={initialValues}
+                validationSchema={validationSchema}
+                onSubmit={handleSubmit}
+              >
+                <SC.FieldsWrapper>
+                  <SC.NameField name="name" placeholder="Event Name" />
+                  <SC.LocationField
+                    name="location"
+                    placeholder="Location"
+                    inputStyle={{ paddingBottom: 4 }}
+                  />
+                  <CheckBox
+                    title="Online?"
+                    checked={isOnline}
+                    onPress={handleChecked}
+                  />
+                  <View>
+                    <TimeField
+                      name="startTime"
+                      title="Start Time"
+                      placeholder="00:00"
+                    />
+                    <TimeField
+                      name="endTime"
+                      title="End Time"
+                      placeholder="00:00"
+                    />
+                  </View>
+                  <SC.Description
+                    name="description"
+                    title="Description"
+                    titleStyle={{ color: colors.white }}
+                    multiline
+                  />
+                  <SC.SaveButton title="Save" color="medium" />
+                </SC.FieldsWrapper>
+              </Form>
+            </SC.SideBarColumn>
+            <SC.SideBarColumn>
+              <FlatList
+                data={editedEvent.registeredUsers}
+                ListHeaderComponent={<Text>Registered</Text>}
+                keyExtractor={(_, i) => `#${i}`}
+                renderItem={({ item }) => {
+                  const registeredUser = item as IUser
+                  return null
+                }}
               />
-              <CheckBox
-                title="Online?"
-                value={isOnline}
-                onPress={handleChecked}
+              <FlatList
+                data={editedEvent.waitlistedUsers}
+                ListHeaderComponent={<Text>Waitlist</Text>}
+                keyExtractor={(_, i) => `#${i}`}
+                renderItem={({ item }) => {
+                  const waitlistedUser = item as IUser
+                  return null
+                }}
               />
-              <View>
-                <TimeField
-                  name="startTime"
-                  title="Start Time"
-                  placeholder="00:00"
-                />
-                <TimeField
-                  name="endTime"
-                  title="End Time"
-                  placeholder="00:00"
-                />
-              </View>
-              <SC.Description
-                name="description"
-                title="Description"
-                titleStyle={{ color: colors.white }}
-                multiline
-              />
-              <SC.SaveButton title="Save" color="medium" />
-            </SC.FieldsWrapper>
-          </Form>
-          // TODO: flatlists for registered and waitlisted users
+            </SC.SideBarColumn>
+          </SC.SideBarWrapper>
         )}
       </SC.Column>
     </SC.PageLayout>
