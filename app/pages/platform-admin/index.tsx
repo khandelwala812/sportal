@@ -47,7 +47,7 @@ const PlatformAdminPage: FC = () => {
     online: Yup.boolean(),
     startTime: Yup.string().required("Enter a time").label("Start Time"),
     endTime: Yup.string().required("Enter a time").label("End Time"),
-    description: Yup.string().label("Description")
+    description: Yup.string().required().label("Description")
   })
 
   const handleAdd = () => {
