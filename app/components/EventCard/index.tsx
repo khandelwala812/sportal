@@ -26,11 +26,16 @@ const EventCard: FC<IEventCardProps> = ({ event, setEditedEvent }) => {
     <SC.CardWrapper>
       <SC.Title>{name}</SC.Title>
       {/* {startTime && endTime && <SC.Subtitle>{formatTime()}</SC.Subtitle>} */}
-      <SC.Subtitle>{location}</SC.Subtitle>
-      <SC.Subtitle>{startTime}-{endTime} pm</SC.Subtitle>
+      <SC.LocationWrapper>
+        <SC.Marker name="location-pin" size={20} color="white" />
+        <SC.Location>{location}</SC.Location>
+      </SC.LocationWrapper>
+      <SC.Subtitle>
+        {startTime}-{endTime} PM
+      </SC.Subtitle>
       <SC.Description>{description}</SC.Description>
-      <SC.EditButton color="white" onPress={handleEdit}>
-        <SC.Pencil name="pencil" size={24} color="black" />
+      <SC.EditButton color="background" onPress={handleEdit}>
+        <SC.Pencil name="pencil" size={24} color="white" />
       </SC.EditButton>
     </SC.CardWrapper>
   )

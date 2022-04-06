@@ -1,11 +1,13 @@
 import styled from "styled-components/native"
-import { MaterialCommunityIcons } from "@expo/vector-icons"
+import { Entypo, MaterialCommunityIcons } from "@expo/vector-icons"
 import Button from "../Button"
 import Text from "../Text"
 
 import colors from "../../config/colors"
 
-export const CardWrapper = styled.View``
+export const CardWrapper = styled.View`
+  width: 100%;
+`
 
 export const Title = styled(Text)`
   color: ${colors.white};
@@ -13,15 +15,30 @@ export const Title = styled(Text)`
   font-weight: 400;
 `
 
+export const LocationWrapper = styled.View`
+  flex-direction: row;
+  align-items: center;
+`
+
+export const Marker = styled(Entypo)`
+  margin: 0;
+`
+
+export const Location = styled(Text)`
+  color: ${colors.white};
+  font-size: 16px;
+  font-weight: 400;
+`
+
 export const Subtitle = styled(Text)`
   color: ${colors.medium};
+  font-size: 16px;
   font-weight: 400;
 `
 
 export const Description = styled(Text)`
-  width: 100px;
   color: ${colors.white};
-  font-size: 18px;
+  font-size: 14px;
 `
 
 export const EditButton = styled(Button)`

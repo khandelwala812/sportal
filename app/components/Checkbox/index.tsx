@@ -1,23 +1,18 @@
 import React, { FC } from "react"
-import { TouchableWithoutFeedback } from "react-native"
-import { CheckBox as BaseCheckbox } from "react-native-elements"
+import { TouchableOpacity } from "react-native"
+// import BaseCheckBox from "@react-native-community/checkbox"
 
 interface ICheckBoxProps {
   title: string
-  checked: boolean
+  value: boolean
   onPress: () => void
 }
 
-const CheckBox: FC<ICheckBoxProps> = ({
-  title,
-  checked,
-  onPress,
-  ...props
-}) => {
+const CheckBox: FC<ICheckBoxProps> = ({ title, value, onPress, ...props }) => {
   return (
-    <TouchableWithoutFeedback onPress={onPress}>
-      <BaseCheckbox title={title} checked={checked} {...props} />
-    </TouchableWithoutFeedback>
+    <TouchableOpacity onPress={onPress}>
+      {/* <BaseCheckBox value={value} {...props} /> */}
+    </TouchableOpacity>
   )
 }
 

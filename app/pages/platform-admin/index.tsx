@@ -7,10 +7,10 @@ import { ICalendar, IDay, IDayOfWeek, IEvent } from "../../types"
 import eventsApi from "../../api/events"
 import colors from "../../config/colors"
 import Calendar from "../../components/Calendar"
+import CheckBox from "../../components/CheckBox"
 import EventCard from "../../components/EventCard"
 import Form from "../../components/Form"
 import TimeField from "../../components/TimeField"
-import CheckBox from "../../components/CheckBox"
 
 const initialCalendar = {
   year: 0,
@@ -176,7 +176,7 @@ const PlatformAdminPage: FC = () => {
               />
               <CheckBox
                 title="Online?"
-                checked={isOnline}
+                value={isOnline}
                 onPress={handleChecked}
               />
               <View>
@@ -216,7 +216,7 @@ const PlatformAdminPage: FC = () => {
               />
               <CheckBox
                 title="Online?"
-                checked={isOnline}
+                value={isOnline}
                 onPress={handleChecked}
               />
               <View>
