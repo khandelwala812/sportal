@@ -3,8 +3,8 @@ interface IColors {
 }
 
 export default {
-  background: "#222",
-  foreground: "#333437",
+  background: "#fff", // #222
+  foreground: "#fff", // #333437
   white: "#fff",
   black: "#000",
   dark: "#0c0c0c",

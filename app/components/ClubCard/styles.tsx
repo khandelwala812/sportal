@@ -35,7 +35,6 @@ export const DetailsWrapper = styled.View`
 export const TitleWrapper = styled.View``
 
 export const Title = styled(Text)`
-  color: ${colors.white};
   width: 320px;
   font-size: 26px;
   line-height: 30px;
@@ -43,7 +42,6 @@ export const Title = styled(Text)`
 `
 
 export const Subtitle = styled(Text)`
-  color: ${colors.white};
   line-height: 21px;
 `
 
@@ -57,7 +55,6 @@ export const Stars = styled.Image`
 `
 
 export const RatingsText = styled(Text)`
-  color: ${colors.white};
   font-size: 12px;
 `
 
@@ -70,7 +67,6 @@ export const LocationWrapper = styled.View`
 `
 
 export const LocationText = styled(Text)`
-  color: ${colors.white};
   font-size: 16px;
 `
 

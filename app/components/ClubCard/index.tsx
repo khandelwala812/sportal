@@ -36,7 +36,7 @@ const ClubCard: FC<IClub> = ({
         <SC.LocationWrapper>
           <SC.LocationText>{distanceFrom} mi</SC.LocationText>
           <SC.Location>
-            <SC.Pin name="location-pin" size={24} color="white" />
+            <SC.Pin name="location-pin" size={24} color="black" />
             <SC.LocationText>{location}</SC.LocationText>
           </SC.Location>
         </SC.LocationWrapper>

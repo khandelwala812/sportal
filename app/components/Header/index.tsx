@@ -12,11 +12,13 @@ import useAuth from "../../hooks/useAuth"
 
 interface IHeaderProps {
   opening?: boolean
+  darkTheme?: boolean
 }
 
-const Header: FC<IHeaderProps> = ({ opening }) => {
+const Header: FC<IHeaderProps> = ({ opening, darkTheme }) => {
   const { user } = useAuth()
   const navigation = useNavigation()
+  const linkColor = darkTheme ? "black" : "white"
 
   const navigateToHome = () => {
     navigation.navigate(routes.HOME)
@@ -27,10 +29,17 @@ const Header: FC<IHeaderProps> = ({ opening }) => {
       <SC.HeaderWrapper opening>
         <SC.Logo source={require("../../assets/logo.png")} />
         <SC.ProfileWrapper>
-          <HeaderLink title="Find a Club" to={modals.SEARCH} isModal />
-          {user && <HeaderLink title="Events" to={routes.EVENTS} />}
-          <HeaderLink title="Interviews" />
-          <NavBar />
+          <HeaderLink
+            title="Find a Club"
+            to={modals.SEARCH}
+            color="white"
+            isModal
+          />
+          {user && (
+            <HeaderLink title="Events" to={routes.EVENTS} color="white" />
+          )}
+          <HeaderLink title="Interviews" color="white" />
+          <NavBar darkTheme />
         </SC.ProfileWrapper>
       </SC.HeaderWrapper>
     )

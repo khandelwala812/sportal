@@ -12,13 +12,10 @@ export const TimeFieldWrapper = styled.View`
   gap: 8px;
 `
 
-export const Title = styled(Text)`
-  color: ${colors.white};
-`
+export const Title = styled(Text)``
 
 export const TimeField = styled(FormField)`
   background-color: none;
-  color: white;
   width: 55px;
   height: 25px;
   justify-content: flex-end;
@@ -55,10 +52,10 @@ export const Toggle: FC<IToggleProps> = ({ meridiem, current, setCurrent }) => {
 
   return (
     <MeridiemWrapper
-      style={{ backgroundColor: meridiem === current && colors.medium }}
+      style={{ backgroundColor: meridiem === current && colors.light }}
       onPress={handleToggle}
     >
-      <Text style={{ color: colors.white }}>{meridiem}</Text>
+      <Text>{meridiem}</Text>
     </MeridiemWrapper>
   )
 }

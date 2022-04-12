@@ -2,8 +2,6 @@ import styled from "rn-css"
 import { MaterialCommunityIcons } from "@expo/vector-icons"
 import Text from "../Text"
 
-import colors from "../../config/colors"
-
 export const PlacardWrapper = styled.TouchableOpacity`
   width: 100%;
   display: flex;
@@ -19,7 +17,6 @@ export const PlacardWrapper = styled.TouchableOpacity`
 `
 
 export const Title = styled(Text)`
-  color: ${colors.white};
   font-size: 20px;
 `
 

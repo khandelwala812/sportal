@@ -3,14 +3,16 @@ import { useNavigation } from "@react-navigation/native"
 
 import * as SC from "./styles"
 import useModal from "../../hooks/useModal"
+import colors from "../../config/colors"
 
 interface IHeaderProps {
   title: string
   to?: string
   isModal?: boolean
+  color?: string
 }
 
-const HeaderLink: FC<IHeaderProps> = ({ title, to, isModal }) => {
+const HeaderLink: FC<IHeaderProps> = ({ title, to, isModal, color }) => {
   const { toggleModal } = useModal()
   const navigation = useNavigation()
 
@@ -26,7 +28,7 @@ const HeaderLink: FC<IHeaderProps> = ({ title, to, isModal }) => {
 
   return (
     <SC.LinkWrapper onPress={navigateTo}>
-      <SC.Title>{title}</SC.Title>
+      <SC.Title style={{ color: color && colors[color] }}>{title}</SC.Title>
     </SC.LinkWrapper>
   )
 }

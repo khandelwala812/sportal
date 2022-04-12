@@ -1,10 +1,9 @@
 import styled from "styled-components/native"
 import Container from "../../components/Container"
+import FormField from "../../components/FormField"
 import PageLayout from "../../layouts/PageLayout"
 import SubmitButton from "../../components/SubmitButton"
 import Text from "../../components/Text"
-
-import colors from "../../config/colors"
 
 export const LoginPageLayout = styled(PageLayout)`
   display: flex;
@@ -23,7 +22,6 @@ export const LoginBox = styled(Container)`
 
 export const Title = styled(Text)`
   margin-bottom: 32px;
-  color: ${colors.white};
   font-size: 28px;
 `
 
@@ -34,6 +32,7 @@ export const LoginButton = styled(SubmitButton)`
 
 export const RegisterText = styled(Text)`
   margin-top: 16px;
-  color: ${colors.white};
   font-size: 16px;
 `
+
+export const LoginField = styled(FormField)``

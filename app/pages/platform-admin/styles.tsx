@@ -6,7 +6,6 @@ import Button from "../../components/Button"
 import FormField from "../../components/FormField"
 import SubmitButton from "../../components/SubmitButton"
 import Text from "../../components/Text"
-import TextInput from "../../components/TextInput"
 
 import colors from "../../config/colors"
 
@@ -54,7 +53,6 @@ export const FieldsWrapper = styled.View`
 
 export const NameField = styled(FormField)`
   background-color: none;
-  color: ${colors.white};
   width: 200px;
   height: 30px;
   justify-content: flex-end;
@@ -62,7 +60,7 @@ export const NameField = styled(FormField)`
   padding: 0;
   border: none;
   border-radius: 0;
-  border-bottom: 1px solid ${colors.white};
+  border-bottom: 1px solid ${colors.black};
 
   &:focus {
     border: none;
@@ -75,6 +73,10 @@ export const LocationField = styled(NameField)`
   height: 20px;
 `
 
+export const CapacityField = styled(LocationField)`
+  width: 80px;
+`
+
 export const TimeFieldWrapper = styled.View`
   flex-direction: row;
   align-items: flex-end;
@@ -82,21 +84,31 @@ export const TimeFieldWrapper = styled.View`
 `
 
 export const Description = styled(FormField)`
-  background: ${colors.light};
   width: 200px;
   height: 50px;
   margin: 0;
-  border: none;
+  border: 1px solid black;
   border-radius: 4px;
   font-size: 16px;
 `
 
 export const SaveButton = styled(SubmitButton)`
   margin: 0;
+  padding: 8px 16px;
 `
 
-export const NoEventsText = styled(Text)`
-  color: ${colors.white};
+export const NoEventsText = styled(Text)``
+
+export const SideBarWrapper = styled.View`
+  flex-direction: row;
+`
+
+export const SideBarColumn = styled.View`
+  width: ${props => props.width}%;
+`
+
+export const ListTitle = styled(Text)`
+  font-size: 24px;
 `
 
 const ModifiedSubmitButton = styled(SubmitButton)`

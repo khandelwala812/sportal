@@ -75,8 +75,12 @@ const LoginPage = () => {
           onSubmit={handleSubmit}
           validationSchema={validationSchema}
         >
-          <FormField name="email" placeholder="Email" />
-          <FormField name="password" placeholder="Password" secureTextEntry />
+          <SC.LoginField name="email" placeholder="Email" />
+          <SC.LoginField
+            name="password"
+            placeholder="Password"
+            secureTextEntry
+          />
           <Link url={routes.FORGOT_PASSWORD} displayText="Forgot password?" />
           <SC.LoginButton title="Login" />
           <SC.RegisterText>

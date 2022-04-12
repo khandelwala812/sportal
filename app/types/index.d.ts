@@ -34,6 +34,8 @@ interface IClub extends MongoDocument {
 }
 
 interface IUser extends MongoDocument {
+  firstName: string
+  lastName: string
   email: string
   isPlatformAdmin: boolean
 }
@@ -57,13 +59,15 @@ interface IDayOfWeek extends IDay {
 interface IEvent extends MongoDocument {
   name: string
   location: string
-  date: string
-  // startTime?: ITime
-  // endTime?: ITime
-  startTime?: string
-  endTime?: string
+  capacity: number
+  seatsLeft: number
   description?: string
+  date: string
+  startTime?: string // ITime
+  endTime?: string // ITime
   online: boolean
+  registeredUsers: string[]
+  waitlistedUsers: string[]
 }
 interface IUserEvent extends IEvent {
   registered: boolean

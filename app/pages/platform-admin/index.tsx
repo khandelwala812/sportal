@@ -1,16 +1,17 @@
 import React, { FC, useEffect, useState } from "react"
-import { View } from "react-native"
+import { FlatList, View } from "react-native"
 import * as Yup from "yup"
 
 import * as SC from "./styles"
-import { ICalendar, IDay, IDayOfWeek, IEvent } from "../../types"
+import { ICalendar, IDay, IDayOfWeek, IEvent, IUser } from "../../types"
 import eventsApi from "../../api/events"
 import colors from "../../config/colors"
 import Calendar from "../../components/Calendar"
-import CheckBox from "../../components/CheckBox"
+// import CheckBox from "../../components/CheckBox"
 import EventCard from "../../components/EventCard"
 import Form from "../../components/Form"
 import TimeField from "../../components/TimeField"
+import UserCard from "../../components/UserCard"
 
 const initialCalendar = {
   year: 0,
@@ -21,6 +22,7 @@ const initialCalendar = {
 const initialValues = {
   name: "",
   location: "",
+  capacity: 0,
   startTime: "",
   endTime: "",
   description: ""
@@ -29,6 +31,7 @@ const initialValues = {
 interface IEventFormValues {
   name: string
   location: string
+  capacity: number
   startTime: string
   endTime: string
   description: string
@@ -38,12 +41,19 @@ interface IEventFormValues {
 const PlatformAdminPage: FC = () => {
   const [calendar, setCalendar] = useState<ICalendar>(initialCalendar)
   const [selectedDay, setSelectedDay] = useState<IDay | IDayOfWeek | null>(null)
+  const [registeredUsers, setRegisteredUsers] = useState<IUser[]>([])
+  const [waitlistedUsers, setWaitlistedUsers] = useState<IUser[]>([])
   const [isOnline, setIsOnline] = useState(false)
   const [addingEvent, setAddingEvent] = useState(false)
   const [editedEvent, setEditedEvent] = useState<IEvent | null>(null)
   const validationSchema = Yup.object().shape({
     name: Yup.string().required("Enter a name").label("Event Name"),
     location: Yup.string().required("Enter a location").label("Location"),
+    capacity: Yup.number()
+      .required("Enter a capacity")
+      .min(1)
+      .max(100)
+      .label("Capacity"),
     online: Yup.boolean(),
     startTime: Yup.string().required("Enter a time").label("Start Time"),
     endTime: Yup.string().required("Enter a time").label("End Time"),
@@ -101,15 +111,14 @@ const PlatformAdminPage: FC = () => {
     }
   }
 
-  const eventToValues = (event: IEvent) => {
-    const e = {
-      ...event,
-      startTime: "00:00",
-      endTime: "00:00"
-    }
-    console.log(e)
-    return e
-  }
+  // const eventToValues = (event: IEvent) => {
+  //   const e = {
+  //     ...event,
+  //     startTime: "00:00",
+  //     endTime: "00:00"
+  //   }
+  //   return e
+  // }
 
   const resetCalendar = (day: IDay) => {
     const sameDay = selectedDay?.date === day.date
@@ -123,9 +132,25 @@ const PlatformAdminPage: FC = () => {
     setIsOnline(online => !online)
   }
 
+  const fetchEventUsers = async () => {
+    if (!editedEvent) return
+
+    const response = await eventsApi.getUsers(editedEvent._id)
+
+    if (response.ok && response?.data) {
+      const { waitlistedUsers, registeredUsers } = response.data
+      setWaitlistedUsers(waitlistedUsers)
+      setRegisteredUsers(registeredUsers)
+    }
+  }
+
   useEffect(() => {
     fetchCalendar()
   }, [])
+
+  useEffect(() => {
+    fetchEventUsers()
+  }, [editedEvent?._id])
 
   if (!calendar.days.length) {
     return null
@@ -174,11 +199,17 @@ const PlatformAdminPage: FC = () => {
                 placeholder="Location"
                 inputStyle={{ paddingBottom: 4 }}
               />
-              <CheckBox
+              <SC.CapacityField
+                name="capacity"
+                keyboardType="numeric"
+                placeholder="Capacity"
+                inputStyle={{ paddingBottom: 4 }}
+              />
+              {/* <CheckBox
                 title="Online?"
                 value={isOnline}
                 onPress={handleChecked}
-              />
+              /> */}
               <View>
                 <TimeField
                   name="startTime"
@@ -194,7 +225,6 @@ const PlatformAdminPage: FC = () => {
               <SC.Description
                 name="description"
                 title="Description"
-                titleStyle={{ color: colors.white }}
                 multiline
               />
               <SC.AddEventButton title="Add Event" color="link" />
@@ -203,7 +233,7 @@ const PlatformAdminPage: FC = () => {
         )}
         {editedEvent && (
           <SC.SideBarWrapper>
-            <SC.SideBarColumn>
+            <SC.SideBarColumn width={60}>
               <Form
                 initialValues={initialValues}
                 validationSchema={validationSchema}
@@ -216,11 +246,17 @@ const PlatformAdminPage: FC = () => {
                     placeholder="Location"
                     inputStyle={{ paddingBottom: 4 }}
                   />
-                  <CheckBox
+                  <SC.CapacityField
+                    name="capacity"
+                    keyboardType="numeric"
+                    placeholder="Capacity"
+                    inputStyle={{ paddingBottom: 4 }}
+                  />
+                  {/* <CheckBox
                     title="Online?"
                     checked={isOnline}
                     onPress={handleChecked}
-                  />
+                  /> */}
                   <View>
                     <TimeField
                       name="startTime"
@@ -239,27 +275,42 @@ const PlatformAdminPage: FC = () => {
                     titleStyle={{ color: colors.white }}
                     multiline
                   />
-                  <SC.SaveButton title="Save" color="medium" />
+                  <SC.SaveButton title="Save" color="link" />
                 </SC.FieldsWrapper>
               </Form>
             </SC.SideBarColumn>
-            <SC.SideBarColumn>
+            <SC.SideBarColumn width={40}>
               <FlatList
-                data={editedEvent.registeredUsers}
-                ListHeaderComponent={<Text>Registered</Text>}
+                data={registeredUsers}
+                ListHeaderComponent={<SC.ListTitle>Registered</SC.ListTitle>}
                 keyExtractor={(_, i) => `#${i}`}
                 renderItem={({ item }) => {
                   const registeredUser = item as IUser
-                  return null
+                  return (
+                    <UserCard
+                      user={registeredUser}
+                      setWaitlistedUsers={setWaitlistedUsers}
+                      setRegisteredUsers={setRegisteredUsers}
+                      event={editedEvent}
+                    />
+                  )
                 }}
               />
               <FlatList
-                data={editedEvent.waitlistedUsers}
-                ListHeaderComponent={<Text>Waitlist</Text>}
+                data={waitlistedUsers}
+                ListHeaderComponent={<SC.ListTitle>Waitlisted</SC.ListTitle>}
                 keyExtractor={(_, i) => `#${i}`}
                 renderItem={({ item }) => {
                   const waitlistedUser = item as IUser
-                  return null
+                  return (
+                    <UserCard
+                      user={waitlistedUser}
+                      waitlisted
+                      setWaitlistedUsers={setWaitlistedUsers}
+                      setRegisteredUsers={setRegisteredUsers}
+                      event={editedEvent}
+                    />
+                  )
                 }}
               />
             </SC.SideBarColumn>

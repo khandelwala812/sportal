@@ -1,4 +1,4 @@
-import { ICalendar, IEvent } from "../types"
+import { ICalendar, IEvent, IUser } from "../types"
 import client from "./client"
 
 const route = "/events"
@@ -19,8 +19,18 @@ const editEvent = (updatedEvent: IEvent) => {
   })
 }
 
+interface IGetUsersResponse {
+  registeredUsers: IUser[]
+  waitlistedUsers: IUser[]
+}
+
+const getUsers = (eventId: string) => {
+  return client.get<IGetUsersResponse>(`${route}/users/${eventId}`)
+}
+
 export default {
   getCalendar,
   addEvent,
-  editEvent
+  editEvent,
+  getUsers
 }

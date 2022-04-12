@@ -3,14 +3,11 @@ import { Entypo, MaterialCommunityIcons } from "@expo/vector-icons"
 import Button from "../Button"
 import Text from "../Text"
 
-import colors from "../../config/colors"
-
 export const CardWrapper = styled.View`
   width: 100%;
 `
 
 export const Title = styled(Text)`
-  color: ${colors.white};
   font-size: 24px;
   font-weight: 400;
 `
@@ -25,19 +22,16 @@ export const Marker = styled(Entypo)`
 `
 
 export const Location = styled(Text)`
-  color: ${colors.white};
   font-size: 16px;
   font-weight: 400;
 `
 
 export const Subtitle = styled(Text)`
-  color: ${colors.medium};
   font-size: 16px;
   font-weight: 400;
 `
 
 export const Description = styled(Text)`
-  color: ${colors.white};
   font-size: 14px;
 `
 

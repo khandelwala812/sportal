@@ -10,6 +10,7 @@ import usersApi from "../../api/users"
 import modals from "../../config/modals"
 import { formatDate } from "../../utils"
 import ModalLayout from "../../layouts/ModalLayout"
+import Text from "../../components/Text"
 
 const EventsPage: FC = () => {
   const { user } = useAuth()
@@ -26,12 +27,23 @@ const EventsPage: FC = () => {
     }
   }
 
-  const updateEvent = (selectedEvent: IUserEvent) => {
+  const isUserWaitlisted = (event: IUserEvent) => {
+    if (!user?._id) return false
+
+    return event.waitlistedUsers.includes(user._id)
+  }
+
+  const updateEvent = (selectedEvent: IUserEvent, isWaitlisted: boolean) => {
     setEvents(
       events.map((event: IUserEvent) => {
         if (event._id === selectedEvent._id)
           return {
             ...event,
+            ...(!isWaitlisted && {
+              seatsLeft: event.registered
+                ? event.seatsLeft + 1
+                : event.seatsLeft - 1
+            }),
             registered: !event.registered
           }
 
@@ -50,11 +62,13 @@ const EventsPage: FC = () => {
   }
 
   const handleRegister = (selectedEvent: IUserEvent) => async () => {
-    updateEvent(selectedEvent)
+    const isWaitlisted = isUserWaitlisted(selectedEvent)
+
+    updateEvent(selectedEvent, isWaitlisted)
     toggleModal(modals.REGISTER_EVENT)
     Toast.show({
       type: "success",
-      text1: "Registered!"
+      text1: isWaitlisted ? "Waitlisted!" : "Registered!"
     })
 
     if (user?._id) {
@@ -63,16 +77,26 @@ const EventsPage: FC = () => {
   }
 
   const handleUnregister = (selectedEvent: IUserEvent) => async () => {
-    updateEvent(selectedEvent)
+    const isWaitlisted = isUserWaitlisted(selectedEvent)
+
+    updateEvent(selectedEvent, isWaitlisted)
     toggleModal(modals.UNREGISTER_EVENT)
     Toast.show({
       type: "success",
-      text1: "Unregistered!"
+      text1: isWaitlisted ? "Waitlist Left!" : "Unregistered!"
     })
 
     if (user?._id) {
       await usersApi.unregisterEvent(user._id, selectedEvent._id)
     }
+  }
+
+  const formatSeatsLeft = (seatsLeft: number) => {
+    if (seatsLeft === 1) {
+      return "1 seat left"
+    }
+
+    return `${seatsLeft > 0 ? seatsLeft : "No"} seats left`
   }
 
   useEffect(() => {
@@ -87,6 +111,8 @@ const EventsPage: FC = () => {
         ListHeaderComponent={<SC.Title>Events</SC.Title>}
         renderItem={({ item }) => {
           const event = item as IUserEvent
+          const noSeatsLeft = event.seatsLeft === 0
+
           return (
             <SC.EventWrapper>
               <SC.EventTitle>{event.name}</SC.EventTitle>
@@ -95,7 +121,7 @@ const EventsPage: FC = () => {
                   <SC.Image source={require("../../assets/event.jpg")} />
                   <SC.DetailsWrapper>
                     <SC.LocationWrapper>
-                      <SC.Marker name="location-pin" size={20} color="white" />
+                      <SC.Marker name="location-pin" size={20} color="black" />
                       <SC.Location>
                         {event.online ? "Online" : event.location}
                       </SC.Location>
@@ -110,15 +136,24 @@ const EventsPage: FC = () => {
                   <SC.Subtitle>{event.description}</SC.Subtitle>
                 </SC.Column>
               </SC.ContentWrapper>
-              <SC.RegisterButton
-                title={event.registered ? "Unregister" : "Register"}
-                color="translucent"
-                onPress={handleSelect(event)}
-              />
+              <Text>{formatSeatsLeft(event.seatsLeft)}</Text>
+              {noSeatsLeft ? (
+                <SC.WaitlistButton
+                  title={event.registered ? "Leave Waitlist" : "Join Waitlist"}
+                  color="medium"
+                  onPress={handleSelect(event)}
+                />
+              ) : (
+                <SC.RegisterButton
+                  title={event.registered ? "Unregister" : "Register"}
+                  color="medium"
+                  onPress={handleSelect(event)}
+                />
+              )}
               <ModalLayout name={modals.REGISTER_EVENT}>
                 <SC.RegisterWrapper color="foreground">
                   <SC.EventTitle>One more thing</SC.EventTitle>
-                  <SC.Cross color="white" onPress={handleSelect(event)} />
+                  <SC.Cross onPress={handleSelect(event)} />
                   <SC.Comments
                     multiline
                     placeholder="Need accomodations? Let us know here!"
@@ -133,9 +168,10 @@ const EventsPage: FC = () => {
               <ModalLayout name={modals.UNREGISTER_EVENT}>
                 <SC.UnregisterWrapper color="foreground">
                   <SC.EventTitle>Are you sure?</SC.EventTitle>
-                  <SC.Cross color="white" onPress={handleSelect(event)} />
+                  <SC.Cross onPress={handleSelect(event)} />
                   <SC.UnregisterText>
-                    You will lose your spot on the guest list.
+                    You will lose your spot on the{" "}
+                    {noSeatsLeft ? "waitlist" : "guest list"}.
                   </SC.UnregisterText>
                   <SC.ConfirmButton
                     title="Confirm"

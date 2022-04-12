@@ -19,8 +19,19 @@ const unregisterEvent = (userId: string, eventId: string) => {
   })
 }
 
+const flipStatus = (userId: string, eventId: string, waitlisted: boolean) => {
+  return client.put(`${route}/events/flip-status`, {
+    data: {
+      userId,
+      eventId,
+      newStatus: waitlisted ? "registered" : "waitlisted"
+    }
+  })
+}
+
 export default {
   getEvents,
   registerEvent,
-  unregisterEvent
+  unregisterEvent,
+  flipStatus
 }

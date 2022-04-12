@@ -15,8 +15,8 @@ const Day: FC<IDayProps> = ({ day, selected, onSelect }) => {
     <SC.DayWrapper>
       <SC.DateWrapper
         style={{
-          backgroundColor: Boolean(day.events?.length) && colors.medium,
-          color: day.filler ? colors.medium : colors.white
+          backgroundColor: Boolean(day.events?.length) && colors.light,
+          color: day.filler ? colors.medium : colors.black
         }}
         disabled={day.filler}
         filler={day.filler}

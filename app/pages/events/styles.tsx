@@ -11,7 +11,6 @@ import colors from "../../config/colors"
 
 export const Title = styled(Text)`
   align-self: flex-start;
-  color: ${colors.white};
   font-size: 30px;
   font-weight: 400;
 `
@@ -30,9 +29,11 @@ export const EventWrapper = styled.View`
   align-items: center;
   margin: 4px;
   border-radius: 10px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 `
 
 export const ContentWrapper = styled.View`
+  width: 100%;
   flex: 1;
   flex-direction: row;
   padding: 8px;
@@ -49,7 +50,6 @@ export const DetailsWrapper = styled.View`
 `
 
 export const EventTitle = styled(Text)`
-  color: ${colors.white};
   font-size: 24px;
   margin-top: 4px;
 `
@@ -71,18 +71,16 @@ export const Marker = styled(Entypo)`
 `
 
 export const Location = styled(Text)`
-  color: ${colors.white};
   font-size: 14px;
 `
 
 export const Subtitle = styled(Text)`
-  color: ${colors.white};
   font-size: 14px;
   line-height: 15px;
 `
 
 export const Time = styled(Subtitle)`
-  color: ${colors.light};
+  color: ${colors.medium};
 `
 
 export const RegisterButton = styled(Button)`
@@ -92,6 +90,10 @@ export const RegisterButton = styled(Button)`
   bottom: 8px;
   right: 8px;
   margin: 2px;
+`
+
+export const WaitlistButton = styled(RegisterButton)`
+  width: 130px;
 `
 
 export const RegisterWrapper = styled(Container)`
@@ -110,7 +112,6 @@ export const Cross = styled(CloseButton)`
 `
 
 export const Comments = styled(TextInput)`
-  background: ${colors.light};
   width: 470px;
   height: 100px;
   align-items: flex-start;
@@ -128,6 +129,4 @@ export const UnregisterWrapper = styled(RegisterWrapper)`
   width: 300px;
 `
 
-export const UnregisterText = styled(Text)`
-  color: ${colors.white};
-`
+export const UnregisterText = styled(Text)``

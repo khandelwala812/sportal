@@ -19,7 +19,7 @@ const Placard: FC<IPlacardProps> = ({ title, to }) => {
   return (
     <SC.PlacardWrapper onPress={navigateTo}>
       <SC.Title>{title}</SC.Title>
-      <SC.Chevron name="chevron-right" size={24} color={colors.white} />
+      <SC.Chevron name="chevron-right" size={24} color={colors.black} />
     </SC.PlacardWrapper>
   )
 }

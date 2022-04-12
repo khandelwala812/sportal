@@ -2,14 +2,6 @@ import styled from "rn-css"
 import { css } from "styled-components/native"
 import Text from "../Text"
 
-import colors from "../../config/colors"
-
-export const LargeDayWrapper = styled.View`
-  width: 10rem;
-  height: 10rem;
-  border: 1px solid ${colors.light};
-`
-
 export const DayWrapper = styled.View`
   height: 50px;
   width: 50px;
@@ -20,7 +12,7 @@ export const DayWrapper = styled.View`
 
 const hoverDateCSS = css`
   &:hover {
-    border: 1px solid white;
+    border: 1px solid black;
   }
 `
 
@@ -33,7 +25,7 @@ export const DateWrapper = styled.TouchableOpacity`
   border-radius: 50%;
   padding: 5px;
   box-shadow: ${props =>
-    props.selected && "0px 4px 4px 3px rgba(255, 255, 255, 0.5)"};
+    props.selected && "0px 4px 4px 3px rgba(0, 0, 0, 0.5)"};
 
   ${props => !props.filler && hoverDateCSS}
 `

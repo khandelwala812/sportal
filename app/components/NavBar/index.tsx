@@ -8,7 +8,11 @@ import routes from "../../config/routes"
 import { ProfileIcon } from "../Header/styles"
 import useOutsideClicked from "../../hooks/useOutsideClicked"
 
-const NavBar: FC = () => {
+interface INavBarProps {
+  darkTheme?: boolean
+}
+
+const NavBar: FC<INavBarProps> = ({ darkTheme }) => {
   const { user, setUser } = useAuth()
   const navigation = useNavigation()
   const floatRef = useRef(null)
@@ -31,7 +35,11 @@ const NavBar: FC = () => {
 
   return (
     <TouchableOpacity ref={floatRef} onPress={handleSelect}>
-      <ProfileIcon name="account-circle" size={40} color="white" />
+      <ProfileIcon
+        name="account-circle"
+        size={40}
+        color={darkTheme ? "white" : "black"}
+      />
       {floatVisible && !clickedOutside && (
         <SC.Float>
           <TouchableOpacity onPress={signOut}>

@@ -7,11 +7,11 @@ export default {
     <SuccessToast
       {...props}
       style={{
-        backgroundColor: colors.foreground,
+        backgroundColor: colors.light,
         padding: 2
       }}
       text1Style={{
-        color: colors.white,
+        color: colors.black,
         fontSize: 18,
         fontWeight: "400"
       }}
