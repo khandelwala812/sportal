@@ -5,6 +5,7 @@ import Text from "../Text"
 
 export const CardWrapper = styled.View`
   width: 100%;
+  min-width: 150px;
 `
 
 export const Title = styled(Text)`
