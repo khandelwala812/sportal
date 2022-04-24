@@ -235,7 +235,7 @@ const PlatformAdminPage: FC = () => {
           <SC.SideBarWrapper>
             <SC.SideBarColumn width={60}>
               <Form
-                initialValues={initialValues}
+                initialValues={editedEvent as IEventFormValues}
                 validationSchema={validationSchema}
                 onSubmit={handleSubmit}
               >

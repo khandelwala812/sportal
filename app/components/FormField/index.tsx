@@ -9,13 +9,14 @@ interface IFormFieldProps {
 }
 
 const FormField: FC<IFormFieldProps> = ({ name, ...props }) => {
-  const { setFieldTouched, handleChange, errors, touched } = useFormikContext()
+  const { setFieldTouched, handleChange, values, errors, touched } = useFormikContext()
 
   return (
     <SC.FieldWrapper>
       <SC.TextField
         onBlur={() => setFieldTouched(name)}
         onChangeText={handleChange(name)}
+        value={values[name]}
         {...props}
       />
       <ErrorMessage error={errors[name]} visible={touched[name]} />
