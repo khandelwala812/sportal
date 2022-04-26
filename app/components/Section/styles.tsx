@@ -9,11 +9,11 @@ export const SectionWrapper = styled.View`
 `
 
 export const Title = styled(Text)`
-  color: ${colors.white};
+  color: ${colors.medium};
   font-size: 24px;
   font-weight: bold;
 `
 
 export const Body = styled(Text)`
-  color: ${colors.white};
+  color: ${colors.medium};
 `

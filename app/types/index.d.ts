@@ -65,9 +65,12 @@ interface IEvent extends MongoDocument {
   date: string
   startTime?: string // ITime
   endTime?: string // ITime
-  online: boolean
+  isOnline: boolean
   registeredUsers: string[]
   waitlistedUsers: string[]
+  zoomStartUrl: string
+  zoomJoinUrl: string
+  image: string
 }
 interface IUserEvent extends IEvent {
   registered: boolean

@@ -13,6 +13,11 @@ interface IAddEventButtonProps {
   title: string
 }
 
+export const FieldWrapper = styled.View`
+  display: flex;
+  align-items: flex-start;
+`
+
 export const PageLayout = styled(BasePageLayout)`
   flex: 1;
   flex-direction: row;
@@ -91,6 +96,8 @@ export const Description = styled(FormField)`
   border-radius: 4px;
   font-size: 16px;
 `
+
+export const CheckBox = styled
 
 export const SaveButton = styled(SubmitButton)`
   margin: 0;

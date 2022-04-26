@@ -23,11 +23,11 @@ export const TextWrapper = styled.View`
 `
 
 export const Title = styled(Text)`
-  color: ${colors.white};
+  color: ${colors.medium};
   font-size: 20px;
   font-weight: bold;
 `
 
 export const Subtitle = styled(Text)`
-  color: ${colors.white};
+  color: ${colors.medium};
 `

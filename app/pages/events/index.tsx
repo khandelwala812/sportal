@@ -118,7 +118,8 @@ const EventsPage: FC = () => {
               <SC.EventTitle>{event.name}</SC.EventTitle>
               <SC.ContentWrapper>
                 <SC.Column>
-                  <SC.Image source={require("../../assets/event.jpg")} />
+                  {event.image && event.image.length > 0 && <SC.Image source={{ uri: event.image }} />}
+                  {(!event.image || event.image.length <= 0) && <SC.Image source={require("../../assets/event.jpg")} />}
                   <SC.DetailsWrapper>
                     <SC.LocationWrapper>
                       <SC.Marker name="location-pin" size={20} color="black" />

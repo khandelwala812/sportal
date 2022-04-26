@@ -1,7 +1,9 @@
 import React, { FC } from "react"
+import { Button } from "react-native-elements"
 
 import * as SC from "./styles"
 import { IEvent } from "../../types"
+import * as Linking from 'expo-linking';
 
 interface IEventCardProps {
   event: IEvent
@@ -16,7 +18,7 @@ const EventCard: FC<IEventCardProps> = ({ event, setEditedEvent }) => {
 
   //   return `${startTime + startTime.meridiem} - ${endTime + endTime.meridiem}`
   // }
-  const { name, location, description, startTime, endTime } = event
+  const { name, location, description, startTime, endTime, isOnline, zoomStartUrl } = event
 
   const handleEdit = () => {
     setEditedEvent(event)
@@ -34,6 +36,10 @@ const EventCard: FC<IEventCardProps> = ({ event, setEditedEvent }) => {
         {startTime}-{endTime} PM
       </SC.Subtitle>
       <SC.Description>{description}</SC.Description>
+      {isOnline && <Button
+          title="Start Zoom meeting"
+          onPress={() => Linking.openURL(zoomStartUrl)}
+        />}
       <SC.EditButton color="background" onPress={handleEdit}>
         <SC.Pencil name="pencil" size={24} color="black" />
       </SC.EditButton>

@@ -12,11 +12,11 @@ export const CardWrapper = styled.View`
 `
 
 export const Title = styled(Text)`
-  color: ${colors.white};
+  color: ${colors.medium};
   font-weight: bold;
 `
 
 export const Subtitle = styled(Text)`
-  color: ${colors.white};
+  color: ${colors.medium};
   font-size: 14px;
 `

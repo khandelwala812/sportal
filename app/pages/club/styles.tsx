@@ -57,13 +57,13 @@ export const InfoWrapper = styled(Container)`
 `
 
 export const Title = styled(Text)`
-  color: ${colors.white};
+  color: ${colors.medium};
   font-size: 30px;
   line-height: 35px;
 `
 
 export const Subtitle = styled(Text)`
-  color: ${colors.white};
+  color: ${colors.medium};
   font-size: 20px;
   line-height: 23px;
 `
@@ -96,7 +96,7 @@ export const Stars = styled.Image`
 `
 
 export const RatingsText = styled(Text)`
-  color: ${colors.white};
+  color: ${colors.medium};
   margin: 0 8px;
   font-size: 16px;
   line-height: 19px;
