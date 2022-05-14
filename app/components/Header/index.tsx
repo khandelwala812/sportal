@@ -38,6 +38,7 @@ const Header: FC<IHeaderProps> = ({ opening, darkTheme }) => {
           {user && (
             <HeaderLink title="Events" to={routes.EVENTS} color="white" />
           )}
+          <HeaderLink title="Videos" to={routes.VIDEOS} color="white" />
           <HeaderLink title="Interviews" color="white" />
           <NavBar darkTheme />
         </SC.ProfileWrapper>

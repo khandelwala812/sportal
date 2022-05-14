@@ -16,6 +16,7 @@ import ResetPasswordPage from "../pages/reset-password"
 import ValidateCodePage from "../pages/validate-code"
 import PlatformAdminPage from "../pages/platform-admin"
 import EventsPage from "../pages/events"
+import VideosPage from "../pages/videos"
 
 const headerOptions = {
   header: (props: any) => <Header {...props} />
@@ -88,6 +89,11 @@ const AppNavigator = () => {
           component={EventsPage}
           options={headerOptions}
         />
+        <Stack.Screen
+          name={routes.VIDEOS}
+          component={VideosPage}
+          options={headerOptions}
+        />        
       </Stack.Navigator>
     </NavigationContainer>
   )

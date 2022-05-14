@@ -109,6 +109,7 @@ const EventsPage: FC = () => {
         data={events}
         keyExtractor={(_, i) => `#${i}`}
         ListHeaderComponent={<SC.Title>Events</SC.Title>}
+        showsVerticalScrollIndicator={false}
         renderItem={({ item }) => {
           const event = item as IUserEvent
           const noSeatsLeft = event.seatsLeft === 0
