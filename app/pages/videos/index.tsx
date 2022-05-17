@@ -57,7 +57,6 @@ const VideosPage: FC = () => {
   ) => {
     try {
       const result: IDocument = await DocumentPicker.getDocumentAsync({})
-      console.log(result)
       setFieldValue("video", result)
       // const response = await videosApi.getVideoUrl()
 
@@ -140,8 +139,14 @@ const VideosPage: FC = () => {
               />
               <SC.InteractionsWrapper>
                 <SC.LikesWrapper>
-                  <SC.Likes name="heart" size={24} color={colors.heart} />
-                  <SC.LikesText>100</SC.LikesText>
+                  <SC.Row>
+                    <SC.Likes name="thumb-up" size={24} color={colors.medium} />
+                    <SC.LikesText>100</SC.LikesText>
+                  </SC.Row>
+                  <SC.Row>
+                    <SC.Dislikes name="thumb-down" size={24} color={colors.medium} />
+                    <SC.LikesText>0</SC.LikesText>
+                  </SC.Row>
                 </SC.LikesWrapper>
                 <SC.ViewsWrapper>
                   <SC.Views name="eye" size={24} color={colors.light} />
