@@ -109,5 +109,10 @@ export const LikesText = styled(Text)`
 export const LikesWrapper = styled.View`
   flex-direction: row;
   align-items: center;
+  gap: 4px;
+`
+
+export const Row = styled.View`
+  flex-direction: row;
   gap: 2px;
 `
