@@ -1,11 +1,11 @@
 import styled from "styled-components/native"
-import { Entypo } from "@expo/vector-icons"
+import { MaterialCommunityIcons } from "@expo/vector-icons"
 import Button from "../../components/Button"
 import Container from "../../components/Container"
 import CloseButton from "../../components/CloseButton"
+import FormField from "../../components/FormField"
 import PageLayout from "../../layouts/PageLayout"
 import Text from "../../components/Text"
-import TextInput from "../../components/TextInput"
 
 import colors from "../../config/colors"
 
@@ -35,74 +35,13 @@ export const EventWrapper = styled.View`
 export const ContentWrapper = styled.View`
   width: 100%;
   flex: 1;
-  flex-direction: row;
   padding: 2px;
 `
 
-export const Image = styled.Image`
-  width: 225px;
-  height: 112px;
-  border-radius: 5px;
-`
-
-export const DetailsWrapper = styled.View`
-  align-items: flex-start;
-`
-
 export const EventTitle = styled(Text)`
+  align-self: center;
   font-size: 24px;
   margin-top: 4px;
-`
-
-export const Column = styled.View`
-  width: 50%;
-  height: 100%;
-  gap: 4px;
-`
-
-export const LocationWrapper = styled.View`
-  width: 120px;
-  flex-direction: row;
-  align-items: center;
-`
-
-export const Marker = styled(Entypo)`
-  margin: 0;
-`
-
-export const Location = styled(Text)`
-  font-size: 14px;
-`
-
-export const Subtitle = styled(Text)`
-  font-size: 14px;
-  line-height: 15px;
-`
-
-export const Time = styled(Subtitle)`
-  color: ${colors.medium};
-`
-
-export const RegisterButton = styled(Button)`
-  width: 100px;
-  height: 30px;
-  position: absolute;
-  bottom: 8px;
-  right: 8px;
-  margin: 2px;
-`
-
-export const WaitlistButton = styled(RegisterButton)`
-  width: 130px;
-`
-
-export const RegisterWrapper = styled(Container)`
-  width: 500px;
-  align-items: center;
-  align-self: center;
-  gap: 4px;
-  padding-top: 16px;
-  border-radius: 8px;
 `
 
 export const Cross = styled(CloseButton)`
@@ -111,22 +50,64 @@ export const Cross = styled(CloseButton)`
   right: 2px;
 `
 
-export const Comments = styled(TextInput)`
-  width: 470px;
-  height: 100px;
-  align-items: flex-start;
-  border-radius: 4px;
-`
-
-export const ConfirmButton = styled(Button)`
-  width: 100px;
-  height: 30px;
-  align-self: flex-end;
-  margin: 4px;
-`
-
-export const UnregisterWrapper = styled(RegisterWrapper)`
+export const UploadVideoWrapper = styled(Container)`
   width: 300px;
+  align-items: flex-start;
+  align-self: center;
+  gap: 4px;
+  padding-top: 16px;
+  border-radius: 8px;
 `
 
-export const UnregisterText = styled(Text)``
+export const TitleField = styled(FormField)`
+  background-color: none;
+  width: 200px;
+  height: 30px;
+  justify-content: flex-end;
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  border-bottom: 1px solid ${colors.black};
+
+  &:focus {
+    border: none;
+    outline: none;
+  }
+`
+
+export const SelectVideoButton = styled(Button)`
+  margin: 0;
+  font-size: 12px;
+`
+
+export const Views = styled(MaterialCommunityIcons)``
+
+export const ViewsText = styled(Text)`
+  font-size: 16px;
+  margin: 0;
+`
+
+export const InteractionsWrapper = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+`
+
+export const ViewsWrapper = styled.View`
+  flex-direction: row;
+  align-items: center;
+  gap: 2px;
+`
+
+export const Likes = styled(MaterialCommunityIcons)``
+
+export const LikesText = styled(Text)`
+  font-size: 16px;
+  margin: 0;
+`
+
+export const LikesWrapper = styled.View`
+  flex-direction: row;
+  align-items: center;
+  gap: 2px;
+`

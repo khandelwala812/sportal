@@ -1,55 +1,82 @@
 import React, { FC, useEffect, useState } from "react"
 import { FlatList, View } from "react-native"
-import Toast from "react-native-toast-message"
+import { Video } from "expo-av"
+import * as DocumentPicker from "expo-document-picker"
+import { Formik } from "formik"
+import * as Yup from "yup"
+import axios from "axios"
 
 import * as SC from "./styles"
-import useAuth from "../../hooks/useAuth"
+import { IVideo, TFormikSetValue } from "../../types"
+import useModal from "../../hooks/useModal"
 import videosApi from "../../api/videos"
-import Text from "../../components/Text"
+import colors from "../../config/colors"
+import modals from "../../config/modals"
 import Button from "../../components/Button"
-import { Video, AVPlaybackStatus } from 'expo-av';
-import * as DocumentPicker from 'expo-document-picker'
-import axios from 'axios'
+import ModalLayout from "../../layouts/ModalLayout"
+import Text from "../../components/Text"
 
-const pickImage = async () => {
-  try {
-    // No permissions request is necessary for launching the image library
-    let result = await DocumentPicker.getDocumentAsync({});
-    console.log(result, result.uri, result.file.name);
+const initialValues: IUploadVideoFormValues = {
+  title: "",
+  video: null
+}
 
-    const response = await videosApi.getVideoUrl()
-    console.log(response, response.data.url, response.data);
+interface IUploadVideoFormValues {
+  title: string
+  video: IDocument | null
+}
 
-    const config = {
-      onUploadProgress: progressEvent => console.log(progressEvent.loaded),
-      headers: {
-        "Content-Type": "multipart/form-data",
-      }
-    }   
-    await axios.put(response.data.url, result.file, config) 
-  }
-  catch(err)
-  {
-    console.log("error: ", err);
-  }
+interface IDocument {
+  file: any
+  uri: string
 }
 
 const VideosPage: FC = () => {
-  const { user } = useAuth()
-  const [videos, setVideos] = useState([])
+  const { toggleModal } = useModal()
+  const [videos, setVideos] = useState<IVideo[]>([])
+  const validationSchema = Yup.object().shape({
+    title: Yup.string().required("Enter a title").label("Video Title"),
+    video: Yup.object().required("Upload a video").label("Video")
+  })
 
   useEffect(() => {
     fetchVideos()
   }, [])
 
   const fetchVideos = async () => {
-
     const response = await videosApi.getVideos()
 
     if (response.ok && response?.data) {
       setVideos(response.data)
     }
-  }  
+  }
+
+  const pickVideo = async (
+    values: IUploadVideoFormValues,
+    setFieldValue: TFormikSetValue
+  ) => {
+    try {
+      const result: IDocument = await DocumentPicker.getDocumentAsync({})
+      console.log(result)
+      setFieldValue("video", result)
+      // const response = await videosApi.getVideoUrl()
+
+      // if (response.ok && response?.data) {
+      //   await axios.put(response.data.url, result.file, {
+      //     onUploadProgress: progressEvent => console.log(progressEvent.loaded),
+      //     headers: {
+      //       "Content-Type": "multipart/form-data"
+      //     }
+      //   })
+      //   await videosApi.uploadVideo(result)
+      //   setFieldValue("video", result.uri)
+      // }
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
+  const handleSubmit = () => {}
 
   return (
     <SC.EventsPageLayout title="Videos" color="background">
@@ -57,33 +84,73 @@ const VideosPage: FC = () => {
         data={videos}
         keyExtractor={(_, i) => `#${i}`}
         ListHeaderComponent={
-        <View style={{marginLeft: 22, width: 500, justifyContent: "space-between", flexDirection: "row"}}>
-          <SC.Title>Videos</SC.Title>
-          {/* <input type="file" onChange={(e) => upload(e)}></input> */}
-          <Button color="light" textStyle={{color: 'white'}} onPress={() => pickImage()}>Upload Video</Button>
-        </View>}
+          <View
+            style={{
+              marginLeft: 22,
+              width: 500,
+              justifyContent: "space-between",
+              flexDirection: "row"
+            }}
+          >
+            <SC.Title>Videos</SC.Title>
+            <Button
+              color="light"
+              textStyle={{ color: "white" }}
+              onPress={() => toggleModal(modals.UPLOAD_VIDEO)}
+            >
+              Upload Video
+            </Button>
+            <ModalLayout name={modals.UPLOAD_VIDEO}>
+              <Formik
+                initialValues={initialValues}
+                onSubmit={handleSubmit}
+                validationSchema={validationSchema}
+              >
+                {({ values, setFieldValue }) => (
+                  <SC.UploadVideoWrapper color="foreground">
+                    <SC.EventTitle>Upload Video</SC.EventTitle>
+                    <SC.TitleField name="title" placeholder="Video Title" />
+                    <SC.SelectVideoButton
+                      title="Browse"
+                      color="medium"
+                      onPress={() => pickVideo(values, setFieldValue)}
+                    />
+                    <>{values.video?.file.name}</>
+                    <SC.Cross
+                      onPress={() => toggleModal(modals.UPLOAD_VIDEO)}
+                    />
+                  </SC.UploadVideoWrapper>
+                )}
+              </Formik>
+            </ModalLayout>
+          </View>
+        }
         showsVerticalScrollIndicator={false}
-        renderItem={({ item }) => {
-          return (
-            <SC.EventWrapper>
-              <SC.ContentWrapper>
-                <Video
-                  style={{alignSelf: 'center', width: 320, height: 200}}
-                  source={{
-                    uri: item.videoUrl,
-                  }}
-                  useNativeControls
-                  resizeMode="contain"
-                  // isLooping
-                  // onPlaybackStatusUpdate={status => setStatus(() => status)}
-                />
-              </SC.ContentWrapper>
-              <View style={{alignSelf:'left'}}>
-                <Text>{item.title}</Text>
-              </View>
-            </SC.EventWrapper>
-          )
-        }}
+        renderItem={({ item }) => (
+          <SC.EventWrapper>
+            <Text>{item.title}</Text>
+            <SC.ContentWrapper>
+              <Video
+                style={{ width: 320 }}
+                source={{
+                  uri: item.videoUrl
+                }}
+                useNativeControls
+                resizeMode="contain"
+              />
+              <SC.InteractionsWrapper>
+                <SC.LikesWrapper>
+                  <SC.Likes name="heart" size={24} color={colors.heart} />
+                  <SC.LikesText>100</SC.LikesText>
+                </SC.LikesWrapper>
+                <SC.ViewsWrapper>
+                  <SC.Views name="eye" size={24} color={colors.light} />
+                  <SC.ViewsText>1000</SC.ViewsText>
+                </SC.ViewsWrapper>
+              </SC.InteractionsWrapper>
+            </SC.ContentWrapper>
+          </SC.EventWrapper>
+        )}
       />
     </SC.EventsPageLayout>
   )

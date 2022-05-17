@@ -3,8 +3,9 @@ import client from "./client"
 
 const route = "/users"
 
-const getEvents = (userId: string) => {
-  return client.get<IUserEvent[]>(`${route}/events/${userId}`)
+const getEvents = (userId?: string) => {
+  const id = userId ?? "empty"
+  return client.get<IUserEvent[]>(`${route}/events/${id}`)
 }
 
 const registerEvent = (userId: string, eventId: string) => {

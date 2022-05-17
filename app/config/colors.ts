@@ -15,5 +15,6 @@ export default {
   medium: "#635d5d",
   transperant: "transperant",
   link: "#0277cc",
-  star: "#ffd700"
+  star: "#ffd700",
+  heart: "#bf1137"
 } as IColors

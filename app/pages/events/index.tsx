@@ -1,6 +1,7 @@
 import React, { FC, useEffect, useState } from "react"
 import { FlatList } from "react-native"
 import Toast from "react-native-toast-message"
+import { useNavigation } from "@react-navigation/native"
 
 import * as SC from "./styles"
 import { IUserEvent } from "../../types"
@@ -8,19 +9,19 @@ import useAuth from "../../hooks/useAuth"
 import useModal from "../../hooks/useModal"
 import usersApi from "../../api/users"
 import modals from "../../config/modals"
+import routes from "../../config/routes"
 import { formatDate } from "../../utils"
 import ModalLayout from "../../layouts/ModalLayout"
 import Text from "../../components/Text"
 
 const EventsPage: FC = () => {
+  const navigation = useNavigation()
   const { user } = useAuth()
   const { toggleModal } = useModal()
   const [events, setEvents] = useState<IUserEvent[]>([])
 
   const fetchEvents = async () => {
-    if (!user?._id) return
-
-    const response = await usersApi.getEvents(user._id)
+    const response = await usersApi.getEvents(user?._id)
 
     if (response.ok && response?.data) {
       setEvents(response.data)
@@ -53,6 +54,12 @@ const EventsPage: FC = () => {
   }
 
   const handleSelect = (selectedEvent: IUserEvent) => async () => {
+    if (!user) {
+      navigation.navigate(routes.LOGIN, {
+        returnPage: routes.EVENTS
+      })
+    }
+
     if (!selectedEvent.registered) {
       toggleModal(modals.REGISTER_EVENT)
       return
@@ -119,8 +126,12 @@ const EventsPage: FC = () => {
               <SC.EventTitle>{event.name}</SC.EventTitle>
               <SC.ContentWrapper>
                 <SC.Column>
-                  {event.image && event.image.length > 0 && <SC.Image source={{ uri: event.image }} />}
-                  {(!event.image || event.image.length <= 0) && <SC.Image source={require("../../assets/event.jpg")} />}
+                  {event.image && event.image.length > 0 && (
+                    <SC.Image source={{ uri: event.image }} />
+                  )}
+                  {(!event.image || event.image.length <= 0) && (
+                    <SC.Image source={require("../../assets/event.jpg")} />
+                  )}
                   <SC.DetailsWrapper>
                     <SC.LocationWrapper>
                       <SC.Marker name="location-pin" size={20} color="black" />

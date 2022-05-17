@@ -40,6 +40,11 @@ interface IUser extends MongoDocument {
   isPlatformAdmin: boolean
 }
 
+interface IVideo extends MongoDocument {
+  title: string
+  videoUrl: string
+}
+
 interface ICalendar {
   year: number
   month: string
@@ -84,5 +89,11 @@ interface ITime {
 type TFormikHelpers = FormikHelpers<{
   [key: string]: string
 }>
+
+type TFormikSetValue = (
+  field: string,
+  value: any,
+  shouldValidate?: boolean | undefined
+) => void
 
 type TMeridiem = "" | "am" | "pm"

@@ -1,4 +1,4 @@
-import React from "react"
+import React, { FC } from "react"
 import { FormikHelpers } from "formik"
 import { useNavigation } from "@react-navigation/native"
 import * as Yup from "yup"
@@ -8,7 +8,6 @@ import { IUser } from "../../types"
 import useAuth from "../../hooks/useAuth"
 import client from "../../api/client"
 import routes from "../../config/routes"
-import FormField from "../../components/FormField"
 import Form from "../../components/Form"
 import Link from "../../components/Link"
 
@@ -23,6 +22,14 @@ interface ILoginResponse {
   invalidPassword: boolean
 }
 
+interface ILoginPageProps {
+  route: {
+    params: {
+      returnPage: string
+    }
+  }
+}
+
 type TFormikHelpers = FormikHelpers<{
   [key: string]: string
 }>
@@ -32,9 +39,10 @@ const initialValues = {
   password: ""
 }
 
-const LoginPage = () => {
+const LoginPage: FC<ILoginPageProps> = ({ route }) => {
   const navigation = useNavigation()
   const { setUser } = useAuth()
+  const { returnPage } = route.params
   const validationSchema = Yup.object().shape({
     email: Yup.string().email().required().label("Email"),
     password: Yup.string().min(8).required().label("Password")
@@ -59,10 +67,13 @@ const LoginPage = () => {
 
     setUser(user ?? null)
 
-    if (user.isPlatformAdmin) {
-      navigation.navigate(routes.PLATFORM_ADMIN_OR_USER)
+    const nextPage = user.isPlatformAdmin
+      ? routes.PLATFORM_ADMIN_OR_USER
+      : routes.OPENING
+    if (returnPage) {
+      navigation.navigate(returnPage)
     } else {
-      navigation.navigate(routes.OPENING)
+      navigation.navigate(nextPage)
     }
   }
 

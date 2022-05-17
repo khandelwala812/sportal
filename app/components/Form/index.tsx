@@ -16,13 +16,15 @@ const Form: FC<IFormProps> = ({
   validationSchema,
   children
 }) => {
+  const isFunction = typeof children === "function"
+
   return (
     <Formik
       initialValues={initialValues}
       onSubmit={onSubmit}
       validationSchema={validationSchema}
     >
-      {() => <>{children}</>}
+      {isFunction ? children : () => <>{children}</>}
     </Formik>
   )
 }

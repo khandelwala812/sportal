@@ -15,10 +15,8 @@ interface IHeaderProps {
   darkTheme?: boolean
 }
 
-const Header: FC<IHeaderProps> = ({ opening, darkTheme }) => {
-  const { user } = useAuth()
+const Header: FC<IHeaderProps> = ({ opening }) => {
   const navigation = useNavigation()
-  const linkColor = darkTheme ? "black" : "white"
 
   const navigateToHome = () => {
     navigation.navigate(routes.HOME)
@@ -35,9 +33,7 @@ const Header: FC<IHeaderProps> = ({ opening, darkTheme }) => {
             color="white"
             isModal
           />
-          {user && (
-            <HeaderLink title="Events" to={routes.EVENTS} color="white" />
-          )}
+          <HeaderLink title="Events" to={routes.EVENTS} color="white" />
           <HeaderLink title="Videos" to={routes.VIDEOS} color="white" />
           <HeaderLink title="Interviews" color="white" />
           <NavBar darkTheme />
@@ -53,6 +49,8 @@ const Header: FC<IHeaderProps> = ({ opening, darkTheme }) => {
       </TouchableOpacity>
       <SC.ProfileWrapper>
         <HeaderLink title="My Clubs" />
+        <HeaderLink title="Events" to={routes.EVENTS} />
+        <HeaderLink title="Videos" to={routes.VIDEOS} />
         <HeaderLink title="Messages" />
         <NavBar />
       </SC.ProfileWrapper>

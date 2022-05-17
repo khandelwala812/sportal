@@ -1,6 +1,9 @@
 import React, { FC, useEffect, useState } from "react"
 import { FlatList, View } from "react-native"
+import { Formik } from "formik"
 import * as Yup from "yup"
+import { Button, Image, CheckBox } from "react-native-elements"
+import * as ImagePicker from "expo-image-picker"
 
 import * as SC from "./styles"
 import { ICalendar, IDay, IDayOfWeek, IEvent, IUser } from "../../types"
@@ -9,12 +12,8 @@ import colors from "../../config/colors"
 import Calendar from "../../components/Calendar"
 // import CheckBox from "../../components/CheckBox"
 import EventCard from "../../components/EventCard"
-import Form from "../../components/Form"
 import TimeField from "../../components/TimeField"
 import UserCard from "../../components/UserCard"
-import { Button, Image, CheckBox } from 'react-native-elements'
-import { Formik } from "formik"
-import * as ImagePicker from 'expo-image-picker'
 
 const initialCalendar = {
   year: 0,
@@ -44,7 +43,7 @@ interface IEventFormValues {
   image: string
 }
 
-const pickImage = async (setFieldValue) => {
+const pickImage = async setFieldValue => {
   // No permissions request is necessary for launching the image library
   let result = await ImagePicker.launchImageLibraryAsync({
     mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -52,14 +51,12 @@ const pickImage = async (setFieldValue) => {
     aspect: [6, 3],
     quality: 1,
     base64: true
-  });
+  })
 
-  if (!result.cancelled)
-  {
+  if (!result.cancelled) {
     console.log(result)
-    setFieldValue('image', result.uri)
+    setFieldValue("image", result.uri)
   }
-
 }
 // TODO: validate times
 const PlatformAdminPage: FC = () => {
@@ -78,7 +75,6 @@ const PlatformAdminPage: FC = () => {
       .min(1)
       .max(100)
       .label("Capacity"),
-    online: Yup.boolean(),
     startTime: Yup.string().required("Enter a time").label("Start Time"),
     endTime: Yup.string().required("Enter a time").label("End Time"),
     description: Yup.string().required().label("Description"),
@@ -213,128 +209,154 @@ const PlatformAdminPage: FC = () => {
         )}
         {addingEvent && selectedDay && (
           <Formik
-          initialValues={initialValues}
-          onSubmit={handleSubmit}
-          validationSchema={validationSchema}
-        >
-          {({
-        values,
-        setFieldValue
-      }) =>
-            (<SC.FieldsWrapper>
-              <SC.NameField name="name" placeholder="Event Name" />
-              <SC.LocationField
-                name="location"
-                placeholder="Location"
-                inputStyle={{ paddingBottom: 4 }}
-              />
-              <SC.CapacityField
-                name="capacity"
-                keyboardType="numeric"
-                placeholder="Capacity"
-                inputStyle={{ paddingBottom: 4 }}
-              />           
-              <View>
-                <TimeField
-                  name="startTime"
-                  title="Start Time"
-                  placeholder="00:00"
+            initialValues={initialValues}
+            onSubmit={handleSubmit}
+            validationSchema={validationSchema}
+          >
+            {({ values, setFieldValue }) => (
+              <SC.FieldsWrapper>
+                <SC.NameField name="name" placeholder="Event Name" />
+                <SC.LocationField
+                  name="location"
+                  placeholder="Location"
+                  inputStyle={{ paddingBottom: 4 }}
                 />
-                <TimeField
-                  name="endTime"
-                  title="End Time"
-                  placeholder="00:00"
+                <SC.CapacityField
+                  name="capacity"
+                  keyboardType="numeric"
+                  placeholder="Capacity"
+                  inputStyle={{ paddingBottom: 4 }}
                 />
-              </View>
-              <SC.Description
-                name="description"
-                title="Description"
-                multiline
-              />
-              <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                <Button title="Pick event image" onPress={() => pickImage(setFieldValue)} />
-                {values.image.length > 0 && <Image source={{ uri: values.image }} style={{ width: 300, height: 150 }} />}
-              </View>                 
-              <SC.FieldWrapper>
-                <CheckBox
-                  name="isOnline"
-                  checkedIcon="check-box"
-                  iconType="material"
-                  uncheckedIcon="check-box-outline-blank"
-                  title="Is Online?"
-                  checked={values.isOnline}
-                  onPress={() => setFieldValue('isOnline', !values.isOnline)}
+                <View>
+                  <TimeField
+                    name="startTime"
+                    title="Start Time"
+                    placeholder="00:00"
+                  />
+                  <TimeField
+                    name="endTime"
+                    title="End Time"
+                    placeholder="00:00"
+                  />
+                </View>
+                <SC.Description
+                  name="description"
+                  title="Description"
+                  multiline
                 />
-              </SC.FieldWrapper>         
-              <SC.AddEventButton title="Add Event" color="link" />
-            </SC.FieldsWrapper>)}
+                <View
+                  style={{
+                    flex: 1,
+                    alignItems: "center",
+                    justifyContent: "center"
+                  }}
+                >
+                  <Button
+                    title="Pick event image"
+                    onPress={() => pickImage(setFieldValue)}
+                  />
+                  {values.image.length > 0 && (
+                    <Image
+                      source={{ uri: values.image }}
+                      style={{ width: 300, height: 150 }}
+                    />
+                  )}
+                </View>
+                <SC.FieldWrapper>
+                  <CheckBox
+                    name="isOnline"
+                    checkedIcon="check-box"
+                    iconType="material"
+                    uncheckedIcon="check-box-outline-blank"
+                    title="Is Online?"
+                    checked={values.isOnline}
+                    onPress={() => setFieldValue("isOnline", !values.isOnline)}
+                  />
+                </SC.FieldWrapper>
+                <SC.AddEventButton title="Add Event" color="link" />
+              </SC.FieldsWrapper>
+            )}
           </Formik>
         )}
         {editedEvent && (
           <SC.SideBarWrapper>
             <SC.SideBarColumn width={60}>
-            <Formik
-          initialValues={editedEvent as IEventFormValues}
-          onSubmit={handleSubmit}
-          validationSchema={validationSchema}
-        >
-              {({
-            values,
-            setFieldValue
-          }) =>
-                (<SC.FieldsWrapper>
-                  <SC.NameField name="name" placeholder="Event Name" />
-                  <SC.LocationField
-                    name="location"
-                    placeholder="Location"
-                    inputStyle={{ paddingBottom: 4 }}
-                  />
-                  <SC.CapacityField
-                    name="capacity"
-                    keyboardType="numeric"
-                    placeholder="Capacity"
-                    inputStyle={{ paddingBottom: 4 }}
-                  />
-                  {/* <Checkbox
+              <Formik
+                initialValues={editedEvent as IEventFormValues}
+                onSubmit={handleSubmit}
+                validationSchema={validationSchema}
+              >
+                {({ values, setFieldValue }) => (
+                  <SC.FieldsWrapper>
+                    <SC.NameField name="name" placeholder="Event Name" />
+                    <SC.LocationField
+                      name="location"
+                      placeholder="Location"
+                      inputStyle={{ paddingBottom: 4 }}
+                    />
+                    <SC.CapacityField
+                      name="capacity"
+                      keyboardType="numeric"
+                      placeholder="Capacity"
+                      inputStyle={{ paddingBottom: 4 }}
+                    />
+                    {/* <Checkbox
                     title="Online?"
                     checked={isOnline}
                     onPress={handleChecked}
                   /> */}
-                  <View>
-                    <TimeField
-                      name="startTime"
-                      title="Start Time"
-                      placeholder="00:00"
+                    <View>
+                      <TimeField
+                        name="startTime"
+                        title="Start Time"
+                        placeholder="00:00"
+                      />
+                      <TimeField
+                        name="endTime"
+                        title="End Time"
+                        placeholder="00:00"
+                      />
+                    </View>
+                    <SC.Description
+                      name="description"
+                      title="Description"
+                      titleStyle={{ color: colors.white }}
+                      multiline
                     />
-                    <TimeField
-                      name="endTime"
-                      title="End Time"
-                      placeholder="00:00"
-                    />
-                  </View>
-                  <SC.Description
-                    name="description"
-                    title="Description"
-                    titleStyle={{ color: colors.white }}
-                    multiline
-                  />
-                  <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                    <Button title="Pick event image" onPress={() => pickImage(setFieldValue)} />
-                    {values.image && values.image.length > 0 && <Image source={{ uri: values.image }} style={{ width: 300, height: 150 }} />}
-                  </View>                   
-                  <SC.FieldWrapper>
-                    <CheckBox
-                      name="isOnline"
-                      checkedIcon="check-box"
-                      iconType="material"
-                      uncheckedIcon="check-box-outline-blank"
-                      title="Is Online?"
-                      checked={values.isOnline}
-                      onPress={() => setFieldValue('isOnline', !values.isOnline)}
-                    />
-                </SC.FieldWrapper>                  
-                  <SC.SaveButton title="Save" color="link" />
-                </SC.FieldsWrapper>)}
+                    <View
+                      style={{
+                        flex: 1,
+                        alignItems: "center",
+                        justifyContent: "center"
+                      }}
+                    >
+                      <Button
+                        title="Pick event image"
+                        onPress={() => pickImage(setFieldValue)}
+                      />
+                      {values.image && values.image.length > 0 && (
+                        <Image
+                          source={{ uri: values.image }}
+                          style={{ width: 300, height: 150 }}
+                        />
+                      )}
+                    </View>
+                    <SC.FieldWrapper>
+                      <CheckBox
+                        name="isOnline"
+                        checkedIcon="check-box"
+                        iconType="material"
+                        uncheckedIcon="check-box-outline-blank"
+                        title="Is Online?"
+                        checked={values.isOnline}
+                        onPress={() =>
+                          setFieldValue("isOnline", !values.isOnline)
+                        }
+                      />
+                    </SC.FieldWrapper>
+                    <SC.SaveButton title="Save" color="link" />
+                  </SC.FieldsWrapper>
+                )}
               </Formik>
             </SC.SideBarColumn>
             <SC.SideBarColumn width={40}>
