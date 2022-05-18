@@ -43,6 +43,12 @@ interface IUser extends MongoDocument {
 interface IVideo extends MongoDocument {
   title: string
   videoUrl: string
+  views: number
+  likes: number
+  dislikes: number
+  isLiked: boolean
+  isDisliked: boolean
+  isViewed: boolean
 }
 
 interface ICalendar {

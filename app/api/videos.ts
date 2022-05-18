@@ -15,7 +15,14 @@ const getVideoUrl = () => {
   return client.get<IS3URLResponse>(`${route}/S3Url`)
 }
 
+const uploadVideo = (title: string, s3Url: string) => {
+  return client.post(`${route}/upload-video`, {
+    data: { title, s3Url }
+  })
+}
+
 export default {
   getVideos,
-  getVideoUrl
+  getVideoUrl,
+  uploadVideo
 }

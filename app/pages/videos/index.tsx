@@ -1,10 +1,13 @@
 import React, { FC, useEffect, useState } from "react"
-import { FlatList, View } from "react-native"
+import { FlatList, TouchableOpacity, View } from "react-native"
+import { MaterialCommunityIcons } from "@expo/vector-icons"
 import { Video } from "expo-av"
 import * as DocumentPicker from "expo-document-picker"
 import { Formik } from "formik"
 import * as Yup from "yup"
 import axios from "axios"
+import Toast from "react-native-toast-message"
+import { Bar } from "react-native-progress"
 
 import * as SC from "./styles"
 import { IVideo, TFormikSetValue } from "../../types"
@@ -34,6 +37,8 @@ interface IDocument {
 const VideosPage: FC = () => {
   const { toggleModal } = useModal()
   const [videos, setVideos] = useState<IVideo[]>([])
+  const [progressLoaded, setProgressLoaded] = useState<number>(0)
+  const [uploading, setUploading] = useState(false)
   const validationSchema = Yup.object().shape({
     title: Yup.string().required("Enter a title").label("Video Title"),
     video: Yup.object().required("Upload a video").label("Video")
@@ -51,31 +56,89 @@ const VideosPage: FC = () => {
     }
   }
 
-  const pickVideo = async (
-    values: IUploadVideoFormValues,
-    setFieldValue: TFormikSetValue
-  ) => {
-    try {
-      const result: IDocument = await DocumentPicker.getDocumentAsync({})
-      setFieldValue("video", result)
-      // const response = await videosApi.getVideoUrl()
+  const pickVideo = async (setFieldValue: TFormikSetValue) => {
+    const result: IDocument = await DocumentPicker.getDocumentAsync({
+      type: "video/*"
+    })
+    setFieldValue("video", result)
+  }
 
-      // if (response.ok && response?.data) {
-      //   await axios.put(response.data.url, result.file, {
-      //     onUploadProgress: progressEvent => console.log(progressEvent.loaded),
-      //     headers: {
-      //       "Content-Type": "multipart/form-data"
-      //     }
-      //   })
-      //   await videosApi.uploadVideo(result)
-      //   setFieldValue("video", result.uri)
-      // }
+  const handleSubmit = async ({ title, video }: IUploadVideoFormValues) => {
+    setUploading(true)
+
+    try {
+      const response = await videosApi.getVideoUrl()
+
+      if (response.ok && response?.data && video) {
+        await axios.put(response.data.url, video.file, {
+          onUploadProgress: progressEvent => {
+            const rawPercent =
+              (progressEvent.loaded / progressEvent.total) * 100
+            setProgressLoaded(Math.round(rawPercent))
+          },
+          headers: {
+            "Content-Type": "multipart/form-data"
+          }
+        })
+        await videosApi.uploadVideo(title, response.data.url)
+        toggleModal(modals.UPLOAD_VIDEO)
+        Toast.show({
+          type: "success",
+          text1: "Video uploaded!"
+        })
+      }
     } catch (err) {
       console.error(err)
     }
   }
 
-  const handleSubmit = () => {}
+  const handleInteraction =
+    (videoId: string, type: "LIKE" | "DISLIKE") => () => {
+      setVideos(
+        videos.map((video: IVideo) => {
+          if (video._id === videoId)
+            if (type === "LIKE") {
+              return {
+                ...video,
+                likes: video.isLiked ? video.likes - 1 : video.likes + 1,
+                isLiked: !video.isLiked,
+                dislikes: video.isDisliked
+                  ? video.dislikes - 1
+                  : video.dislikes,
+                isDisliked: false
+              }
+            } else {
+              return {
+                ...video,
+                dislikes: video.isDisliked
+                  ? video.dislikes - 1
+                  : video.dislikes + 1,
+                isDisliked: !video.isDisliked,
+                likes: video.isLiked ? video.likes - 1 : video.likes,
+                isLiked: false
+              }
+            }
+
+          return video
+        })
+      )
+    }
+
+  const handleView = (videoId: string) => () => {
+    setVideos(
+      videos.map((video: IVideo) => {
+        if (video._id === videoId && !video.isViewed) {
+          return {
+            ...video,
+            views: video.views + 1,
+            isViewed: true
+          }
+        }
+
+        return video
+      })
+    )
+  }
 
   return (
     <SC.EventsPageLayout title="Videos" color="background">
@@ -109,12 +172,28 @@ const VideosPage: FC = () => {
                   <SC.UploadVideoWrapper color="foreground">
                     <SC.EventTitle>Upload Video</SC.EventTitle>
                     <SC.TitleField name="title" placeholder="Video Title" />
-                    <SC.SelectVideoButton
-                      title="Browse"
-                      color="medium"
-                      onPress={() => pickVideo(values, setFieldValue)}
-                    />
-                    <>{values.video?.file.name}</>
+                    <SC.UploadWrapper>
+                      <SC.SelectVideoButton
+                        title="Browse"
+                        color="medium"
+                        onPress={() => pickVideo(setFieldValue)}
+                      />
+                      <Text numberOfLines={1}>{values.video?.file.name}</Text>
+                    </SC.UploadWrapper>
+                    <SC.Row>
+                      <SC.UploadButton
+                        title="Upload"
+                        color={uploading ? "light" : "link"}
+                        disabled={uploading}
+                      />
+                      {/* {progressLoaded > 0 && <Text>{progressLoaded}%</Text>} */}
+                      {progressLoaded > 0 && (
+                        <SC.Row>
+                          <Bar progress={progressLoaded / 100} width={200} />
+                          <SC.ProgressText>{progressLoaded}%</SC.ProgressText>
+                        </SC.Row>
+                      )}
+                    </SC.Row>
                     <SC.Cross
                       onPress={() => toggleModal(modals.UPLOAD_VIDEO)}
                     />
@@ -129,28 +208,50 @@ const VideosPage: FC = () => {
           <SC.EventWrapper>
             <Text>{item.title}</Text>
             <SC.ContentWrapper>
-              <Video
-                style={{ width: 320 }}
-                source={{
-                  uri: item.videoUrl
-                }}
-                useNativeControls
-                resizeMode="contain"
-              />
+              <TouchableOpacity onPress={handleView(item._id)}>
+                <Video
+                  style={{ marginBottom: 4 }}
+                  source={{
+                    uri: item.videoUrl
+                  }}
+                  useNativeControls
+                  resizeMode="contain"
+                />
+              </TouchableOpacity>
               <SC.InteractionsWrapper>
                 <SC.LikesWrapper>
                   <SC.Row>
-                    <SC.Likes name="thumb-up" size={24} color={colors.medium} />
-                    <SC.LikesText>100</SC.LikesText>
+                    <TouchableOpacity
+                      onPress={handleInteraction(item._id, "LIKE")}
+                    >
+                      <MaterialCommunityIcons
+                        name="thumb-up"
+                        size={20}
+                        color={item.isLiked ? colors.link : colors.medium}
+                      />
+                    </TouchableOpacity>
+                    <SC.LikesText>{item.likes ?? 0}</SC.LikesText>
                   </SC.Row>
                   <SC.Row>
-                    <SC.Dislikes name="thumb-down" size={24} color={colors.medium} />
-                    <SC.LikesText>0</SC.LikesText>
+                    <TouchableOpacity
+                      onPress={handleInteraction(item._id, "DISLIKE")}
+                    >
+                      <MaterialCommunityIcons
+                        name="thumb-down"
+                        size={20}
+                        color={item.isDisliked ? colors.link : colors.medium}
+                      />
+                    </TouchableOpacity>
+                    <SC.LikesText>{item.dislikes ?? 0}</SC.LikesText>
                   </SC.Row>
                 </SC.LikesWrapper>
                 <SC.ViewsWrapper>
-                  <SC.Views name="eye" size={24} color={colors.light} />
-                  <SC.ViewsText>1000</SC.ViewsText>
+                  <MaterialCommunityIcons
+                    name="eye"
+                    size={24}
+                    color={colors.light}
+                  />
+                  <SC.ViewsText>{item.views ?? 0}</SC.ViewsText>
                 </SC.ViewsWrapper>
               </SC.InteractionsWrapper>
             </SC.ContentWrapper>

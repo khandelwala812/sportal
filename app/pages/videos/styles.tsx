@@ -1,10 +1,10 @@
 import styled from "styled-components/native"
-import { MaterialCommunityIcons } from "@expo/vector-icons"
 import Button from "../../components/Button"
 import Container from "../../components/Container"
 import CloseButton from "../../components/CloseButton"
 import FormField from "../../components/FormField"
 import PageLayout from "../../layouts/PageLayout"
+import SubmitButton from "../../components/SubmitButton"
 import Text from "../../components/Text"
 
 import colors from "../../config/colors"
@@ -23,7 +23,7 @@ export const EventsPageLayout = styled(PageLayout)`
 
 export const EventWrapper = styled.View`
   background: ${colors.foreground};
-  width: 500px;
+  width: 320px;
   height: 220px;
   // justify-content: center;
   // align-items: center;
@@ -51,11 +51,11 @@ export const Cross = styled(CloseButton)`
 `
 
 export const UploadVideoWrapper = styled(Container)`
-  width: 300px;
+  width: 400px;
   align-items: flex-start;
   align-self: center;
   gap: 4px;
-  padding-top: 16px;
+  padding: 16px 8px;
   border-radius: 8px;
 `
 
@@ -81,8 +81,6 @@ export const SelectVideoButton = styled(Button)`
   font-size: 12px;
 `
 
-export const Views = styled(MaterialCommunityIcons)``
-
 export const ViewsText = styled(Text)`
   font-size: 16px;
   margin: 0;
@@ -99,8 +97,6 @@ export const ViewsWrapper = styled.View`
   gap: 2px;
 `
 
-export const Likes = styled(MaterialCommunityIcons)``
-
 export const LikesText = styled(Text)`
   font-size: 16px;
   margin: 0;
@@ -109,10 +105,26 @@ export const LikesText = styled(Text)`
 export const LikesWrapper = styled.View`
   flex-direction: row;
   align-items: center;
-  gap: 4px;
+  gap: 8px;
 `
 
 export const Row = styled.View`
   flex-direction: row;
+  align-items: center;
   gap: 2px;
+`
+
+export const UploadWrapper = styled(Row)`
+  gap: 8px;
+`
+
+export const UploadButton = styled(SubmitButton)`
+  margin: 0;
+  margin-top: 8px;
+  margin-right: 8px;
+`
+
+export const ProgressText = styled(Text)`
+  margin-left: 4px;
+  font-size: 14px;
 `
