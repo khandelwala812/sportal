@@ -3,6 +3,7 @@ interface IModals {
 }
 
 export default Object.freeze({
+  NAV_BAR: "nav-bar",
   REGISTER_EVENT: "register-event",
   SEARCH: "search",
   UNREGISTER_EVENT: "unregister-event",

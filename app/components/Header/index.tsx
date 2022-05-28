@@ -3,12 +3,8 @@ import { TouchableOpacity } from "react-native"
 import { useNavigation } from "@react-navigation/native"
 
 import * as SC from "./styles"
-import colors from "../../config/colors"
-import modals from "../../config/modals"
 import routes from "../../config/routes"
-import HeaderLink from "../HeaderLink"
 import NavBar from "../NavBar"
-import useAuth from "../../hooks/useAuth"
 
 interface IHeaderProps {
   opening?: boolean
@@ -25,9 +21,8 @@ const Header: FC<IHeaderProps> = ({ opening }) => {
   if (opening) {
     return (
       <SC.HeaderWrapper opening>
-        <SC.Logo source={require("../../assets/logo.png")} />
         <SC.ProfileWrapper>
-          <HeaderLink
+          {/* <HeaderLink
             title="Find a Club"
             to={modals.SEARCH}
             color="white"
@@ -35,25 +30,26 @@ const Header: FC<IHeaderProps> = ({ opening }) => {
           />
           <HeaderLink title="Events" to={routes.EVENTS} color="white" />
           <HeaderLink title="Videos" to={routes.VIDEOS} color="white" />
-          <HeaderLink title="Interviews" color="white" />
-          <NavBar darkTheme />
+          <HeaderLink title="Interviews" color="white" /> */}
+          <NavBar initialUrl={routes.OPENING} darkTheme />
         </SC.ProfileWrapper>
+        <SC.Logo source={require("../../assets/logo.png")} />
       </SC.HeaderWrapper>
     )
   }
 
   return (
     <SC.HeaderWrapper>
+      <SC.ProfileWrapper>
+        {/* <HeaderLink title="My Clubs" />
+        <HeaderLink title="Events" to={routes.EVENTS} />
+        <HeaderLink title="Videos" to={routes.VIDEOS} />
+      <HeaderLink title="Messages" /> */}
+        <NavBar />
+      </SC.ProfileWrapper>
       <TouchableOpacity onPress={navigateToHome}>
         <SC.Logo source={require("../../assets/logo.png")} />
       </TouchableOpacity>
-      <SC.ProfileWrapper>
-        <HeaderLink title="My Clubs" />
-        <HeaderLink title="Events" to={routes.EVENTS} />
-        <HeaderLink title="Videos" to={routes.VIDEOS} />
-        <HeaderLink title="Messages" />
-        <NavBar />
-      </SC.ProfileWrapper>
       {/* <SC.Gradient
         colors={colors.gradient}
         start={{ x: 0, y: 0.5 }}

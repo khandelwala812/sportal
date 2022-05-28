@@ -13,6 +13,7 @@ const ModalLayout: FC<IModalLayoutProps> = ({ name, children, ...props }) => {
 
   const handleToggle = () => {
     toggleModal(name)
+    console.log(name)
   }
 
   return (
