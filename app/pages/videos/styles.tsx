@@ -42,6 +42,8 @@ export const EventTitle = styled(Text)`
   align-self: center;
   font-size: 24px;
   margin-top: 4px;
+  margin-bottom: 10px;
+  color: ${colors.link}
 `
 
 export const Cross = styled(CloseButton)`
@@ -55,20 +57,22 @@ export const UploadVideoWrapper = styled(Container)`
   align-items: flex-start;
   align-self: center;
   gap: 4px;
-  padding: 16px 8px;
+  padding: 16px 16px;
+  margin: 20px;
   border-radius: 8px;
 `
 
 export const TitleField = styled(FormField)`
   background-color: none;
-  width: 200px;
+  width: 350px;
   height: 30px;
   justify-content: flex-end;
   margin: 0;
   padding: 0;
-  border: none;
-  border-radius: 0;
-  border-bottom: 1px solid ${colors.black};
+  border: 1px;
+  border-radius: 5;
+  border-color: ${colors.light};
+  // border-bottom: 1px solid ${colors.black};
 
   &:focus {
     border: none;
@@ -79,6 +83,7 @@ export const TitleField = styled(FormField)`
 export const SelectVideoButton = styled(Button)`
   margin: 0;
   font-size: 12px;
+  border-radius: 15;
 `
 
 export const ViewsText = styled(Text)`
@@ -122,6 +127,7 @@ export const UploadButton = styled(SubmitButton)`
   margin: 0;
   margin-top: 8px;
   margin-right: 8px;
+  border-radius: 15;
 `
 
 export const ProgressText = styled(Text)`
