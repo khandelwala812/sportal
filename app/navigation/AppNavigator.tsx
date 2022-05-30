@@ -1,6 +1,7 @@
 import React from "react"
 import { NavigationContainer } from "@react-navigation/native"
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
+import { createDrawerNavigator } from "@react-navigation/drawer"
 
 import useAuth from "../hooks/useAuth"
 import routes from "../config/routes"
@@ -17,13 +18,90 @@ import ValidateCodePage from "../pages/validate-code"
 import PlatformAdminPage from "../pages/platform-admin"
 import EventsPage from "../pages/events"
 import VideosPage from "../pages/videos"
+import NavBar from "../components/NavBar"
 
 const headerOptions = {
   header: (props: any) => <Header {...props} />
 }
 const noHeaderOptions = { headerShown: false }
 
-const Stack = createNativeStackNavigator()
+// const Stack = createNativeStackNavigator()
+
+// const AppNavigator = () => {
+//   const { user } = useAuth()
+//   const landingPage = user?.isPlatformAdmin
+//     ? routes.PLATFORM_ADMIN
+//     : routes.OPENING
+
+//   return (
+//     <NavigationContainer linking={{ prefixes: [], enabled: true }}>
+//       <Stack.Navigator initialRouteName={landingPage}>
+//         <Stack.Screen
+//           name={routes.OPENING}
+//           component={IndexPage}
+//           options={noHeaderOptions}
+//         />
+//         <Stack.Screen
+//           name={routes.LOGIN}
+//           component={LoginPage}
+//           options={noHeaderOptions}
+//         />
+//         <Stack.Screen
+//           name={routes.PLATFORM_ADMIN_OR_USER}
+//           component={PlatformAdminOrUserPage}
+//           options={noHeaderOptions}
+//         />
+//         <Stack.Screen
+//           name={routes.PLATFORM_ADMIN}
+//           component={PlatformAdminPage}
+//           options={noHeaderOptions}
+//         />
+//         <Stack.Screen
+//           name={routes.REGISTER}
+//           component={RegisterPage}
+//           options={noHeaderOptions}
+//         />
+//         <Stack.Screen
+//           name={routes.FORGOT_PASSWORD}
+//           component={ForgotPasswordPage}
+//           options={noHeaderOptions}
+//         />
+//         <Stack.Screen
+//           name={routes.RESET_PASSWORD}
+//           component={ResetPasswordPage}
+//           options={noHeaderOptions}
+//         />
+//         <Stack.Screen
+//           name={routes.VALIDATE_CODE}
+//           component={ValidateCodePage}
+//           options={noHeaderOptions}
+//         />
+//         <Stack.Screen
+//           name={routes.HOME}
+//           component={HomePage}
+//           options={headerOptions}
+//         />
+//         <Stack.Screen
+//           name={routes.CLUB}
+//           component={ClubPage}
+//           options={headerOptions}
+//         />
+//         <Stack.Screen
+//           name={routes.EVENTS}
+//           component={EventsPage}
+//           options={headerOptions}
+//         />
+//         <Stack.Screen
+//           name={routes.VIDEOS}
+//           component={VideosPage}
+//           options={headerOptions}
+//         />
+//       </Stack.Navigator>
+//     </NavigationContainer>
+//   )
+// }
+
+const Drawer = createDrawerNavigator()
 
 const AppNavigator = () => {
   const { user } = useAuth()
@@ -33,68 +111,29 @@ const AppNavigator = () => {
 
   return (
     <NavigationContainer linking={{ prefixes: [], enabled: true }}>
-      <Stack.Navigator initialRouteName={landingPage}>
-        <Stack.Screen
+      <Drawer.Navigator
+        initialRouteName={landingPage}
+        screenOptions={{
+          drawerType: "permanent"
+        }}
+        drawerContent={NavBar}
+      >
+        <Drawer.Screen
           name={routes.OPENING}
           component={IndexPage}
-          options={noHeaderOptions}
+          options={{ ...noHeaderOptions, drawerLabel: "Opening" }}
         />
-        <Stack.Screen
-          name={routes.LOGIN}
-          component={LoginPage}
-          options={noHeaderOptions}
-        />
-        <Stack.Screen
-          name={routes.PLATFORM_ADMIN_OR_USER}
-          component={PlatformAdminOrUserPage}
-          options={noHeaderOptions}
-        />
-        <Stack.Screen
-          name={routes.PLATFORM_ADMIN}
-          component={PlatformAdminPage}
-          options={noHeaderOptions}
-        />
-        <Stack.Screen
-          name={routes.REGISTER}
-          component={RegisterPage}
-          options={noHeaderOptions}
-        />
-        <Stack.Screen
-          name={routes.FORGOT_PASSWORD}
-          component={ForgotPasswordPage}
-          options={noHeaderOptions}
-        />
-        <Stack.Screen
-          name={routes.RESET_PASSWORD}
-          component={ResetPasswordPage}
-          options={noHeaderOptions}
-        />
-        <Stack.Screen
-          name={routes.VALIDATE_CODE}
-          component={ValidateCodePage}
-          options={noHeaderOptions}
-        />
-        <Stack.Screen
-          name={routes.HOME}
-          component={HomePage}
-          options={headerOptions}
-        />
-        <Stack.Screen
-          name={routes.CLUB}
-          component={ClubPage}
-          options={headerOptions}
-        />
-        <Stack.Screen
+        <Drawer.Screen
           name={routes.EVENTS}
           component={EventsPage}
-          options={headerOptions}
+          options={{ ...noHeaderOptions, drawerLabel: "Events" }}
         />
-        <Stack.Screen
+        <Drawer.Screen
           name={routes.VIDEOS}
           component={VideosPage}
-          options={headerOptions}
-        />        
-      </Stack.Navigator>
+          options={{ ...noHeaderOptions, drawerLabel: "Videos" }}
+        />
+      </Drawer.Navigator>
     </NavigationContainer>
   )
 }

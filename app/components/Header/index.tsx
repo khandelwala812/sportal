@@ -31,7 +31,6 @@ const Header: FC<IHeaderProps> = ({ opening }) => {
           <HeaderLink title="Events" to={routes.EVENTS} color="white" />
           <HeaderLink title="Videos" to={routes.VIDEOS} color="white" />
           <HeaderLink title="Interviews" color="white" /> */}
-          <NavBar initialUrl={routes.OPENING} darkTheme />
         </SC.ProfileWrapper>
         <SC.Logo source={require("../../assets/logo.png")} />
       </SC.HeaderWrapper>
@@ -45,7 +44,6 @@ const Header: FC<IHeaderProps> = ({ opening }) => {
         <HeaderLink title="Events" to={routes.EVENTS} />
         <HeaderLink title="Videos" to={routes.VIDEOS} />
       <HeaderLink title="Messages" /> */}
-        <NavBar />
       </SC.ProfileWrapper>
       <TouchableOpacity onPress={navigateToHome}>
         <SC.Logo source={require("../../assets/logo.png")} />
