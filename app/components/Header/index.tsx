@@ -1,10 +1,11 @@
 import React, { FC } from "react"
 import { TouchableOpacity } from "react-native"
 import { useNavigation } from "@react-navigation/native"
+import { MaterialCommunityIcons } from "@expo/vector-icons"
 
 import * as SC from "./styles"
+import colors from "../../config/colors"
 import routes from "../../config/routes"
-import NavBar from "../NavBar"
 
 interface IHeaderProps {
   opening?: boolean
@@ -22,6 +23,13 @@ const Header: FC<IHeaderProps> = ({ opening }) => {
     return (
       <SC.HeaderWrapper opening>
         <SC.ProfileWrapper>
+          <TouchableOpacity onPress={navigation.openDrawer}>
+            <MaterialCommunityIcons
+              name="menu"
+              size={40}
+              color={colors.white}
+            />
+          </TouchableOpacity>
           {/* <HeaderLink
             title="Find a Club"
             to={modals.SEARCH}
@@ -40,19 +48,13 @@ const Header: FC<IHeaderProps> = ({ opening }) => {
   return (
     <SC.HeaderWrapper>
       <SC.ProfileWrapper>
-        {/* <HeaderLink title="My Clubs" />
-        <HeaderLink title="Events" to={routes.EVENTS} />
-        <HeaderLink title="Videos" to={routes.VIDEOS} />
-      <HeaderLink title="Messages" /> */}
+        <TouchableOpacity onPress={navigation.openDrawer}>
+          <MaterialCommunityIcons name="menu" size={40} color={colors.black} />
+        </TouchableOpacity>
       </SC.ProfileWrapper>
       <TouchableOpacity onPress={navigateToHome}>
         <SC.Logo source={require("../../assets/logo.png")} />
       </TouchableOpacity>
-      {/* <SC.Gradient
-        colors={colors.gradient}
-        start={{ x: 0, y: 0.5 }}
-        end={{ x: 1, y: 0.5 }}
-      /> */}
     </SC.HeaderWrapper>
   )
 }

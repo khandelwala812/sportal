@@ -1,15 +1,9 @@
 import React, { FC } from "react"
-import { TouchableOpacity } from "react-native"
-import { MaterialCommunityIcons } from "@expo/vector-icons"
-import { useNavigation } from "@react-navigation/native"
 
 import * as SC from "./styles"
 import Header from "../../components/Header"
-import SearchPage from "../search"
 
 const IndexPage: FC = () => {
-  const navigation = useNavigation()
-
   return (
     <SC.PageContainer>
       <Header opening />
@@ -21,10 +15,6 @@ const IndexPage: FC = () => {
         isLooping
         resizeMode="cover"
       />
-      <SearchPage />
-      {/* <TouchableOpacity onPress={navigation.openDrawer}>
-        <MaterialCommunityIcons name="circle" size={24} color="white" />
-      </TouchableOpacity> */}
     </SC.PageContainer>
   )
 }

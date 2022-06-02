@@ -16,5 +16,6 @@ export default {
   transperant: "transperant",
   link: "#0277cc",
   star: "#ffd700",
-  heart: "#bf1137"
+  heart: "#bf1137",
+  logOut: "#c71212"
 } as IColors

@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react"
 
+import * as SC from "./styles"
 import { IClub } from "../../types"
 import useFilters from "../../hooks/useFilters"
-import * as SC from "./styles"
 import client from "../../api/client"
 import { BASE_API_URL } from "../../config/constants"
 import ClubCard from "../../components/ClubCard"
+import Header from "../../components/Header"
 
 const HomePage = () => {
   const { filters } = useFilters()
@@ -29,6 +30,7 @@ const HomePage = () => {
 
   return (
     <SC.Wrapper color="background">
+      <Header />
       <SC.Silhouette source={require("../../assets/silhouette.jpg")} />
       <SC.CardListWrapper>
         <SC.CardList

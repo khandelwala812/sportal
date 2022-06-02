@@ -4,6 +4,7 @@ interface IRoutes {
 
 export default Object.freeze({
   OPENING: "opening",
+  AUTH: "auth",
   LOGIN: "login",
   REGISTER: "register",
   VALIDATE_CODE: "validate-code",
@@ -14,5 +15,8 @@ export default Object.freeze({
   RESET_PASSWORD: "reset-password",
   PLATFORM_ADMIN_OR_USER: "platform-admin-or-user",
   PLATFORM_ADMIN: "platform-admin",
-  VIDEOS: "videos"
+  VIDEOS: "videos",
+  ARTICLES: "articles",
+  FIND_A_CLUB: "find-a-club",
+  BROWSE: "browse"
 }) as IRoutes

@@ -111,11 +111,15 @@ const EventsPage: FC = () => {
   }, [user])
 
   return (
-    <SC.EventsPageLayout title="Events" color="background">
+    <SC.EventsPageLayout
+      title="Top Trainer Interviews"
+      color="background"
+      header
+    >
       <FlatList
         data={events}
         keyExtractor={(_, i) => `#${i}`}
-        ListHeaderComponent={<SC.Title>Events</SC.Title>}
+        ListHeaderComponent={<SC.Title>Top Trainer Interviews</SC.Title>}
         showsVerticalScrollIndicator={false}
         renderItem={({ item }) => {
           const event = item as IUserEvent

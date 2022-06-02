@@ -42,7 +42,6 @@ const initialValues = {
 const LoginPage: FC<ILoginPageProps> = ({ route }) => {
   const navigation = useNavigation()
   const { setUser } = useAuth()
-  const { returnPage } = route.params
   const validationSchema = Yup.object().shape({
     email: Yup.string().email().required().label("Email"),
     password: Yup.string().min(8).required().label("Password")
@@ -70,8 +69,8 @@ const LoginPage: FC<ILoginPageProps> = ({ route }) => {
     const nextPage = user.isPlatformAdmin
       ? routes.PLATFORM_ADMIN_OR_USER
       : routes.OPENING
-    if (returnPage) {
-      navigation.navigate(returnPage)
+    if (route?.params?.returnPage) {
+      navigation.navigate(route.params.returnPage)
     } else {
       navigation.navigate(nextPage)
     }

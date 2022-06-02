@@ -43,7 +43,7 @@ export const EventTitle = styled(Text)`
   font-size: 24px;
   margin-top: 4px;
   margin-bottom: 10px;
-  color: ${colors.link}
+  color: ${colors.link};
 `
 
 export const Cross = styled(CloseButton)`
@@ -83,7 +83,7 @@ export const TitleField = styled(FormField)`
 export const SelectVideoButton = styled(Button)`
   margin: 0;
   font-size: 12px;
-  border-radius: 15;
+  border-radius: 15px;
 `
 
 export const ViewsText = styled(Text)`
@@ -127,7 +127,7 @@ export const UploadButton = styled(SubmitButton)`
   margin: 0;
   margin-top: 8px;
   margin-right: 8px;
-  border-radius: 15;
+  border-radius: 15px;
 `
 
 export const ProgressText = styled(Text)`

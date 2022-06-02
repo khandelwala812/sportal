@@ -7,6 +7,7 @@ import modals from "../../config/modals"
 import routes from "../../config/routes"
 import useModal from "../../hooks/useModal"
 import Dropdown from "../../components/Dropdown"
+import Header from "../../components/Header"
 import ModalLayout from "../../layouts/ModalLayout"
 import SearchBox from "../../components/SearchBox"
 
@@ -75,7 +76,7 @@ const genderOptions = [
   }
 ]
 
-const SearchPage: FC = () => {
+const FindAClubPage: FC = () => {
   const navigation = useNavigation()
   const { toggleModal } = useModal()
 
@@ -91,40 +92,41 @@ const SearchPage: FC = () => {
   }
 
   return (
-    <ModalLayout name={modals.SEARCH}>
-      <SC.SearchContainer color="translucent">
-        <SC.InputContainer>
-          <SearchBox input={location} setInput={setLocation} />
-          <Dropdown
-            title="Sport"
-            value={sport}
-            setValue={setSport}
-            options={sportOptions}
-            isContext
-          />
-          <Dropdown
-            title="Age"
-            value={age}
-            setValue={setAge}
-            options={ageOptions}
-          />
-          <Dropdown
-            title="Level"
-            value={level}
-            setValue={setLevel}
-            options={levelOptions}
-          />
-          <Dropdown
-            title="Gender"
-            value={gender}
-            setValue={setGender}
-            options={genderOptions}
-          />
-        </SC.InputContainer>
-        <SC.SearchButton title="Search" color="medium" onPress={handleSearch} />
-      </SC.SearchContainer>
-    </ModalLayout>
+    // <PageLayout name={modals.SEARCH}>
+    <SC.SearchContainer color="translucent">
+      <Header />
+      <SC.InputContainer>
+        <SearchBox input={location} setInput={setLocation} />
+        <Dropdown
+          title="Sport"
+          value={sport}
+          setValue={setSport}
+          options={sportOptions}
+          isContext
+        />
+        <Dropdown
+          title="Age"
+          value={age}
+          setValue={setAge}
+          options={ageOptions}
+        />
+        <Dropdown
+          title="Level"
+          value={level}
+          setValue={setLevel}
+          options={levelOptions}
+        />
+        <Dropdown
+          title="Gender"
+          value={gender}
+          setValue={setGender}
+          options={genderOptions}
+        />
+      </SC.InputContainer>
+      <SC.SearchButton title="Search" color="medium" onPress={handleSearch} />
+    </SC.SearchContainer>
+    // </PageLayout>
   )
 }
 
-export default SearchPage
+export default FindAClubPage

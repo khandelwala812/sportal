@@ -141,7 +141,7 @@ const VideosPage: FC = () => {
   }
 
   return (
-    <SC.EventsPageLayout title="Videos" color="background">
+    <SC.EventsPageLayout title="Daily Highlights" color="background" header>
       <FlatList
         data={videos}
         keyExtractor={(_, i) => `#${i}`}
@@ -154,7 +154,7 @@ const VideosPage: FC = () => {
               flexDirection: "row"
             }}
           >
-            <SC.Title>Videos</SC.Title>
+            <SC.Title>Daily Highlights</SC.Title>
             <Button
               color="light"
               textStyle={{ color: "white" }}
