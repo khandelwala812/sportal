@@ -49,6 +49,16 @@ interface IVideo extends MongoDocument {
   isLiked: boolean
   isDisliked: boolean
   isViewed: boolean
+  failedTimes: number[]
+}
+
+interface IArticle extends MongoDocument {
+  name: string
+  publisher: string
+  date: string
+  image: string
+  summary: string
+  content: string
 }
 
 interface ICalendar {

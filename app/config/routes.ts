@@ -18,5 +18,8 @@ export default Object.freeze({
   VIDEOS: "videos",
   ARTICLES: "articles",
   FIND_A_CLUB: "find-a-club",
-  BROWSE: "browse"
+  BROWSE: "browse",
+  BROWSE_ARTICLES: "browse-articles",
+  READ_ARTICLE: "read-article",
+  REVIEW_VIDEO: "review-video"
 }) as IRoutes

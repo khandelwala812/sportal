@@ -3,11 +3,12 @@ import { Entypo } from "@expo/vector-icons"
 import Button from "../../components/Button"
 import Container from "../../components/Container"
 import CloseButton from "../../components/CloseButton"
-import PageLayout from "../../layouts/PageLayout"
+// import PageLayout from "../../layouts/PageLayout"
 import Text from "../../components/Text"
 import TextInput from "../../components/TextInput"
 
 import colors from "../../config/colors"
+import SilhouetteLayout from "../../layouts/SilhouetteLayout"
 
 export const Title = styled(Text)`
   align-self: flex-start;
@@ -15,9 +16,8 @@ export const Title = styled(Text)`
   font-weight: 400;
 `
 
-export const EventsPageLayout = styled(PageLayout)`
-  justify-content: center;
-  align-items: center;
+export const EventsPageLayout = styled(SilhouetteLayout)`
+  flex-direction: row;
   padding-top: 100px;
 `
 

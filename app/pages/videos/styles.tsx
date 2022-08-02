@@ -8,6 +8,7 @@ import SubmitButton from "../../components/SubmitButton"
 import Text from "../../components/Text"
 
 import colors from "../../config/colors"
+import SilhouetteLayout from "../../layouts/SilhouetteLayout"
 
 export const Title = styled(Text)`
   align-self: flex-start;
@@ -15,9 +16,10 @@ export const Title = styled(Text)`
   font-weight: 400;
 `
 
-export const EventsPageLayout = styled(PageLayout)`
-  justify-content: center;
-  align-items: center;
+export const VideosPageLayout = styled(SilhouetteLayout)`
+  /* justify-content: center;
+  align-items: center; */
+  flex-direction: row;
   padding-top: 100px;
 `
 

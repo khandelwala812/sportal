@@ -31,7 +31,7 @@ const HomePage = () => {
   return (
     <SC.Wrapper color="background">
       <Header />
-      <SC.Silhouette source={require("../../assets/silhouette.jpg")} />
+      <SC.Silhouette source={require("../../assets/silhouette-1.jpg")} />
       <SC.CardListWrapper>
         <SC.CardList
           data={clubs ?? []}

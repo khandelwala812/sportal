@@ -119,8 +119,9 @@ const EventsPage: FC = () => {
       <FlatList
         data={events}
         keyExtractor={(_, i) => `#${i}`}
-        ListHeaderComponent={<SC.Title>Top Trainer Interviews</SC.Title>}
+        contentContainerStyle={{ alignItems: "center" }}
         showsVerticalScrollIndicator={false}
+        ListHeaderComponent={<SC.Title>Top Trainer Interviews</SC.Title>}
         renderItem={({ item }) => {
           const event = item as IUserEvent
           const noSeatsLeft = event.seatsLeft === 0

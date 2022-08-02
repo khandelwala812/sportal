@@ -6,7 +6,6 @@ import * as DocumentPicker from "expo-document-picker"
 import { Formik } from "formik"
 import * as Yup from "yup"
 import axios from "axios"
-import Toast from "react-native-toast-message"
 import { Bar } from "react-native-progress"
 
 import * as SC from "./styles"
@@ -18,6 +17,7 @@ import modals from "../../config/modals"
 import Button from "../../components/Button"
 import ModalLayout from "../../layouts/ModalLayout"
 import Text from "../../components/Text"
+import useAuth from "../../hooks/useAuth"
 
 const initialValues: IUploadVideoFormValues = {
   title: "",
@@ -36,6 +36,7 @@ interface IDocument {
 
 const VideosPage: FC = () => {
   const { toggleModal } = useModal()
+  const { user } = useAuth()
   const [videos, setVideos] = useState<IVideo[]>([])
   const [progressLoaded, setProgressLoaded] = useState<number>(0)
   const [uploading, setUploading] = useState(false)
@@ -80,12 +81,9 @@ const VideosPage: FC = () => {
             "Content-Type": "multipart/form-data"
           }
         })
-        await videosApi.uploadVideo(title, response.data.url)
+        await videosApi.uploadVideo(user, title, response.data.url)
         toggleModal(modals.UPLOAD_VIDEO)
-        Toast.show({
-          type: "success",
-          text1: "Video uploaded!"
-        })
+        toggleModal(modals.UPLOAD_CONFIRMATION)
       }
     } catch (err) {
       console.error(err)
@@ -141,10 +139,11 @@ const VideosPage: FC = () => {
   }
 
   return (
-    <SC.EventsPageLayout title="Daily Highlights" color="background" header>
+    <SC.VideosPageLayout title="Daily Highlights" color="background" header>
       <FlatList
         data={videos}
         keyExtractor={(_, i) => `#${i}`}
+        contentContainerStyle={{ alignItems: "center" }}
         ListHeaderComponent={
           <View
             style={{
@@ -200,6 +199,18 @@ const VideosPage: FC = () => {
                   </SC.UploadVideoWrapper>
                 )}
               </Formik>
+            </ModalLayout>
+            <ModalLayout name={modals.UPLOAD_CONFIRMATION}>
+              <SC.UploadVideoWrapper color="foreground">
+                <SC.EventTitle>Submitted!</SC.EventTitle>
+                <SC.Cross
+                  onPress={() => toggleModal(modals.UPLOAD_CONFIRMATION)}
+                />
+                <Text>
+                  Your video has been submitted to the Sportal team. Please
+                  await our comments.
+                </Text>
+              </SC.UploadVideoWrapper>
             </ModalLayout>
           </View>
         }
@@ -258,7 +269,7 @@ const VideosPage: FC = () => {
           </SC.EventWrapper>
         )}
       />
-    </SC.EventsPageLayout>
+    </SC.VideosPageLayout>
   )
 }
 
