@@ -17,11 +17,11 @@ export const PageContainer = styled.View`
 `
 
 export const Spacer = styled.View`
-  width: 17%;
+  width: 17vw;
 `
 
 export const ContentWrapper = styled.View`
-  width: 65%;
+  width: 65vw;
   flex-direction: column;
   margin-right: 32px;
 `

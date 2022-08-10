@@ -9,6 +9,7 @@ import * as SC from "./styles"
 interface IContent {
   name: string
   alternateName?: string
+  heading: string
 }
 
 interface ITableOfContentsProps {
@@ -19,6 +20,10 @@ const menuItemRoutes = {
   "About Us": {
     "Who We Are": routes.WHO_WE_ARE,
     "Mission Statement": routes.MISSION_STATEMENT
+  },
+  Programs: {
+    Boys: routes.BOYS_PROGRAMS,
+    Girls: routes.GIRLS_PROGRAMS
   }
 } as {
   [key: string]: {
@@ -44,7 +49,9 @@ const TableOfContents: FC<ITableOfContentsProps> = ({ contents }) => {
 
           return (
             <Pressable
-              onPress={navigateTo(menuItemRoutes["About Us"][content.name])}
+              onPress={navigateTo(
+                menuItemRoutes[content.heading][content.name]
+              )}
             >
               <SC.TOCText>{content.name}</SC.TOCText>
             </Pressable>

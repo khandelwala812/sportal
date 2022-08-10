@@ -25,6 +25,7 @@ export const LogoWrapper = styled.Pressable`
 
 export const ListWrapper = styled.View`
   height: 50px;
+  flex-direction: row;
   align-self: center;
 `
 

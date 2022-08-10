@@ -2,9 +2,11 @@ import React from "react"
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
 
 import routes from "../config/routes"
+import BoysProgramsPage from "../pages/boys-programs"
 import ClubEventsPage from "../pages/club-events"
 import ClubPage from "../pages/club"
 import FindAClubPage from "../pages/find-a-club"
+import GirlsProgramsPage from "../pages/girls-programs"
 import HomePage from "../pages/home"
 import MissionStatementPage from "../pages/mission-statement"
 import OurTeamPage from "../pages/our-team"
@@ -26,6 +28,11 @@ const ClubNavigator = () => {
       <Stack.Screen
         name={routes.MISSION_STATEMENT}
         component={MissionStatementPage}
+      />
+      <Stack.Screen name={routes.BOYS_PROGRAMS} component={BoysProgramsPage} />
+      <Stack.Screen
+        name={routes.GIRLS_PROGRAMS}
+        component={GirlsProgramsPage}
       />
       <Stack.Screen name={routes.TRYOUTS} component={TryoutsPage} />
       <Stack.Screen name={routes.OUR_TEAM} component={OurTeamPage} />

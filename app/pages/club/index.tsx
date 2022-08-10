@@ -39,7 +39,7 @@ const ClubPage: FC<IClubPageProps> = ({ route }) => {
     <SC.ClubPageLayout title="Club" color="background">
       <Header />
       <ClubHeader />
-      <Gallery />
+      <Gallery gallery={club.gallery} />
     </SC.ClubPageLayout>
   )
 }

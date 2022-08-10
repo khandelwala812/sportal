@@ -32,11 +32,16 @@ const ClubPageLayout: FC<IClubPageLayoutProps> = ({ heading, subHeading }) => {
             {contentBlock?.content ?? headerItem?.content}
           </SC.Paragraph>
         </SC.ContentWrapper>
-        {headerItem?.menuItems ? (
-          <TableOfContents contents={headerItem.menuItems} />
-        ) : (
-          <SC.Spacer />
-        )}
+        <SC.Spacer>
+          {headerItem?.menuItems && (
+            <TableOfContents
+              contents={headerItem.menuItems.map(menuItem => ({
+                ...menuItem,
+                heading
+              }))}
+            />
+          )}
+        </SC.Spacer>
       </SC.PageContainer>
     </SC.ClubPageLayout>
   )

@@ -32,6 +32,7 @@ interface IClub extends MongoDocument {
     stars?: number
   }
   content: IClubContent[]
+  gallery: string[]
 }
 
 interface IClubContent {

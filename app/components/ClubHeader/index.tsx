@@ -14,7 +14,7 @@ interface IClubHeaderProps {
 
 const headerRoutes = {
   "About Us": routes.WHO_WE_ARE,
-  Programs: routes.PROGRAMS,
+  Programs: routes.BOYS_PROGRAMS,
   Tryouts: routes.TRYOUTS,
   "Our Team": routes.OUR_TEAM,
   Events: routes.CLUB_EVENTS
@@ -38,23 +38,14 @@ const ClubHeader: FC<IClubHeaderProps> = ({ lightMode }) => {
         />
       </SC.LogoWrapper>
       <SC.ListWrapper>
-        <FlatList
-          data={club?.content}
-          horizontal
-          keyExtractor={(_, i) => `#${i}`}
-          renderItem={({ item }) => {
-            const headerItem = item as IClubContent
-
-            return (
-              <HeaderItem
-                title={headerItem.alternateName ?? headerItem.heading}
-                route={headerRoutes[headerItem.heading]}
-                menuItems={headerItem.menuItems}
-                lightMode={lightMode}
-              />
-            )
-          }}
-        />
+        {club?.content.map(headerItem => (
+          <HeaderItem
+            title={headerItem.alternateName ?? headerItem.heading}
+            route={headerRoutes[headerItem.heading]}
+            menuItems={headerItem.menuItems}
+            lightMode={lightMode}
+          />
+        ))}
       </SC.ListWrapper>
     </SC.HeaderWrapper>
   )

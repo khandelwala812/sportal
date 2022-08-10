@@ -3,7 +3,7 @@ import { Animated } from "react-native"
 
 import * as SC from "./styles"
 
-const images = [
+const DEFAULT_GALLERY = [
   "https://cdn.pixabay.com/photo/2017/05/19/07/34/teacup-2325722__340.jpg",
   "https://cdn.pixabay.com/photo/2017/05/02/22/43/mushroom-2279558__340.jpg",
   "https://cdn.pixabay.com/photo/2017/05/18/21/54/tower-bridge-2324875__340.jpg",
@@ -12,12 +12,17 @@ const images = [
 
 const IMAGE_DURATION = 6000
 
-const Gallery: FC = () => {
+interface IGalleryProps {
+  gallery?: string[]
+}
+
+const Gallery: FC<IGalleryProps> = ({ gallery }) => {
   const fadeAnim = useRef(new Animated.Value(0)).current
   const [position, setPosition] = useState<number>(0)
+  const currentGallery = gallery ?? DEFAULT_GALLERY
 
   const slideImage = () => {
-    if (position < images.length - 1) {
+    if (position < currentGallery.length - 1) {
       setPosition(position + 1)
     } else {
       setPosition(0)
@@ -52,7 +57,13 @@ const Gallery: FC = () => {
 
   return (
     <Animated.View style={{ opacity: fadeAnim }}>
-      <SC.Image source={{ uri: images[position] }} />
+      <SC.Image
+        source={
+          gallery
+            ? require(`../../assets/${currentGallery[position]}`)
+            : { uri: currentGallery[position] }
+        }
+      />
     </Animated.View>
   )
 }
