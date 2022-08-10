@@ -31,8 +31,19 @@ interface IClub extends MongoDocument {
     number: number
     stars?: number
   }
+  content: IClubContent[]
 }
 
+interface IClubContent {
+  heading: string
+  alternateName?: string
+  content?: string
+  menuItems?: {
+    name: string
+    alternateName?: string
+    content?: string
+  }[]
+}
 interface IUser extends MongoDocument {
   firstName: string
   lastName: string
